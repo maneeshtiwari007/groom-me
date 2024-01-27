@@ -194,7 +194,7 @@ export const ThemeStyling = StyleSheet.create({
   //Work Order
   card: {
     borderRadius: 10,
-    marginBottom: 20,
+    marginBottom: 15,
     backgroundColor: Colors.white,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -224,13 +224,11 @@ export const ThemeStyling = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row"
   },
-  col10: {
-    width: '77%'
+  col4: {
+    width: '40%'
   },
-  col2: {
-    width: '18%',
-    alignItems: "center",
-    justifyContent: "center"
+  col8: {
+    width: '55%',
   },
   text2: {
     fontSize: Colors.FontSize.f12,
@@ -638,6 +636,20 @@ export const ThemeStyling = StyleSheet.create({
   cardImage:{
     width:50,
     height:50
+  },
+  cardImage2:{
+    width: 130,
+    height:130,
+    borderTopLeftRadius:10,
+    borderBottomLeftRadius:10
+  },
+  starRating:{
+    display:'flex',
+    flexDirection:"row",
+  },
+  iconStar:{
+    marginRight:5,
+    fontSize:Colors.FontSize.f16,
   }
 });
 
