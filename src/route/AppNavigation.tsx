@@ -41,8 +41,7 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
 
   async componentDidMount() {
     const user = await CommonHelper.getUserData();
-    this.setState({user:user})
-    console.log(user);
+    this.setState({user:user});
     //this.RegisterStackNavigator()
   }
   Logout = () => {
@@ -97,7 +96,7 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
         initialRouteName="HomeScreen"
       >
         <Drawer.Screen
-          name="Home"
+          name="HomeScreen"
           component={this.HomeScreen}
           options={{
             drawerIcon: ({ focused, size }) => (
@@ -145,7 +144,7 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
         initialRouteName="HomeScreen"
       >
         <Drawer.Screen
-          name="Home"
+          name="HomeScreen"
           component={this.HomeScreen}
           options={{
             drawerIcon: ({ focused, size }) => (

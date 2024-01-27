@@ -607,6 +607,23 @@ export const ThemeStyling = StyleSheet.create({
   },
   notesBlock:{
     marginBottom:1
+  },
+  cardWithBorder:{
+    borderWidth:1,
+    borderColor:Colors.primary_color,
+    borderStyle:"solid",
+    borderRadius:10,
+    minHeight:150,
+    width:'46%',
+    margin:6,
+    marginTop:0,
+    marginBottom:12
+  },
+  cardContainer:{
+    flexDirection:"row",
+    flex:1,
+    display:"flex",
+    flexWrap:"wrap"
   }
 });
 
