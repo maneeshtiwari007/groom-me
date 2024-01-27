@@ -21,10 +21,11 @@ import TimeTracker from "../Screens/TimeTracker"
 import Jobsite from "../Screens/Jobsite";
 import ChooseServices from "../Screens/ChooseServices";
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
 import { CommonHelper } from "../utilty/CommonHelper";
 import LoginScreen from "../Screens/LoginScreen";
 import OurServices from "../Screens/User/OurServices";
+import ProfLists from "../Screens/User/ProfLists";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -70,13 +71,13 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
   }
   HomeScreen() {
     return (
-      <Drawer.Navigator
+      <Stack.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{ headerShown: false }}>
-        <Drawer.Screen name="Home" component={OurServices} />
-        <Drawer.Screen name="Work" component={Jobsite} />
-        <Drawer.Screen name="WorkOrderDetail" component={WorkorderDetails} options={{ headerShown: true }}></Drawer.Screen>
-      </Drawer.Navigator>
+        screenOptions={{ headerShown: true }}>
+        <Stack.Screen name="Home" component={OurServices} />
+        <Stack.Screen name="ProfLists" component={ProfLists} />
+        <Stack.Screen name="Work" component={Jobsite} />
+      </Stack.Navigator>
     );
   }
   Login(){
@@ -142,6 +143,8 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
     return (<>
       <Drawer.Navigator
         initialRouteName="HomeScreen"
+        screenOptions={{headerShown:true}}
+        backBehavior="history"
       >
         <Drawer.Screen
           name="HomeScreen"
@@ -156,7 +159,7 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
             ),
             drawerLabel: ({ }) => (
               <Text style={{ color: '#cf453d' }}>Home User</Text>
-            )
+            ),
           }}
         />
         <Drawer.Screen

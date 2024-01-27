@@ -617,13 +617,27 @@ export const ThemeStyling = StyleSheet.create({
     width:'46%',
     margin:6,
     marginTop:0,
-    marginBottom:12
+    marginBottom:12,
+    padding:15,
+    alignItems:'center',
+    justifyContent:'center'
   },
   cardContainer:{
     flexDirection:"row",
     flex:1,
     display:"flex",
-    flexWrap:"wrap"
+    flexWrap:"wrap",
+  },
+  cardTitle:{
+    fontSize:18,
+    fontWeight:"500"
+  },
+  cardImageContaiiner:{
+    marginBottom:15,
+  },
+  cardImage:{
+    width:50,
+    height:50
   }
 });
 

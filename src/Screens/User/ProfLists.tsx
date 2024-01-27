@@ -3,17 +3,18 @@ import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
 import CardWithImage from "../../Components/Common/CardsWithImage";
 import { ThemeStyling } from "../../utilty/styling/Styles";
 import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
-export default class OurServices extends Component<ScreenInterfcae, CommonScreenStateInterface>{
+export default class ProfLists extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
+            
             loader:false
         }
     }
@@ -35,11 +36,7 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
     render() {
         return (
             <MainLayout onRefresh={()=>{}} headerText="" loader={this.state?.loader}>
-                <View style={ThemeStyling.cardContainer}>
-                    {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item:any,index:number)=>{
-                        return <CardWithImage data={item} key={index} navigation={this.props.navigation}></CardWithImage>
-                    })}
-                </View>
+                
             </MainLayout>
         );
     }

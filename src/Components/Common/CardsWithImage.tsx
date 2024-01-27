@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { ThemeStyling } from "../../utilty/styling/Styles";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 
@@ -9,9 +9,16 @@ export default class CardWithImage extends Component<ScreenInterfcae>{
     }
     render() {
         return (
-            <View style={ThemeStyling.cardWithBorder}>
-                
-            </View>
+            <Pressable style={ThemeStyling.cardWithBorder} onPress={()=>{
+                this.props.navigation.navigate("ProfLists")
+            }}>
+                <View style={ThemeStyling.cardImageContaiiner}>
+                    <Image source={{uri:this.props?.data?.image}} style={ThemeStyling.cardImage}></Image>
+                </View>
+                <View>
+                    <Text style={ThemeStyling.cardTitle}>{this.props?.data?.name}</Text>
+                </View>
+            </Pressable>
         );
     }
 }
