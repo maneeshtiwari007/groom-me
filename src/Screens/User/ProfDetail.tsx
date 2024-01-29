@@ -21,30 +21,14 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
         }
     }
     async componentDidMount() {
-        this.setState({ loader: true });
-        await this.getApiData();
+        this.setState({ loader: false });
     }
-    async getApiData() {
-        const location = await Location.getCurrentPositionAsync({});
-        const params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude + "&cat=" + this.props?.route?.params?.data?.id
-        CommonApiRequest.getProfListsForUser(params).then((response: any) => {
-            this.setState({ loader: false })
-            if (response?.status == 200) {
-                this.setState({ dataObj: response?.results })
-            }
-        }).catch((error) => {
-            this.setState({ loader: false })
-            console.log(error);
-        })
-    }
+    
     render() {
         return (
-            <MainLayout onRefresh={() => { this.getApiData() }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 10 }}>
+            <MainLayout onRefresh={() => {  }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 10 }}>
                 <View style={ThemeStyling.container}>
-                    {/* Card */}
-                    {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item, index) => {
-                        return <ProfCard data={item} key={index} navigation={this.props.navigation}></ProfCard>
-                    })}
+                    
                 </View>
             </MainLayout>
         );
