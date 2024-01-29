@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import MapView, { Callout, MapMarker, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import CommonScreenStateInterface from "../Interfaces/States/CommonScreenStateInterface";
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
+import ProfCard from "./Common/ProfCard";
 export default class MapCard extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -42,8 +43,8 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                     </View>
                 </MapView>
                 {this.state.dataObj &&
-                        <View style={{ width:Dimensions.get('screen').width,height:Dimensions.get('screen').height/4,backgroundColor:'red',position:'absolute',bottom:0,left:0,zIndex:9, }}>
-                            <Text style={{ width:500}}>{this.state?.dataObj?.name}</Text>
+                        <View style={{ width:Dimensions.get('screen').width,height:Dimensions.get('screen').height/5,position:'absolute',bottom:0,left:0,zIndex:9, }}>
+                            <ProfCard data={this.state.dataObj} navigation={this.props.navigation}></ProfCard>
                         </View>
                     }
             </View>
