@@ -42,7 +42,7 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                     </View>
                 </MapView>
                 {this.state.dataObj &&
-                        <View style={{ width:100,height:100,backgroundColor:'red',position:'absolute',bottom:0,left:0,zIndex:9, }}>
+                        <View style={{ width:Dimensions.get('screen').width,height:Dimensions.get('screen').height/4,backgroundColor:'red',position:'absolute',bottom:0,left:0,zIndex:9, }}>
                             <Text style={{ width:500}}>{this.state?.dataObj?.name}</Text>
                         </View>
                     }
