@@ -2,7 +2,7 @@ import { Component, ReactNode } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { ThemeStyling } from "../../utilty/styling/Styles";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
-import { FontAwesome, Ionicons, MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
+import { FontAwesome, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import Colors from "../../utilty/Colors";
 import { CommonHelper } from "../../utilty/CommonHelper";
 import ScreenStateInterfcae from "../../Interfaces/Common/ScreenStateInterface";
@@ -13,21 +13,28 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
             dataObj: [1, 2, 3, 4, 5]
         }
     }
+    componentDidMount(): void {
+        console.log(this.props?.data);
+    }
     render() {
         return (
             <Pressable style={ThemeStyling.card} onPress={() => {
                 this.props.navigation.navigate("ProfDetail", { data: this.props?.data })
             }}>
-                <View style={[ThemeStyling.cardBody, { padding: 0, paddingTop:8 }]}>
-                    <View style={[ThemeStyling.twoColumnLayout,{alignItems:"flex-start"}]}>
+                <View style={[ThemeStyling.cardBody, { padding: 0, paddingTop: 8 }]}>
+                    <View style={[ThemeStyling.twoColumnLayout, { alignItems: "flex-start" }]}>
                         <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
                             <Image style={[ThemeStyling.cardImage2]} source={{ uri: this.props?.data?.photo }} />
                         </View>
-                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop:12, position:"relative" }]}>
+                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 12, position: "relative" }]}>
                             <View style={{ marginBottom: 5 }}>
-                                <View style={{position:"absolute", right:5, top:-14 }}>
-                                    {/* <Entypo name="heart" size={18} color="black" /> */}
-                                    <Entypo name="heart-outlined" size={18} color="{{color:Colors.primary-color}}" />
+                                <View style={{ position: "absolute", right: 5, top: -14 }}>
+                                    {this.props?.data?.isFav &&
+                                        <AntDesign name="heart" size={20} color={Colors.primary_color} />
+                                    }
+                                    {!this.props?.data?.isFav &&
+                                        <AntDesign name="hearto" size={20} color={Colors.primary_color} />
+                                    }
                                 </View>
                                 <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 5 }]}>{this.props?.data?.name}</Text>
                                 <View style={[ThemeStyling.starRating, { marginBottom: 5 }]}>

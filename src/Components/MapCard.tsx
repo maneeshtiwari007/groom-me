@@ -8,6 +8,7 @@ import CommonScreenStateInterface from "../Interfaces/States/CommonScreenStateIn
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
 import ProfCard from "./Common/ProfCard";
 import { Entypo } from '@expo/vector-icons';
+import Colors from "../utilty/Colors";
 export default class MapCard extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -46,7 +47,7 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                 {this.state.dataObj &&
                     <View style={{ width: Dimensions.get('screen').width, height: Dimensions.get('screen').height / 5, position: 'absolute', bottom: 0, left: 0, zIndex: 9, }}>
                         <View style={{ alignItems: "flex-end"}}>
-                           <Entypo name="circle-with-cross" size={24} color="black" />
+                           <Entypo name="circle-with-cross" size={24} color={Colors.primary_color} />
                         </View>
                         <ProfCard data={this.state.dataObj} navigation={this.props.navigation}></ProfCard>
                     </View>
