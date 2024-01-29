@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, Pressable } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { TouchableOpacity } from "react-native-gesture-handler"
 import * as Location from 'expo-location';
@@ -45,10 +45,10 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                     </View>
                 </MapView>
                 {this.state.dataObj &&
-                    <View style={{ width: Dimensions.get('screen').width, height: Dimensions.get('screen').height / 5, position: 'absolute', bottom: 0, left: 0, zIndex: 9, }}>
-                        <View style={{ alignItems: "flex-end"}}>
+                    <View style={{ width: Dimensions.get('screen').width, height: Dimensions.get('screen').height / 4, position: 'absolute', bottom: 0, left: 0, zIndex: 9, }}>
+                        <Pressable style={{ alignItems: "flex-end"}} onPress={()=>{this.setState({dataObj:undefined})}}>
                            <Entypo name="circle-with-cross" size={24} color={Colors.primary_color} />
-                        </View>
+                        </Pressable>
                         <ProfCard data={this.state.dataObj} navigation={this.props.navigation}></ProfCard>
                     </View>
                 }

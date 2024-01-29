@@ -28,14 +28,14 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                         </View>
                         <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 12, position: "relative" }]}>
                             <View style={{ marginBottom: 5 }}>
-                                <View style={{ position: "absolute", right: 5, top: -14 }}>
+                                <Pressable style={{ position: "absolute", right: 5, top: -14,backgroundColor:'red',width:50,height:50,alignItems:'center',justifyContent:'center' }} onPress={()=>{alert('Pressed')}}>
                                     {this.props?.data?.isFav &&
                                         <AntDesign name="heart" size={20} color={Colors.primary_color} />
                                     }
                                     {!this.props?.data?.isFav &&
                                         <AntDesign name="hearto" size={20} color={Colors.primary_color} />
                                     }
-                                </View>
+                                </Pressable>
                                 <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 5 }]}>{this.props?.data?.name}</Text>
                                 <View style={[ThemeStyling.starRating, { marginBottom: 5 }]}>
                                     {this.state?.dataObj && this.state?.dataObj?.map((itemNumber: any, index: number) => {

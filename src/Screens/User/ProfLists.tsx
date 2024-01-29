@@ -67,7 +67,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                     </View>
                 }
                 {this.state?.type === 'map' && this.state?.dataObj && this.state.location &&
-                    <View style={{ height: Dimensions.get('screen').height-137, width: Dimensions.get('screen').width, backgroundColor: 'red' }}>
+                    <View style={{ height: Dimensions.get('screen').height-157, width: Dimensions.get('screen').width, backgroundColor: 'red' }}>
                         <MapCard data={this.state?.dataObj} location={this.state.location}></MapCard>
                     </View>
                 }
