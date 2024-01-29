@@ -31,18 +31,21 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                     onMapReady={() => { console.log('MapReaddy') }}
                     style={styles.map}
                 >
+                    <View>
                     {this.props?.data?.length > 0 && this.props?.data?.map((item, index) => {
                         return <MapMarker
                             key={index}
                             coordinate={{latitude:item.user_professional_details?.latitude,longitude:item.user_professional_details?.longitude}}
                             onPress={()=>{this.setMarkerCallOut(item)}}/>
                     })}
-                    {this.state.dataObj &&
-                        <Callout style={{ width:'100%',height:100,backgroundColor:'red',position:'absolute',bottom:0,left:0 }}>
-                            <Text style={{ width:500}}>{this.state?.dataObj?.name}</Text>
-                        </Callout>
-                    }
+                    
+                    </View>
                 </MapView>
+                {this.state.dataObj &&
+                        <View style={{ width:100,height:100,backgroundColor:'red',position:'absolute',bottom:0,left:0,zIndex:9, }}>
+                            <Text style={{ width:500}}>{this.state?.dataObj?.name}</Text>
+                        </View>
+                    }
             </View>
         );
     }
