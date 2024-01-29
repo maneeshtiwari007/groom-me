@@ -3,7 +3,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, Pressable } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -50,6 +50,12 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
     render() {
         return (
             <MainLayout onRefresh={() => { this.getApiData() }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 1 }}>
+                <View style={{ width:'100%'}}>
+                    <View style={{flexDirection:"row"}}>
+                        <Pressable style={{ width:'48%',marginRight:5 }} onPress={()=>{this.setState({type:'map'})}}><Text>Map</Text></Pressable>
+                        <Pressable style={{ width:'48%' }} onPress={()=>{this.setState({type:'list'})}}><Text>List</Text></Pressable>
+                    </View>
+                </View>
                 {this.state?.type === 'list' &&
                     <View style={ThemeStyling.container}>
                         {/* Card */}
