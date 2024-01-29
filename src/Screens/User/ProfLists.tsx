@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons, FontAwesome6, FontAwesome5 } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
@@ -56,8 +56,10 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                         <Pressable style={{ width:'48%' }} onPress={()=>{this.setState({type:'list'})}}><Text>List</Text></Pressable>
                     </View>
                 </View>
+               
                 {this.state?.type === 'list' &&
                     <View style={ThemeStyling.container}>
+                        
                         {/* Card */}
                         {this.state?.type === 'list' && this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item, index) => {
                             return <ProfCard data={item} key={index} navigation={this.props.navigation}></ProfCard>
