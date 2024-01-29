@@ -26,6 +26,7 @@ import { CommonHelper } from "../utilty/CommonHelper";
 import LoginScreen from "../Screens/LoginScreen";
 import OurServices from "../Screens/User/OurServices";
 import ProfLists from "../Screens/User/ProfLists";
+import ProfDetail from "../Screens/User/ProfDetail";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -76,6 +77,7 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
         screenOptions={{ headerShown: true }}>
         <Stack.Screen name="Home" component={OurServices} />
         <Stack.Screen name="ProfLists" component={ProfLists} />
+        <Stack.Screen name="ProfDetail" component={ProfDetail} />
         <Stack.Screen name="Work" component={Jobsite} />
       </Stack.Navigator>
     );
@@ -143,7 +145,7 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
     return (<>
       <Drawer.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{headerShown:true}}
+        screenOptions={{headerShown:true,headerStyle:{backgroundColor:Colors.primary_color}}}
         backBehavior="history"
       >
         <Drawer.Screen

@@ -159,5 +159,15 @@ export const CommonApiRequest = {
     // returning the product returned by the API
     return response?.data;
   },
+  getProfListsForUser: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/list?`+params,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
 }
 const cancelApiObject = defineCancelApiObject(CommonApiRequest)

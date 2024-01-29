@@ -10,7 +10,6 @@ import { CommonApiRequest } from "../utilty/api/commonApiRequest";
 import { CommonHelper } from "../utilty/CommonHelper";
 import { ConstantsVar } from "../utilty/ConstantsVar";
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
-import DashboardInterface from "../Interfaces/States/DashboardInterface";
 import CommonScreenStateInterface from "../Interfaces/States/CommonScreenStateInterface";
 export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenStateInterface>{
     constructor(props: any) {
@@ -60,7 +59,7 @@ export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenS
                         <ActivityIndicator size="large" color={Colors.primary_color} />
                     </View>
                 }
-                <ScrollView style={ThemeStyling.scrollView} contentContainerStyle={{ paddingTop: 45, height: '100%', zIndex: 1, position: 'relative' }}>
+                <ScrollView style={ThemeStyling.scrollView} contentContainerStyle={{ paddingTop: 45, height: '100%', zIndex: 1, position: 'relative',backgroundColor:'#ebebff' }}>
                     <KeyboardAwareScrollView style={{ width: '100%', height: Dimensions.get('window').height - 45 }}>
                         <View style={{ height: Dimensions.get('window').height - 45 }}>
                             <ScrollView contentContainerStyle={[ThemeStyling.container, { flex: 1 }]}>
@@ -84,18 +83,19 @@ export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenS
                                             <InputComponent attrName={'password'} secureTextEntry={true} value={this.state?.password} placeholder={"Password"} updateMasterState={(attr: any, value: any) => { this.upDateMasterState(attr, value) }}></InputComponent>
                                         </FormGroup>
                                     </View>
-                                    <View style={[ThemeStyling.btnContainer, { marginBottom: 80 }]}>
+                                    <View style={[ThemeStyling.btnContainer, { marginBottom: 60 }]}>
                                         <TouchableOpacity style={[ThemeStyling.btnPrimary]} onPress={() => { this.loginUser() }} disabled={this.state?.isDisable}>
                                             <Text style={ThemeStyling.btnText}>Sign In</Text>
                                         </TouchableOpacity>
                                     </View>
+                                    <View style={[ThemeStyling.footer]}>
+                                        <TouchableOpacity style={[ThemeStyling.btnLink, { display: 'flex', flexDirection: "row", justifyContent: "center" }]}>
+                                            <Text>Don't have and account?</Text><Text style={ThemeStyling.btnText2}>Sign up</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </ScrollView>
-                            <View style={[ThemeStyling.footer]}>
-                                <TouchableOpacity style={[ThemeStyling.btnLink, { display: 'flex', flexDirection: "row", justifyContent: "center" }]}>
-                                    <Text>Don't have and account?</Text><Text style={ThemeStyling.btnText2}>Sign up</Text>
-                                </TouchableOpacity>
-                            </View>
+                            
                         </View>
                     </KeyboardAwareScrollView>
 

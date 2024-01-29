@@ -4,5 +4,7 @@ export default interface CommonScreenStateInterface{
     loader?:boolean,
     email?:any,
     password?:any,
-    isDisable?:boolean
+    isDisable?:boolean,
+    location?:any,
+    type?:any
 }

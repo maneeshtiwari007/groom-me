@@ -8,6 +8,7 @@ import UserIntroSlider from './src/Screens/IntroSlides/UserIntroSlider';
 import AppContainer from './src/route/AppNavigation';
 import RegisterScreen from './src/Screens/RegisterScreen';
 import AppLoading from 'expo-app-loading';
+import * as Location from 'expo-location';
 import {
   useFonts,
   Poppins_100Thin,
@@ -58,7 +59,7 @@ export default function App() {
   theme.colors.secondaryContainer = "transperent"
   const Auth = () => {
     // Stack Navigator for Login and Sign up Screen
-
+    Location.requestForegroundPermissionsAsync();
     return (
       <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen

@@ -10,7 +10,7 @@ export default class CardWithImage extends Component<ScreenInterfcae>{
     render() {
         return (
             <Pressable style={ThemeStyling.cardWithBorder} onPress={()=>{
-                this.props.navigation.navigate("ProfLists")
+                this.props.navigation.navigate("ProfLists",{data:this.props?.data})
             }}>
                 <View style={ThemeStyling.cardImageContaiiner}>
                     <Image source={{uri:this.props?.data?.image}} style={ThemeStyling.cardImage}></Image>

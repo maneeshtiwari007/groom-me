@@ -119,6 +119,9 @@ export const CommonHelper = {
         } else {
             return <MaterialCommunityIcons name="timer-off-outline" size={18} style={{ color: Colors.errorColor }} />
         }
+    },
+    returnDistanceWithUnit(data:any){
+        return data+" k.m"
     }
 
 }

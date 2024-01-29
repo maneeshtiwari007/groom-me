@@ -7,8 +7,7 @@ export const ThemeStyling = StyleSheet.create({
   },
   container: {
     padding: 15,
-    alignItem: 'center',
-    minHeight: '100%',
+    minHeight: '100%'
   },
   textPrimary: {
     color: Colors.primary_color
@@ -220,15 +219,15 @@ export const ThemeStyling = StyleSheet.create({
     padding: 15,
   },
   twoColumnLayout: {
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "row"
   },
   col4: {
-    width: '40%'
+    width: '38%'
   },
   col8: {
-    width: '55%',
+    width: '61%',
   },
   text2: {
     fontSize: Colors.FontSize.f12,
@@ -542,9 +541,6 @@ export const ThemeStyling = StyleSheet.create({
   * Dashboard
   */
   scrollX: {
-    overflowX: 'auto',
-    scrollY: 'hidden',
-    border: '1px solid red',
     width: 500,
   },
   cardGroup: {

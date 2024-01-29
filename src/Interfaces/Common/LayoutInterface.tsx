@@ -6,5 +6,6 @@ export default interface LayoutInterface {
     loader?:boolean;
     headerText?:string;
     backButton?:boolean;
-    navigation?:any
+    navigation?:any;
+    containerStyle?:any
 }
