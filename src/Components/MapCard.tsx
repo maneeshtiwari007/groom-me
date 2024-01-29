@@ -46,10 +46,13 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                 </MapView>
                 {this.state.dataObj &&
                     <View style={{ width: Dimensions.get('screen').width, height: Dimensions.get('screen').height / 4, position: 'absolute', bottom: 0, left: 0, zIndex: 9, }}>
-                        <Pressable style={{ alignItems: "flex-end", position:"relative", bottom:-7, zIndex:1}} onPress={()=>{this.setState({dataObj:undefined})}}>
-                           <Entypo name="circle-with-cross" size={24} color={Colors.primary_color} />
+                        <Pressable style={{ alignItems: "flex-end", position: "relative", bottom: -7, zIndex: 1 }} onPress={() => { this.setState({ dataObj: undefined }) }}>
+                            <Entypo name="circle-with-cross" size={24} color={Colors.primary_color} />
                         </Pressable>
-                        <ProfCard data={this.state.dataObj} navigation={this.props.navigation}></ProfCard>
+                        <ProfCard data={this.state.dataObj} navigation={this.props.navigation} didUpdate={(data: any) => {
+                            this.state.dataObj.isFav = data;
+                            this.setState({ dataObj: this.state.dataObj });
+                        }}></ProfCard>
                     </View>
                 }
             </View>

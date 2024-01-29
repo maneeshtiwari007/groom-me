@@ -47,27 +47,33 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
 
         }
     }
+    updateState(isFav: any, index: number) {
+        this.state.dataObj[index].isFav = isFav;
+        this.setState({ dataObj: this.state.dataObj })
+    }
     render() {
         return (
             <MainLayout onRefresh={() => { this.getApiData() }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 1 }}>
-                <View style={{ width:'100%'}}>
-                    <View style={{flexDirection:"row"}}>
-                        <Pressable style={{ width:'48%',marginRight:5 }} onPress={()=>{this.setState({type:'map'})}}><Text>Map</Text></Pressable>
-                        <Pressable style={{ width:'48%' }} onPress={()=>{this.setState({type:'list'})}}><Text>List</Text></Pressable>
+                <View style={{ width: '100%' }}>
+                    <View style={{ flexDirection: "row" }}>
+                        <Pressable style={{ width: '48%', marginRight: 5 }} onPress={() => { this.setState({ type: 'map' }) }}><Text>Map</Text></Pressable>
+                        <Pressable style={{ width: '48%' }} onPress={() => { this.setState({ type: 'list' }) }}><Text>List</Text></Pressable>
                     </View>
                 </View>
-               
+
                 {this.state?.type === 'list' &&
                     <View style={ThemeStyling.container}>
-                        
+
                         {/* Card */}
                         {this.state?.type === 'list' && this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item, index) => {
-                            return <ProfCard data={item} key={index} navigation={this.props.navigation}></ProfCard>
+                            return <ProfCard data={item} key={index} navigation={this.props.navigation} didUpdate={(data) => { this.updateState(data, index) }} isOnPressed={true} onClickResponse={() => {
+                                this.props.navigation.navigate("ProfDetail", { data: item })
+                            }}></ProfCard>
                         })}
                     </View>
                 }
                 {this.state?.type === 'map' && this.state?.dataObj && this.state.location &&
-                    <View style={{ height: Dimensions.get('screen').height-157, width: Dimensions.get('screen').width, backgroundColor: 'red' }}>
+                    <View style={{ height: Dimensions.get('screen').height - 157, width: Dimensions.get('screen').width, backgroundColor: 'red' }}>
                         <MapCard data={this.state?.dataObj} location={this.state.location}></MapCard>
                     </View>
                 }

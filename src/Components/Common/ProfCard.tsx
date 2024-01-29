@@ -6,6 +6,7 @@ import { FontAwesome, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/
 import Colors from "../../utilty/Colors";
 import { CommonHelper } from "../../utilty/CommonHelper";
 import ScreenStateInterfcae from "../../Interfaces/Common/ScreenStateInterface";
+import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInterfcae>{
     constructor(props: any) {
         super(props);
@@ -13,13 +14,25 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
             dataObj: [1, 2, 3, 4, 5]
         }
     }
-    componentDidMount(): void {
-        console.log(this.props?.data);
+    makeProfFavorite(){
+        const params = {isFav:(this.props?.data?.isFav)?false:true,id:this.props?.data?.id}
+        CommonApiRequest.makeProfFavorite(params).then((response)=>{
+            this.props.data.isFav=params?.isFav;
+            if(this.props.didUpdate){
+                this.props.didUpdate(params?.isFav);
+            }
+        })
+    }
+    onPressResponse(){
+        if(this.props.isOnPressed){
+            this.props.onClickResponse();
+        }
     }
     render() {
         return (
             <Pressable style={ThemeStyling.card} onPress={() => {
-                this.props.navigation.navigate("ProfDetail", { data: this.props?.data })
+                this.onPressResponse();
+                //this.props.navigation.navigate("ProfDetail", { data: this.props?.data })
             }}>
                 <View style={[ThemeStyling.cardBody, { padding: 0, paddingTop: 8 }]}>
                     <View style={[ThemeStyling.twoColumnLayout, { alignItems: "flex-start" }]}>
@@ -28,7 +41,7 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                         </View>
                         <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0}]}>
                             <View style={{ marginBottom: 5 }}>
-                                <Pressable style={{ marginRight:5, alignItems:"flex-end" }} onPress={()=>{alert('Pressed')}}>
+                                <Pressable style={{ marginRight:5, alignItems:"flex-end",height:30,justifyContent:"center" }} onPress={()=>{this.makeProfFavorite()}}>
                                     {this.props?.data?.isFav &&
                                         <AntDesign name="heart" size={18} color={Colors.primary_color} />
                                     }

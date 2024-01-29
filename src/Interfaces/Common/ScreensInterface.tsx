@@ -3,4 +3,7 @@ export default interface ScreenInterfcae{
     route?:any;
     data?:any;
     location?:any;
+    didUpdate?:func;
+    onClickResponse?:func
+    isOnPressed?:boolean
 }

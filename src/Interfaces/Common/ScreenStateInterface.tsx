@@ -14,5 +14,5 @@ export default interface ScreenStateInterfcae{
     capturedImage?:any,
     user?:any,
     notes?:any,
-    option?:any
+    option?:any,
 }
