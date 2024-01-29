@@ -634,7 +634,7 @@ export const ThemeStyling = StyleSheet.create({
     height:50
   },
   cardImage2:{
-    width: 130,
+    width: 'auto',
     height:130,
     borderTopLeftRadius:10,
     borderBottomLeftRadius:10

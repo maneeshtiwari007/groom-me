@@ -7,20 +7,21 @@ import MapView, { Callout, MapMarker, Marker, PROVIDER_GOOGLE } from 'react-nati
 import CommonScreenStateInterface from "../Interfaces/States/CommonScreenStateInterface";
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
 import ProfCard from "./Common/ProfCard";
+import { Entypo } from '@expo/vector-icons';
 export default class MapCard extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
             loader: false,
             type: 'map',
-            dataObj:undefined
+            dataObj: undefined
         }
     }
     async componentDidMount() {
         console.log(this.props.location);
     }
-    setMarkerCallOut(objData){
-        this.setState({dataObj:objData})
+    setMarkerCallOut(objData) {
+        this.setState({ dataObj: objData })
     }
     render() {
         return (
@@ -33,20 +34,23 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                     style={styles.map}
                 >
                     <View>
-                    {this.props?.data?.length > 0 && this.props?.data?.map((item, index) => {
-                        return <MapMarker
-                            key={index}
-                            coordinate={{latitude:item.user_professional_details?.latitude,longitude:item.user_professional_details?.longitude}}
-                            onPress={()=>{this.setMarkerCallOut(item)}}/>
-                    })}
-                    
+                        {this.props?.data?.length > 0 && this.props?.data?.map((item, index) => {
+                            return <MapMarker
+                                key={index}
+                                coordinate={{ latitude: item.user_professional_details?.latitude, longitude: item.user_professional_details?.longitude }}
+                                onPress={() => { this.setMarkerCallOut(item) }} />
+                        })}
+
                     </View>
                 </MapView>
                 {this.state.dataObj &&
-                        <View style={{ width:Dimensions.get('screen').width,height:Dimensions.get('screen').height/5,position:'absolute',bottom:0,left:0,zIndex:9, }}>
-                            <ProfCard data={this.state.dataObj} navigation={this.props.navigation}></ProfCard>
+                    <View style={{ width: Dimensions.get('screen').width, height: Dimensions.get('screen').height / 5, position: 'absolute', bottom: 0, left: 0, zIndex: 9, }}>
+                        <View style={{ alignItems: "flex-end"}}>
+                           <Entypo name="circle-with-cross" size={24} color="black" />
                         </View>
-                    }
+                        <ProfCard data={this.state.dataObj} navigation={this.props.navigation}></ProfCard>
+                    </View>
+                }
             </View>
         );
     }
