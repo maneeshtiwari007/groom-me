@@ -53,9 +53,9 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                                 <View style={[ThemeStyling.starRating, { marginBottom: 5 }]}>
                                     {this.state?.dataObj && this.state?.dataObj?.map((itemNumber: any, index: number) => {
                                         if (itemNumber <= this.props?.data?.profavgrating) {
-                                            return <FontAwesome style={[ThemeStyling.iconStar]} name="star" color="#aa160e" key={index} />
+                                            return <FontAwesome style={[ThemeStyling.iconStar]} name="star" color={Colors.primary_color} key={index} />
                                         } else {
-                                            return <FontAwesome style={[ThemeStyling.iconStar]} name="star" color="#C1C6DE" key={index} />
+                                            return <FontAwesome style={[ThemeStyling.iconStar]} name="star" color={Colors.gray400} key={index} />
                                         }
                                     })}
                                 </View>

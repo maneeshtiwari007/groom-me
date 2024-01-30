@@ -223,8 +223,14 @@ export const ThemeStyling = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row"
   },
+  col2:{
+    width: '18%'
+  },
   col4: {
     width: '38%'
+  },
+  col6: {
+    width: '55%'
   },
   col8: {
     width: '61%',
