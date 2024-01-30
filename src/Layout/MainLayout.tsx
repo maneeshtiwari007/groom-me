@@ -10,6 +10,7 @@ import { Snackbar } from "react-native-paper";
 import LayoutStateInterface from "../Interfaces/States/LayoutStateInterface";
 import { ConstantsVar } from "../utilty/ConstantsVar";
 import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
 const Stack = createStackNavigator();
 export default class MainLayout extends Component<LayoutInterface, LayoutStateInterface>{
     constructor(props: any) {
@@ -19,7 +20,8 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
             visible: false,
             top: 50,
             color: Colors.theme_success_color,
-            msgData: { head: null, subject: null }
+            msgData: { head: null, subject: null },
+            canGoBack:false
         }
     }
     refreshData() {
@@ -28,6 +30,13 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
         }
     }
     componentDidMount() {
+        this.props?.navigation.addListener("focus", async () => {
+            if(this.props?.navigation?.canGoBack()){
+                this.setState({canGoBack:true})
+            } else {
+                this.setState({canGoBack:false})
+            }
+        });
         DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, (data: any) => {
             this.setState({ visible: true })
             this.setState({
@@ -45,13 +54,25 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
     render() {
         return (
             <>
-             <Pressable onPress={()=>{this.props?.navigation?.toggleDrawer()}}><Text>fasdfasdfasfads</Text></Pressable>
+                <View style={{ backgroundColor: Colors.primary_color, height: 100 }}>
+
+                    {!this.state.canGoBack &&
+                        <Pressable style={{ marginTop: 45, left: 20 }} onPress={() => { this.props?.navigation?.toggleDrawer() }}>
+                            <FontAwesome6 name="bars-staggered" size={24} color="white" />
+                        </Pressable>
+                    }
+                    {this.state.canGoBack &&
+                        <Pressable style={{ marginTop: 45, left: 20 }} onPress={() => { this.props?.navigation?.goBack() }}>
+                            <Ionicons name="arrow-back" size={24} color="white" />
+                        </Pressable>
+                    }
+                </View>
                 <ScrollView refreshControl={<RefreshControl
                     refreshing={this.state?.refresh}
                     //refresh control used for the Pull to Refresh
                     onRefresh={this.refreshData.bind(this)}
-                />} style={[ThemeStyling.scrollView, this.props?.style]} contentContainerStyle={[this.props.containerStyle,{ paddingTop: (this.props.containerStyle?.paddingTop)?this.props.containerStyle?.paddingTop:45 }]}>
-                   
+                />} style={[ThemeStyling.scrollView, this.props?.style]} contentContainerStyle={[this.props.containerStyle, { paddingTop: (this.props.containerStyle?.paddingTop) ? this.props.containerStyle?.paddingTop : 45 }]}>
+
                     {this.props?.isTopLogo &&
                         <View style={ThemeStyling.imagecontainer}>
                             <Image style={ThemeStyling.image} source={require('../../assets/staticimages/logo.png')} />
@@ -68,7 +89,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                         onRefresh={this.refreshData.bind(this)}
                     />
                     {this.props?.headerText &&
-                        <View style={[{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 18,marginBottom:10, paddingLeft: 15 }]}>
+                        <View style={[{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 18, marginBottom: 10, paddingLeft: 15 }]}>
                             <View style={{ display: "flex", flexDirection: "row", flex: 1 }}>
                                 {this.props?.backButton &&
                                     <TouchableOpacity onPress={() => {
@@ -77,7 +98,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                                         <Ionicons name="arrow-back" style={[ThemeStyling.icon2, { fontSize: Colors.FontSize.h3, lineHeight: 30, color: Colors.dark_color, }]} />
                                     </TouchableOpacity>
                                 }
-                                <Text style={[ThemeStyling.heading3, { marginBottom: 0, paddingBottom: 0, textAlign: "center", flex: 1,marginLeft:0 }]}>{this.props?.headerText}</Text>
+                                <Text style={[ThemeStyling.heading3, { marginBottom: 0, paddingBottom: 0, textAlign: "center", flex: 1, marginLeft: 0 }]}>{this.props?.headerText}</Text>
                             </View>
                         </View>
                     }

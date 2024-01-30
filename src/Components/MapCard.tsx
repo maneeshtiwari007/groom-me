@@ -19,7 +19,7 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
         }
     }
     async componentDidMount() {
-        console.log(this.props.location);
+        
     }
     setMarkerCallOut(objData) {
         this.setState({ dataObj: objData })
@@ -30,8 +30,6 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                 <MapView
                     provider={PROVIDER_GOOGLE}
                     initialRegion={this.props?.data?.location}
-                    onMapLoaded={() => { console.log('MapLoaded') }}
-                    onMapReady={() => { console.log('MapReaddy') }}
                     style={styles.map}
                 >
                     <View>

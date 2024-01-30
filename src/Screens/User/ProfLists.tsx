@@ -53,7 +53,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
     }
     render() {
         return (
-            <MainLayout onRefresh={() => { this.getApiData() }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 1 }}>
+            <MainLayout onRefresh={() => { this.getApiData() }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 1 }} navigation={this.props.navigation}>
                 <View style={{ width: '100%' }}>
                     <View style={{ flexDirection: "row" }}>
                         <Pressable style={{ width: '48%', marginRight: 5 }} onPress={() => { this.setState({ type: 'map' }) }}><Text>Map</Text></Pressable>

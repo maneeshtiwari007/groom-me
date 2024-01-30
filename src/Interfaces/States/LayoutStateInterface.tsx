@@ -3,5 +3,6 @@ export default interface LayoutStateInterface{
     visible:boolean,
     top?:number,
     color?:string,
-    msgData?:any
+    msgData?:any,
+    canGoBack?:boolean
 }
