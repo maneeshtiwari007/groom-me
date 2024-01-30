@@ -7,5 +7,8 @@ export default interface LayoutInterface {
     headerText?:string;
     backButton?:boolean;
     navigation?:any;
-    containerStyle?:any
+    containerStyle?:any,
+    route?:any,
+    showHeaderText?:boolean,
+    isSearchBar?:boolean
 }

@@ -76,8 +76,8 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         initialRouteName="HomeScreen"
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={OurServices} />
-        <Stack.Screen name="ProfLists" component={ProfLists} />
-        <Stack.Screen name="ProfDetail" component={ProfDetail} />
+        <Stack.Screen name="Professionals" component={ProfLists} />
+        <Stack.Screen name="Professional Detail" component={ProfDetail} />
         <Stack.Screen name="Work" component={Jobsite} />
       </Stack.Navigator>
     );

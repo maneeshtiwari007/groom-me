@@ -50,7 +50,7 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                         <ProfCard data={this.state.dataObj} navigation={this.props.navigation} didUpdate={(data: any) => {
                             this.state.dataObj.isFav = data;
                             this.setState({ dataObj: this.state.dataObj });
-                        }} isOnPressed={true} onClickResponse={()=>{this.props.navigation.navigate("ProfDetail", { data: this.state.dataObj })}}></ProfCard>
+                        }} isOnPressed={true} onClickResponse={()=>{this.props.navigation.navigate("Professional Detail", { data: this.state.dataObj })}}></ProfCard>
                     </View>
                 }
             </View>

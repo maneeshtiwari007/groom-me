@@ -53,8 +53,16 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
     }
     render() {
         return (
-            <MainLayout onRefresh={() => { this.getApiData() }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 1 }} navigation={this.props.navigation}>
-                <View style={{ width: '100%' }}>
+            <MainLayout
+                onRefresh={() => { this.getApiData() }}
+                headerText=""
+                loader={this.state?.loader}
+                containerStyle={{ paddingTop: 1 }}
+                navigation={this.props.navigation}
+                route={this.props.route}
+                isSearchBar={true}
+            >
+                <View style={{ width: '100%'}}>
                     <View style={{ flexDirection: "row" }}>
                         <Pressable style={{ width: '48%', marginRight: 5 }} onPress={() => { this.setState({ type: 'map' }) }}><Text>Map</Text></Pressable>
                         <Pressable style={{ width: '48%' }} onPress={() => { this.setState({ type: 'list' }) }}><Text>List</Text></Pressable>
@@ -67,7 +75,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                         {/* Card */}
                         {this.state?.type === 'list' && this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item, index) => {
                             return <ProfCard data={item} key={index} navigation={this.props.navigation} didUpdate={(data) => { this.updateState(data, index) }} isOnPressed={true} onClickResponse={() => {
-                                this.props.navigation.navigate("ProfDetail", { data: item })
+                                this.props.navigation.navigate("Professional Detail", { data: item })
                             }}></ProfCard>
                         })}
                     </View>

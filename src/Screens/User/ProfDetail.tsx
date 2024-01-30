@@ -56,7 +56,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
     
     render() {
         return (
-            <MainLayout onRefresh={() => { }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 10 }} navigation={this.props.navigation}>
+            <MainLayout onRefresh={() => { }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 10 }} navigation={this.props.navigation}  route={this.props.route}>
                 <View>
                     <ImageBackground source={require('../../../assets/staticimages/thumbnail4.jpg')} resizeMode="cover" style={{ flex: 1, height: 150 }}></ImageBackground>
                 </View>

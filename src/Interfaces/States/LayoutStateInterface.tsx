@@ -4,5 +4,9 @@ export default interface LayoutStateInterface{
     top?:number,
     color?:string,
     msgData?:any,
-    canGoBack?:boolean
+    canGoBack?:boolean,
+    userObj?:any,
+    showHeaderText?:boolean,
+    isSearchBar?:boolean,
+    previousScreenName?:string,
 }

@@ -2,7 +2,7 @@ import { Component } from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from "../Screens/Home";
 import i18n from '../localization/i18n';
-import { ActivityIndicator, DeviceEventEmitter, Image, Pressable, RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, DeviceEventEmitter, Image, Pressable, RefreshControl, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { ThemeStyling } from "../utilty/styling/Styles";
 import LayoutInterface from "../Interfaces/Common/LayoutInterface";
 import Colors from "../utilty/Colors";
@@ -11,6 +11,9 @@ import LayoutStateInterface from "../Interfaces/States/LayoutStateInterface";
 import { ConstantsVar } from "../utilty/ConstantsVar";
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
+import { HeaderStyling } from "../utilty/styling/HeaderStyling";
+import { CommonHelper } from "../utilty/CommonHelper";
+import InputComponent from "../Components/Common/InputComponent";
 const Stack = createStackNavigator();
 export default class MainLayout extends Component<LayoutInterface, LayoutStateInterface>{
     constructor(props: any) {
@@ -21,7 +24,10 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
             top: 50,
             color: Colors.theme_success_color,
             msgData: { head: null, subject: null },
-            canGoBack:false
+            canGoBack: false,
+            userObj: undefined,
+            showHeaderText: false,
+            isSearchBar: false,
         }
     }
     refreshData() {
@@ -29,14 +35,35 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
             this.props?.onRefresh({ data: 'data' });
         }
     }
-    componentDidMount() {
+    async componentDidMount() {
+        const user = await CommonHelper.getUserData();
+        
+        if(this.props.route){
+            const index = this.props.navigation.getState()?.routes.findIndex(x=>x.name===this.props.route.name);
+            const prevScreenNameObj = this.props.navigation.getState()?.routes?.[index-1];
+            this.setState({previousScreenName:prevScreenNameObj?.name});
+
+        }
+        this.setState({ showHeaderText: this.props?.showHeaderText, isSearchBar: this.props?.isSearchBar })
+        this.setState({ userObj: user })
+        if (this.props?.navigation?.canGoBack()) {
+            this.setState({ canGoBack: true })
+        } else {
+            this.setState({ canGoBack: false })
+        }
         this.props?.navigation.addListener("focus", async () => {
-            if(this.props?.navigation?.canGoBack()){
-                this.setState({canGoBack:true})
+            if (this.props?.navigation?.canGoBack()) {
+                this.setState({ canGoBack: true })
             } else {
-                this.setState({canGoBack:false})
+                this.setState({ canGoBack: false })
+            }
+            if (this.props?.route?.name === 'Home') {
+                this.setState({ canGoBack: false })
             }
         });
+        if (this.props?.route?.name === 'Home') {
+            this.setState({ canGoBack: false })
+        }
         DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, (data: any) => {
             this.setState({ visible: true })
             this.setState({
@@ -54,18 +81,36 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
     render() {
         return (
             <>
-                <View style={{ backgroundColor: Colors.primary_color, height: 100 }}>
-
-                    {!this.state.canGoBack &&
-                        <Pressable style={{ marginTop: 45, left: 20 }} onPress={() => { this.props?.navigation?.toggleDrawer() }}>
-                            <FontAwesome6 name="bars-staggered" size={24} color="white" />
-                        </Pressable>
-                    }
-                    {this.state.canGoBack &&
-                        <Pressable style={{ marginTop: 45, left: 20 }} onPress={() => { this.props?.navigation?.goBack() }}>
-                            <Ionicons name="arrow-back" size={24} color="white" />
-                        </Pressable>
-                    }
+                <View style={HeaderStyling.headerContainer}>
+                    <View style={HeaderStyling.drawerContainer}>
+                        <View style={[{ flexDirection: 'row', alignItems: 'center' }]}>
+                            {!this.state.canGoBack &&
+                                <Pressable style={[]} onPress={() => { this.props?.navigation?.toggleDrawer() }}>
+                                    <FontAwesome6 name="bars-staggered" size={24} color="white" />
+                                </Pressable>
+                            }
+                            {this.state.canGoBack &&
+                                <>
+                                <Pressable onPress={() => { this.props?.navigation?.goBack() }}>
+                                    <Ionicons name="arrow-back" size={24} color="white" />
+                                </Pressable>
+                                <View style={{ marginLeft:10}}>
+                                    <Text style={ThemeStyling.heading5}>{this.state?.previousScreenName}</Text>
+                                </View>
+                                </>
+                            }
+                            {this.state?.showHeaderText &&
+                                <View style={{ marginLeft: 10 }}>
+                                    <Text style={ThemeStyling.heading5}>Hi, {this.state?.userObj?.name}</Text>
+                                </View>
+                            }
+                        </View>
+                        {this.state.isSearchBar &&
+                            <View style={{ marginTop: 15 }}>
+                                <TextInput placeholder="Search ..." style={{ height: 40, borderColor: 'white', borderWidth: 1, borderRadius: 8, paddingHorizontal: 15, backgroundColor: 'white' }}></TextInput>
+                            </View>
+                        }
+                    </View>
                 </View>
                 <ScrollView refreshControl={<RefreshControl
                     refreshing={this.state?.refresh}

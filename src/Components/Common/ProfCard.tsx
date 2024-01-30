@@ -32,7 +32,6 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
         return (
             <Pressable style={ThemeStyling.card} onPress={() => {
                 this.onPressResponse();
-                //this.props.navigation.navigate("ProfDetail", { data: this.props?.data })
             }}>
                 <View style={[ThemeStyling.cardBody, { padding: 0, paddingTop: 8 }]}>
                     <View style={[ThemeStyling.twoColumnLayout, { alignItems: "flex-start" }]}>
