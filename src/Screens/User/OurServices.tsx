@@ -34,7 +34,7 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
     }
     render() {
         return (
-            <MainLayout onRefresh={()=>{this.getApiData()}} headerText="" loader={this.state?.loader}>
+            <MainLayout onRefresh={()=>{this.getApiData()}} headerText="" loader={this.state?.loader} navigation={this.props.navigation}>
                 <View style={ThemeStyling.cardContainer}>
                     {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item:any,index:number)=>{
                         return <CardWithImage data={item} key={index} navigation={this.props.navigation}></CardWithImage>

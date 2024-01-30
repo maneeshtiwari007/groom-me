@@ -6,5 +6,8 @@ export default interface CommonScreenStateInterface{
     password?:any,
     isDisable?:boolean,
     location?:any,
-    type?:any
+    type?:any,
+    index?:number,
+    routes?:any,
+    navigation?:any
 }

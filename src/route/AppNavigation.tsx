@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import {
   FontAwesome5
 } from "@expo/vector-icons";
-import { StyleSheet, NativeModules, Image, Text } from "react-native";
+import { StyleSheet, NativeModules, Image, Text, View } from "react-native";
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 // import {transparent} from "react-native-papger/lib/typescript/src/styles/themes/v2/colors";
@@ -21,7 +21,7 @@ import TimeTracker from "../Screens/TimeTracker"
 import Jobsite from "../Screens/Jobsite";
 import ChooseServices from "../Screens/ChooseServices";
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
-import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, DrawerItemList, createDrawerNavigator } from '@react-navigation/drawer';
 import { CommonHelper } from "../utilty/CommonHelper";
 import LoginScreen from "../Screens/LoginScreen";
 import OurServices from "../Screens/User/OurServices";
@@ -31,19 +31,19 @@ const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
-export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any,user?:any}> {
+export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: any, user?: any }> {
   constructor(props: any) {
     super(props);
     this.state = {
       isAuth: false,
-      user:{}
+      user: {}
     }
 
   }
 
   async componentDidMount() {
     const user = await CommonHelper.getUserData();
-    this.setState({user:user});
+    this.setState({ user: user });
     //this.RegisterStackNavigator()
   }
   Logout = () => {
@@ -82,8 +82,8 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
       </Stack.Navigator>
     );
   }
-  Login(){
-    return(
+  Login() {
+    return (
       <Stack.Navigator>
         <Stack.Screen
           name="LoginScreen"
@@ -135,7 +135,7 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
           name="Logout"
           component={this.Logout}
           listeners={{
-              
+
           }}
         />
       </Drawer.Navigator>
@@ -145,8 +145,9 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
     return (<>
       <Drawer.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{headerShown:true,headerStyle:{backgroundColor:Colors.primary_color}}}
+        screenOptions={{ headerShown: false, headerStyle: { backgroundColor: Colors.primary_color } }}
         backBehavior="history"
+        drawerContent={props => <CustomDrawerContent {...props} />}
       >
         <Drawer.Screen
           name="HomeScreen"
@@ -159,7 +160,7 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
                 color={'#cf453d'}
               />
             ),
-            drawerLabel: ({ }) => (
+            drawerLabel: () => (
               <Text style={{ color: '#cf453d' }}>Home User</Text>
             ),
           }}
@@ -184,21 +185,35 @@ export default class AppContainer extends Component<ScreenInterfcae,{isAuth?:any
         <Drawer.Screen
           name="Logout"
           component={this.Logout}
-          listeners={{
-              
-          }}
         />
       </Drawer.Navigator>
     </>)
   }
+  CustomDrawerContent = (props) => (
+    <DrawerContentScrollView {...props} >
+      <View
+        style={{
+          backgroundColor: '#f50057',
+          height: 140,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Text style={{ color: 'white', fontSize: 30 }}>
+          Header
+        </Text>
+      </View>
+      <DrawerItem {...props} />
+    </DrawerContentScrollView>
+  )
   render() {
     //this.RegisterStackNavigator();
-    if(this.state?.user?.type==2){
+    if (this.state?.user?.type == 2) {
       return (this.UserMenu());
-    }else if(this.state?.user?.type==4){
+    } else if (this.state?.user?.type == 4) {
       return (this.ProfMenu());
     }
-    
+
   }
 }
 const styles = StyleSheet.create({
@@ -207,3 +222,35 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
 });
+export const CustomDrawerContent = (props) => {
+  return (
+    <View style={{ flex: 1 }}>
+      <View
+        style={{
+          backgroundColor: Colors.primary_color,
+          height: 140,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Text style={{ color: 'white', fontSize: 30 }}>
+          Header
+        </Text>
+      </View>
+      <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
+      <View
+        style={{
+          height: 140,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Text style={{ color: Colors.primary_color, fontSize: 30 }}>
+          Footer
+        </Text>
+      </View>
+    </View>
+  );
+} 

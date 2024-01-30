@@ -2,7 +2,7 @@ import { Component } from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from "../Screens/Home";
 import i18n from '../localization/i18n';
-import { ActivityIndicator, DeviceEventEmitter, Image, RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, DeviceEventEmitter, Image, Pressable, RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { ThemeStyling } from "../utilty/styling/Styles";
 import LayoutInterface from "../Interfaces/Common/LayoutInterface";
 import Colors from "../utilty/Colors";
@@ -45,11 +45,13 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
     render() {
         return (
             <>
+             <Pressable onPress={()=>{this.props?.navigation?.toggleDrawer()}}><Text>fasdfasdfasfads</Text></Pressable>
                 <ScrollView refreshControl={<RefreshControl
                     refreshing={this.state?.refresh}
                     //refresh control used for the Pull to Refresh
                     onRefresh={this.refreshData.bind(this)}
                 />} style={[ThemeStyling.scrollView, this.props?.style]} contentContainerStyle={[this.props.containerStyle,{ paddingTop: (this.props.containerStyle?.paddingTop)?this.props.containerStyle?.paddingTop:45 }]}>
+                   
                     {this.props?.isTopLogo &&
                         <View style={ThemeStyling.imagecontainer}>
                             <Image style={ThemeStyling.image} source={require('../../assets/staticimages/logo.png')} />
