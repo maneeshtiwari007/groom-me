@@ -11,14 +11,18 @@ export default class ProfServicesComponent extends Component<ScreenInterfcae, Co
     constructor(props: any) {
         super(props);
         this.state = {
-            loader: false
+            loader: false,
         }
     }
     async componentDidMount() {
         //console.log(this.props?.data?.categories)
     }
-    addServiceToCart(){
-
+    addServiceToCart(data){
+        console.log(data)
+        const dataObj = (this.state.dataObj)?this.state.dataObj:[];
+        dataObj.push(data);
+        console.log(dataObj)
+        this.setState({dataObj:dataObj})
     }
     render() {
         return <ScrollView style={{ paddingTop: 10 }}>
@@ -39,7 +43,7 @@ export default class ProfServicesComponent extends Component<ScreenInterfcae, Co
                                 <View style={[ThemeStyling.col2, { flex: 1, alignItems: "flex-end" }]}>
                                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                                         <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.dark_color, marginBottom: 0, marginRight: 5 }]}>{CommonHelper.returnPriceWithCurrency(itemObj?.price)}</Text>
-                                        <CheckBox color={Colors.primary_color} style={[{ width: 15, height: 15, borderColor: Colors.secondry_color, borderWidth: 1 }]} onChange={()=>{}}/>
+                                        <CheckBox color={Colors.primary_color} style={[{ width: 15, height: 15, borderColor: Colors.secondry_color, borderWidth: 1,backgroundColor:'green' }]} onValueChange={()=>{this.addServiceToCart(itemObj?.service_id)}}/>
                                     </View>
                                 </View>
                             </View>
