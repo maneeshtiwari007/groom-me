@@ -62,8 +62,8 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
                 </View>
                 <View style={[ThemeStyling.card, { backgroundColor: Colors.gray200, borderRadius: 0, marginBottom: 0 }]}>
                     <View style={[ThemeStyling.cardBody, { paddingBottom: 10 }]}>
-                        <View style={[ThemeStyling.twoColumnLayout, { alignItems: "flex-start" }]}>
-                            <View style={[ThemeStyling.col8]}>
+                        <View style={[ThemeStyling.twoColumnLayout,]}>
+                            <View style={[ThemeStyling.col8,{borderRightColor:Colors.gray400, borderStyle:"solid", borderRightWidth:1}]}>
                                 <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 3 }]}>The Big Tease Salon</Text>
                                 <View style={[ThemeStyling.starRating, { marginBottom: 5 }]}>
                                     <FontAwesome style={ThemeStyling.iconStar} name="star" color={Colors.primary_color} />
@@ -77,11 +77,11 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
                                     <Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>4140 Parker Rd. Allortown</Text>
                                 </View>
                             </View>
-                            <View style={[ThemeStyling.col4, { alignItems: "flex-end" }]}>
+                            <View style={[ThemeStyling.col4, { alignItems: "flex-start", paddingLeft:10 }]}>
                                 <Text style={[ThemeStyling.text2, { fontSize: 11, color: Colors.secondry_color }]}>
                                     <AntDesign name="checkcircle" size={11} color={Colors.success_color} />&nbsp;Live Booking</Text>
                                 <Text style={[ThemeStyling.text2, { fontSize: 11, color: Colors.secondry_color }]}>
-                                    <FontAwesome5 name="times-circle" size={11} color={Colors.secondry_color} />&nbsp;Schedule Booking</Text>
+                                    <FontAwesome5 name="times-circle" size={11} color={Colors.primary_color} />&nbsp;Schedule Booking</Text>
                             </View>
                         </View>
                     </View>

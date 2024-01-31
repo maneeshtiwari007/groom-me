@@ -215,6 +215,10 @@ export const ThemeStyling = StyleSheet.create({
   deActiveTextColor:{
     color:Colors.secondry_color
   },
+  cardHeader:{
+    padding:8,
+    paddingBottom:12
+  },
   cardBody: {
     padding: 15,
   },
@@ -234,6 +238,9 @@ export const ThemeStyling = StyleSheet.create({
   },
   col8: {
     width: '61%',
+  },
+  col10: {
+    width: '78%',
   },
   text2: {
     fontSize: Colors.FontSize.f12,
