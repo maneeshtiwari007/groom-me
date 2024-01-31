@@ -540,9 +540,8 @@ export const ThemeStyling = StyleSheet.create({
     lineHeight: 40
   },
   gallery: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    flexWrap: "wrap"
+    flexDirection: "row",    
+    flexWrap: "wrap",
   },
   galleryItem: {
     width: '40%',
