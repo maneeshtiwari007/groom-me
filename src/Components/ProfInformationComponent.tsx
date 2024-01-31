@@ -25,30 +25,30 @@ export default class ProfInformationComponent extends Component<ScreenInterfcae,
             <View style={[ThemeStyling.card, { backgroundColor: Colors.gray100, marginBottom: 5, borderBottomColor: Colors.secondry_color, borderBottomWidth: 1, borderStyle: "solid" }]}>
                 <View style={[ThemeStyling.cardBody]}>
                     <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>Gallery</Text>
-                    <View style={ThemeStyling.gallery}>
-                        <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:5, alignItems: 'center' }]}>
-                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:75, height:75 }]} source={require('../../assets/staticimages/thumbnail3.jpg')} />
+                    <View style={[ThemeStyling.gallery, {justifyContent:"space-between"}]}>
+                        <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>
+                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/thumbnail3.jpg')} />
                         </View>
-                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:5, alignItems: 'center' }]}>
-                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:75, height:75 }]} source={require('../../assets/staticimages/default.jpg')} />
+                                             <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:0, alignItems: 'center' }]}>
+                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/default.jpg')} />
                         </View>
-                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:0, alignItems: 'center' }]}>
-                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:75, height:75 }]} source={require('../../assets/staticimages/thumbnail2.jpg')} />
+                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>
+                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/thumbnail2.jpg')} />
                         </View>
-                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:5, alignItems: 'center' }]}>
-                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:75, height:75 }]} source={require('../../assets/staticimages/avatar.jpg')} />
+                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>
+                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/avatar.jpg')} />
                         </View>
-                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:5, alignItems: 'center' }]}>
-                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:75, height:75 }]} source={require('../../assets/staticimages/thumbnail3.jpg')} />
+                        <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>
+                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/default.jpg')} />
                         </View>
-                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:0, alignItems: 'center' }]}>
-                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:75, height:75 }]} source={require('../../assets/staticimages/default.jpg')} />
+                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>
+                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/thumbnail2.jpg')} />
                         </View>
-                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:5, alignItems: 'center' }]}>
-                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:75, height:75 }]} source={require('../../assets/staticimages/thumbnail2.jpg')} />
+                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>
+                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/avatar.jpg')} />
                         </View>
-                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:5, alignItems: 'center' }]}>
-                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:75, height:75 }]} source={require('../../assets/staticimages/avatar.jpg')} />
+                       <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>
+                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/thumbnail3.jpg')} />
                         </View>
                     </View>
                 </View>
