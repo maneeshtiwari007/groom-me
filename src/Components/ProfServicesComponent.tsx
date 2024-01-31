@@ -17,15 +17,18 @@ export default class ProfServicesComponent extends Component<ScreenInterfcae, Co
     async componentDidMount() {
         //console.log(this.props?.data?.categories)
     }
-    addServiceToCart(data){
+    addServiceToCart(data) {
         console.log(data)
-        const dataObj = (this.state.dataObj)?this.state.dataObj:[];
+        const dataObj = (this.state.dataObj) ? this.state.dataObj : [];
         dataObj.push(data);
         console.log(dataObj)
-        this.setState({dataObj:dataObj})
+        this.setState({ dataObj: dataObj })
     }
     render() {
         return <ScrollView style={{ paddingTop: 10 }}>
+            <View style={{backgroundColor:Colors.primary_light_color, padding:3, paddingTop:5,marginBottom:5 , justifyContent:"center", alignItems:"center"}}>
+                <Text style={[ThemeStyling.heading5, {margin:0, color:Colors.primary_color}]}>Hair Cut</Text>
+            </View>
             {this.props?.data?.categories?.length > 0 && this.props?.data?.categories?.map((item: any, index: number) => {
                 if (item?.services) {
                     return item?.services?.map((itemObj: any, indexService: number) => {
@@ -43,7 +46,7 @@ export default class ProfServicesComponent extends Component<ScreenInterfcae, Co
                                 <View style={[ThemeStyling.col2, { flex: 1, alignItems: "flex-end" }]}>
                                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
                                         <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.dark_color, marginBottom: 0, marginRight: 5 }]}>{CommonHelper.returnPriceWithCurrency(itemObj?.price)}</Text>
-                                        <CheckBox color={Colors.primary_color} style={[{ width: 15, height: 15, borderColor: Colors.secondry_color, borderWidth: 1,backgroundColor:'green' }]} onValueChange={()=>{this.addServiceToCart(itemObj?.service_id)}}/>
+                                        <CheckBox color={Colors.primary_color} style={[{ width: 15, height: 15, borderColor: Colors.secondry_color, borderWidth: 1, backgroundColor: 'green' }]} onValueChange={() => { this.addServiceToCart(itemObj?.service_id) }} />
                                     </View>
                                 </View>
                             </View>
