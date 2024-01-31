@@ -237,8 +237,8 @@ export const CustomDrawerContent = (props) => {
           Header
         </Text>
       </View>
-      <DrawerContentScrollView {...props}>
-        <DrawerItemList {...props} />
+      <DrawerContentScrollView {...props} style={{ backgroundColor:'green',top:0 }}>
+        <DrawerItemList {...props}/>
       </DrawerContentScrollView>
       <View
         style={{

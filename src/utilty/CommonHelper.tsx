@@ -122,6 +122,8 @@ export const CommonHelper = {
     },
     returnDistanceWithUnit(data:any){
         return data+" k.m"
+    },
+    returnPriceWithCurrency(amount){
+        return '$'+amount
     }
-
 }

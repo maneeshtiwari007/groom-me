@@ -31,12 +31,25 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
         }
     }
     async componentDidMount() {
-        this.setState({ loader: false });
+        this.setState({ loader: true });
+        await this.getApiData()
+    }
+    async getApiData(){
+        const id = this.props.route?.params?.data?.id;
+        CommonApiRequest.getProfDetails(id).then((response)=>{
+            this.setState({ loader: false });
+            console.log(response);
+            if(response?.status===200){
+                this.setState({dataObj:response?.results});
+            }
+        }).then((error)=>{
+            this.setState({ loader: false });
+        })
     }
     _renderScene = ({ route }) => {
         switch (route.key) {
         case '1':
-          return <ProfServicesComponent></ProfServicesComponent>;
+          return <ProfServicesComponent data={this.state?.dataObj}></ProfServicesComponent>;
         case '2':
           return <ProfInformationComponent></ProfInformationComponent>;
         case '3':
