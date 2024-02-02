@@ -28,6 +28,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
             userObj: undefined,
             showHeaderText: false,
             isSearchBar: false,
+            scrollEnabled:true
         }
     }
     refreshData() {
@@ -37,7 +38,9 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
     }
     async componentDidMount() {
         const user = await CommonHelper.getUserData();
-        
+        if(this.props.scollEnabled === false){
+            this.setState({scrollEnabled:this.props.scollEnabled});
+        }
         if(this.props.route){
             const index = this.props.navigation.getState()?.routes.findIndex(x=>x.name===this.props.route.name);
             const prevScreenNameObj = this.props.navigation.getState()?.routes?.[index-1];
@@ -112,7 +115,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                         }
                     </View>
                 </View>
-                <ScrollView refreshControl={<RefreshControl
+                <ScrollView nestedScrollEnabled={true} scrollEnabled={this.state.scrollEnabled} refreshControl={<RefreshControl
                     refreshing={this.state?.refresh}
                     //refresh control used for the Pull to Refresh
                     onRefresh={this.refreshData.bind(this)}

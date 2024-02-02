@@ -32,7 +32,7 @@ export default class ProfServicesComponent extends Component<ScreenInterfcae, Co
             {this.props?.data?.categories?.length > 0 && this.props?.data?.categories?.map((item: any, index: number) => {
                 if (item?.services) {
                     return <>
-                        <View key={index+'Category'} style={{ backgroundColor: Colors.primary_light_color, padding: 3, paddingTop: 5, marginBottom: 5, justifyContent: "center", alignItems: "center" }}>
+                        <View style={{ backgroundColor: Colors.primary_light_color, padding: 3, paddingTop: 5, marginBottom: 5, justifyContent: "center", alignItems: "center" }}>
                             <Text style={[ThemeStyling.heading5, { margin: 0, color: Colors.primary_color }]}>{item?.name}</Text>
                         </View>
                         {item?.services?.map((itemObj: any, indexService: number) => {

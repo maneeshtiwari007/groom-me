@@ -68,7 +68,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
 
     render() {
         return (
-            <MainLayout onRefresh={() => { }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 0.5 }} navigation={this.props.navigation} route={this.props.route}>
+            <MainLayout scollEnabled={false} onRefresh={() => { }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 0.5 }} navigation={this.props.navigation} route={this.props.route}>
                 {this.state?.dataObj &&
                     <>
                         <View>
