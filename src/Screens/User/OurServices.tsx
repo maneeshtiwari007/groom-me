@@ -21,8 +21,9 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
         this.setState({loader:true})
         await this.getApiData()
     }
-    async getApiData(){
-        CommonApiRequest.getServiceCategory({}).then((response:any)=>{
+    async getApiData(params:any={}){
+        const urlParams = (params)?'?' + new URLSearchParams(params).toString():'';
+        CommonApiRequest.getServiceCategory(urlParams).then((response:any)=>{
             this.setState({loader:false})
             if(response?.status==200){
                 this.setState({dataObj:response?.results})
@@ -31,6 +32,10 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
             this.setState({loader:false})
             console.log(error);
         })
+    }
+    searchCategory(text:string){
+        this.setState({loader:true});
+        this.getApiData({q:text});
     }
     render() {
         return (
@@ -43,6 +48,7 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
                 route={this.props.route}
                 showHeaderText={true}
                 isSearchBar={true}
+                onSearchCallback={(data)=>{this.searchCategory(data)}}
                 >
                 <View style={ThemeStyling.cardContainer}>
                     {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item:any,index:number)=>{

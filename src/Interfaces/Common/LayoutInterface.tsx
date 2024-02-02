@@ -10,5 +10,7 @@ export default interface LayoutInterface {
     containerStyle?:any,
     route?:any,
     showHeaderText?:boolean,
-    isSearchBar?:boolean
+    isSearchBar?:boolean,
+    scollEnabled?:boolean,
+    onSearchCallback?:any
 }

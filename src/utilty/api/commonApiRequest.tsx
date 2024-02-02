@@ -150,8 +150,9 @@ export const CommonApiRequest = {
     return response?.data;
   },
   getServiceCategory: async function (params: any, cancel = false) {
+    console.log(params);
     const response: any = await api.request({
-      url: `/services/category`,
+      url: `/services/category`+params,
       method: "get",
       // retrieving the signal value by using the property name
       signal: undefined,

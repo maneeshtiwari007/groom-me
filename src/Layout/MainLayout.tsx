@@ -1,7 +1,5 @@
 import { Component } from "react";
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from "../Screens/Home";
-import i18n from '../localization/i18n';
 import { ActivityIndicator, DeviceEventEmitter, Image, Pressable, RefreshControl, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { ThemeStyling } from "../utilty/styling/Styles";
 import LayoutInterface from "../Interfaces/Common/LayoutInterface";
@@ -14,8 +12,11 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { HeaderStyling } from "../utilty/styling/HeaderStyling";
 import { CommonHelper } from "../utilty/CommonHelper";
 import InputComponent from "../Components/Common/InputComponent";
+import { StatusBar } from "expo-status-bar";
+import { debounce } from 'lodash';
 const Stack = createStackNavigator();
 export default class MainLayout extends Component<LayoutInterface, LayoutStateInterface>{
+    changeTextDebouncer;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -28,7 +29,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
             userObj: undefined,
             showHeaderText: false,
             isSearchBar: false,
-            scrollEnabled:true
+            scrollEnabled: true
         }
     }
     refreshData() {
@@ -37,14 +38,15 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
         }
     }
     async componentDidMount() {
+        this.changeTextDebouncer = debounce(this.changeTextDebounced, 800);
         const user = await CommonHelper.getUserData();
-        if(this.props.scollEnabled === false){
-            this.setState({scrollEnabled:this.props.scollEnabled});
+        if (this.props.scollEnabled === false) {
+            this.setState({ scrollEnabled: this.props.scollEnabled });
         }
-        if(this.props.route){
-            const index = this.props.navigation.getState()?.routes.findIndex(x=>x.name===this.props.route.name);
-            const prevScreenNameObj = this.props.navigation.getState()?.routes?.[index-1];
-            this.setState({previousScreenName:prevScreenNameObj?.name});
+        if (this.props.route) {
+            const index = this.props.navigation.getState()?.routes.findIndex(x => x.name === this.props.route.name);
+            const prevScreenNameObj = this.props.navigation.getState()?.routes?.[index - 1];
+            this.setState({ previousScreenName: prevScreenNameObj?.name });
 
         }
         this.setState({ showHeaderText: this.props?.showHeaderText, isSearchBar: this.props?.isSearchBar })
@@ -80,10 +82,16 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
             }
         });
     }
+    changeTextDebounced = (text) => {
+        if (this.props?.onSearchCallback) {
+            this.props?.onSearchCallback(text);
+        }
+    }
 
     render() {
         return (
             <>
+                <StatusBar style="light" animated={true} networkActivityIndicatorVisible={true} backgroundColor={Colors.primary_color}></StatusBar>
                 <View style={HeaderStyling.headerContainer}>
                     <View style={HeaderStyling.drawerContainer}>
                         <View style={[{ flexDirection: 'row', alignItems: 'center' }]}>
@@ -94,12 +102,12 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                             }
                             {this.state.canGoBack &&
                                 <>
-                                <Pressable onPress={() => { this.props?.navigation?.goBack() }}>
-                                    <Ionicons name="arrow-back" size={24} color="white" />
-                                </Pressable>
-                                <View style={{ marginLeft:10}}>
-                                    <Text style={ThemeStyling.heading5}>{this.state?.previousScreenName}</Text>
-                                </View>
+                                    <Pressable onPress={() => { this.props?.navigation?.goBack() }}>
+                                        <Ionicons name="arrow-back" size={24} color="white" />
+                                    </Pressable>
+                                    <View style={{ marginLeft: 10 }}>
+                                        <Text style={ThemeStyling.heading5}>{this.state?.previousScreenName}</Text>
+                                    </View>
                                 </>
                             }
                             {this.state?.showHeaderText &&
@@ -110,7 +118,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                         </View>
                         {this.state.isSearchBar &&
                             <View style={{ marginTop: 15 }}>
-                                <TextInput placeholder="Search ..." style={{ height: 40, borderColor: 'white', borderWidth: 1, borderRadius: 8, paddingHorizontal: 15, backgroundColor: 'white' }}></TextInput>
+                                <TextInput onChangeText={this.changeTextDebouncer} placeholder="Search ..." style={{ height: 40, borderColor: 'white', borderWidth: 1, borderRadius: 8, paddingHorizontal: 15, backgroundColor: 'white' }}></TextInput>
                             </View>
                         }
                     </View>
@@ -131,11 +139,12 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                             <ActivityIndicator size="large" color={Colors.primary_color} />
                         </View>
                     }
-
-                    <RefreshControl
-                        refreshing={this.state?.refresh}
-                        onRefresh={this.refreshData.bind(this)}
-                    />
+                    {this.props?.onSearchCallback &&
+                        <RefreshControl
+                            refreshing={this.state?.refresh}
+                            onRefresh={this.refreshData.bind(this)}
+                        />
+                    }
                     {this.props?.headerText &&
                         <View style={[{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 18, marginBottom: 10, paddingLeft: 15 }]}>
                             <View style={{ display: "flex", flexDirection: "row", flex: 1 }}>
