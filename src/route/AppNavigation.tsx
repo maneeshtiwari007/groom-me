@@ -181,12 +181,12 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
           component={Schedule}
         />
         <Drawer.Screen
-          name="Help"
-          component={Profile}
-        />
-        <Drawer.Screen
           name="Review Cart"
           component={ReviewCart}
+        />
+        <Drawer.Screen
+          name="Help"
+          component={Profile}
         />
         <Drawer.Screen
           name="Logout"

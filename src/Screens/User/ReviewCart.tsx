@@ -62,7 +62,7 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                 route={this.props.route}
                 isSearchBar={true}
             >
-                
+                <Text>Review Cart</Text>
             </MainLayout>
         );
     }
