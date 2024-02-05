@@ -230,6 +230,9 @@ export const ThemeStyling = StyleSheet.create({
   col2:{
     width: '18%'
   },
+  col3:{
+    width: '32%'
+  },
   col4: {
     width: '38%'
   },
