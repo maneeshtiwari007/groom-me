@@ -125,5 +125,8 @@ export const CommonHelper = {
     },
     returnPriceWithCurrency(amount){
         return '$'+amount
+    },
+    getHeightPercentage(height:any,percenatge:number){
+        return (height*percenatge)/100;
     }
 }
