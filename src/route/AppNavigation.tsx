@@ -13,7 +13,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import Colors from "../utilty/Colors";
 import Dashboard from "../Screens/Dashboard";
 import Team from "../Screens/Team";
-import Profile from "../Screens/Profile";
+import Profile from "../Screens//User/Profile";
 import WorkorderDetails from "../Screens/WorkorderDetails";
 import Schedule from "../Screens/Schedule";
 import { ThemeStyling } from "../utilty/styling/Styles";
@@ -28,6 +28,9 @@ import OurServices from "../Screens/User/OurServices";
 import ProfLists from "../Screens/User/ProfLists";
 import ProfDetail from "../Screens/User/ProfDetail";
 import ReviewCart from "../Screens/User/ReviewCart";
+import Payment from "../Screens/User/Payment";
+import Settings from "../Screens/User/Settings";
+import Bookings from "../Screens/User/Bookings";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -80,6 +83,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         <Stack.Screen name="Professionals" component={ProfLists} />
         <Stack.Screen name="Professional Detail" component={ProfDetail} />
         <Stack.Screen name="Review Cart" component={ReviewCart} />
+        <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Work" component={Jobsite} />
       </Stack.Navigator>
     );
@@ -119,11 +123,6 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         <Drawer.Screen
           name="WorkOrder"
           component={this.WorkOrderScreen}
-        />
-
-        <Drawer.Screen
-          name="Profile"
-          component={Team}
         />
         <Drawer.Screen
           name="Schedule"
@@ -173,16 +172,28 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         />
 
         <Drawer.Screen
-          name="Profile"
-          component={Team}
-        />
-        <Drawer.Screen
           name="Schedule"
           component={Schedule}
         />
         <Drawer.Screen
           name="Review Cart"
           component={ReviewCart}
+        />
+        <Drawer.Screen
+          name="Payment"
+          component={Payment}
+        />
+        <Drawer.Screen
+          name="Settings"
+          component={Settings}
+        />
+        <Drawer.Screen
+          name="Bookings"
+          component={Bookings}
+        />
+        <Drawer.Screen
+          name="Profile"
+          component={Profile}
         />
         <Drawer.Screen
           name="Help"
@@ -243,7 +254,7 @@ export const CustomDrawerContent = (props) => {
           Header
         </Text>
       </View>
-      <DrawerContentScrollView {...props} style={{ backgroundColor:'green',top:0 }}>
+      <DrawerContentScrollView {...props} style={{ top:0 }}>
         <DrawerItemList {...props}/>
       </DrawerContentScrollView>
       <View
