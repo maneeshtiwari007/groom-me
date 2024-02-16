@@ -29,7 +29,7 @@ export default class ProfInformationComponent extends Component<ScreenInterfcae,
                         <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>
                             <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/thumbnail3.jpg')} />
                         </View>
-                                             <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:0, alignItems: 'center' }]}>
+                        <View style={[ThemeStyling.galleryItem, {width:'21%', marginRight:0, alignItems: 'center' }]}>
                             <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width:70, height:70, borderColor: Colors.gray200}]} source={require('../../assets/staticimages/default.jpg')} />
                         </View>
                        <View style={[ThemeStyling.galleryItem, {width:'21%', marginHorizontal:5, alignItems: 'center' }]}>

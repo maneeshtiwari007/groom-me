@@ -1,5 +1,5 @@
 import React, { Component, } from "react";
-import { AntDesign, Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Feather, MaterialCommunityIcons, Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -7,7 +7,7 @@ import {
   FontAwesome5
 } from "@expo/vector-icons";
 import { StyleSheet, NativeModules, Image, Text, View } from "react-native";
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { SimpleLineIcons, Entypo } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 // import {transparent} from "react-native-papger/lib/typescript/src/styles/themes/v2/colors";
 import Colors from "../utilty/Colors";
@@ -155,53 +155,130 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
           component={this.HomeScreen}
           options={{
             drawerIcon: ({ focused, size }) => (
-              <Ionicons
+              <SimpleLineIcons
                 name="home"
                 size={size}
-                color={'#cf453d'}
+                color={Colors.primary_color}
               />
             ),
             drawerLabel: () => (
-              <Text style={{ color: '#cf453d' }}>Home User</Text>
+              <Text style={{ color: Colors.primary_color }}>Home</Text>
             ),
           }}
         />
         <Drawer.Screen
           name="WorkOrder"
           component={this.WorkOrderScreen}
+          options={{
+            drawerIcon: ({ focused, size }) =>(
+              <FontAwesome
+                name="scissors"
+                size={size}
+                color={Colors.gray_color}
+              />
+            ),
+            drawerLabel: () => (
+              <Text style={{ color: Colors.gray_color }}>Work Order</Text>
+            ),
+          }}
         />
 
         <Drawer.Screen
           name="Schedule"
           component={Schedule}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <AntDesign
+                name="calendar"
+                size={size}
+                color={Colors.gray_color}
+              />
+              
+          }}
         />
         <Drawer.Screen
           name="Review Cart"
           component={ReviewCart}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <AntDesign
+                name="shoppingcart"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
         />
         <Drawer.Screen
           name="Payment"
           component={Payment}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <MaterialCommunityIcons
+                name="card-multiple-outline"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
         />
         <Drawer.Screen
           name="Settings"
           component={Settings}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <Ionicons
+                name="settings-outline"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
         />
         <Drawer.Screen
           name="Bookings"
           component={Bookings}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <Ionicons
+                name="desktop-sharp"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
         />
         <Drawer.Screen
           name="Profile"
           component={Profile}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <SimpleLineIcons
+                name="user"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
         />
         <Drawer.Screen
           name="Help"
           component={Profile}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <MaterialCommunityIcons
+                name="help-circle-outline"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
         />
         <Drawer.Screen
           name="Logout"
           component={this.Logout}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <Feather
+                name="power"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
         />
       </Drawer.Navigator>
     </>)
@@ -244,28 +321,40 @@ export const CustomDrawerContent = (props) => {
     <View style={{ flex: 1 }}>
       <View
         style={{
-          backgroundColor: Colors.primary_color,
-          height: 140,
+          backgroundColor: Colors.white,
+          height: 100,
           alignItems: 'center',
           justifyContent: 'center',
+          borderBottomWidth: 1,
+          borderBottomColor: Colors.gray200,
+          borderStyle: "solid"
         }}
       >
-        <Text style={{ color: 'white', fontSize: 30 }}>
-          Header
-        </Text>
+        <View style={[ThemeStyling.twoColumnLayout, { marginLeft: 10, marginTop: 25, marginBottom: 0 }]}>
+          <View style={[ThemeStyling.col2, { marginRight: 10 }]}>
+            <Image style={[ThemeStyling.cardImage, { borderRadius: 8 }]} source={require('../../assets/staticimages/thumbnail2.jpg')} />
+          </View>
+          <View style={ThemeStyling.col10}>
+            <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>Manish Kumar Tiwari</Text>
+            <Text style={[ThemeStyling.text2, { color: Colors.secondry_color, marginBottom: 0 }]}>maneeshtiwari007@gmail.com</Text>
+          </View>
+        </View>
       </View>
-      <DrawerContentScrollView {...props} style={{ top:0 }}>
-        <DrawerItemList {...props}/>
+      <DrawerContentScrollView {...props} style={{ top: 0 }}>
+        <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View
         style={{
-          height: 140,
+          height: 30,
           alignItems: 'center',
           justifyContent: 'center',
+          borderTopWidth: 1,
+          borderTopColor: Colors.gray200,
+          borderStyle: "solid"
         }}
       >
-        <Text style={{ color: Colors.primary_color, fontSize: 30 }}>
-          Footer
+        <Text style={{ color: Colors.secondry_color, fontSize: 10 }}>
+          App Version: v1.0
         </Text>
       </View>
     </View>

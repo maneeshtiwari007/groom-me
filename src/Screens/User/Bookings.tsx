@@ -60,12 +60,49 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
                 scollEnabled={false}
             >
                 <View style={{ height: Dimensions.get('screen').height - this.find_dimesions() }}>
-                    
-                    <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 10, paddingHorizontal: 15 }]}>
+                    <ScrollView>
+                        <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
+                            <View style={ThemeStyling.card}>
+                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
+                                    <View style={[ThemeStyling.twoColumnLayout]}>
+                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
+                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
+                                        </View>
+                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
+                                            <View style={{ marginBottom: 5 }}>
+                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
+                                                <View style={{ flexDirection: "row", marginBottom: 0 }}>
+                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
+                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
+                                                </View>
+                                                <View style={{ flexDirection: "row", marginBottom: 0 }}>
+                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
+                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
+                                                </View>
+                                                <View style={[ThemeStyling.twoColumnLayout]}>
+                                                    <View>
+                                                        <TouchableOpacity style={[ThemeStyling.btnSuccess, { height: 45, borderRadius: 12 }]}>
+                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Get Direction</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                    <View>
+                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]}>
+                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Cancel</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </ScrollView>
+                    {/* <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 10, paddingHorizontal: 15 }]}>
                         <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]}>
-                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Give Rate</Text>
+                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Book Appointment</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </View>
             </MainLayout >
         );

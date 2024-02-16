@@ -63,7 +63,7 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                     <ScrollView>
                         <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
                             <View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0, paddingTop: 8 }]}>
+                                <View style={[ThemeStyling.cardBody, { padding: 0}]}>
                                     <View style={[ThemeStyling.twoColumnLayout]}>
                                         <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
                                             <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
