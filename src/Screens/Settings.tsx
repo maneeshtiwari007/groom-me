@@ -176,110 +176,11 @@ export default class Profile extends Component<ScreenInterfcae, ProfileScreenInt
         //state changes according to switch
         //which will result in re-render the text
     };
-
-
-
     render() {
         return (
             <MainLayout isTopLogo={false} loader={this.state.loader} onRefresh={() => { this.refreshData() }}>
-                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20, marginHorizontal: 10 }}>
-                    <View style={{ display: "flex", flexDirection: "row", flex: 1 }}>
-                        <TouchableOpacity>
-                            <Ionicons name="close" style={[ThemeStyling.icon2, { fontSize: Colors.FontSize.h2, lineHeight: 30, color: Colors.dark_color, }]} />
-                        </TouchableOpacity>
-                        <Text style={[ThemeStyling.heading3, { marginBottom: 0, paddingBottom: 0, textAlign: "center", flex: 1 }]}>Settings</Text>
-                    </View>
-                    {/* <View>
-                                <Text style={{
-                                    width: 40,
-                                    height: 40,
-                                    borderRadius: 100, shadowColor: '#000',
-                                    shadowOffset: { width: -2, height: 4 },
-                                    shadowOpacity: 0.4,
-                                    shadowRadius: 3,
-                                    backgroundColor: '#fff',
-                                    textAlign: "center",
-                                    lineHeight: 40
-                                }}>
-                                    <Ionicons name="ellipsis-vertical" size={16} style={{ color: Colors.primary_color }} />
-                                </Text>
-                            </View> */}
-                </View>
-                <View style={{ backgroundColor: '#e0eaf4', padding: 10, marginBottom: 8 }}>
-                    <View>
-                        <Text style={[ThemeStyling.heading6, { color: Colors.secondry_color }]}>Pay Periods</Text>
-                    </View>
-                </View>
-                <View style={{ margin: 10, paddingBottom: 10, borderBottomColor: Colors.gray200, borderBottomWidth: 1 }}>
-                    <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between" }]}>
-                        <View>
-                            <Text style={ThemeStyling.heading6}>Schedule</Text>
-                        </View>
-                        <View>
-                            <Text style={[ThemeStyling.heading6, { color: Colors.secondry_color }]}>Weekly</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ margin: 10, paddingBottom: 10 }}>
-                    <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between" }]}>
-                        <View>
-                            <Text style={ThemeStyling.heading6}>Periods Ends</Text>
-                        </View>
-                        <View>
-                            <Text style={[ThemeStyling.heading6, { color: Colors.secondry_color }]}>Every Friday</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={[ThemeStyling.bgInfo, { backgroundColor: '#e0eaf4', padding: 10, marginBottom: 8 }]}>
-                    <View>
-                        <Text style={[ThemeStyling.heading6, { color: Colors.secondry_color }]}>Visual Preferences</Text>
-                    </View>
-                </View>
-                <View style={{ margin: 10, paddingBottom: 10, borderBottomColor: Colors.gray200, borderBottomWidth: 1 }}>
-                    <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between" }]}>
-                        <View>
-                            <Text style={ThemeStyling.heading6}>Duration Format</Text>
-                        </View>
-                        <View>
-                            <Text style={[ThemeStyling.heading6, { color: Colors.secondry_color }]}>Time (8:54)</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ margin: 10, paddingBottom: 10, marginVertical:0 }}>
-                    <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between" }]}>
-                        <View>
-                            <Text style={ThemeStyling.heading6}>Hide empty pay periods</Text>
-                        </View>
-                        <View>
-                            {/*Text to show the text according to switch condition*/}
-                            {/* <Text>{this.state.switchValue ? 'Switch is ON' : 'Switch is OFF'}</Text> */}
-
-                            {/*Switch with value set in constructor*/}
-                            {/*onValueChange will be triggered after switch condition changes*/}
-                            <Switch
-                                onValueChange={this.toggleSwitch}
-                                value={this.state.switchValue}
-                            />
-                        </View>
-                    </View>
-                </View>
-                <View style={[ThemeStyling.bgInfo, { backgroundColor: '#e0eaf4', padding: 10, marginBottom: 8 }]}>
-                    <View>
-                        <Text style={[ThemeStyling.heading6, { color: Colors.secondry_color }]}>Entry Management</Text>
-                    </View>
-                </View>
-                <View style={{ margin: 10, paddingBottom: 10, marginVertical:0 }}>
-                    <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between" }]}>
-                        <View>
-                            <Text style={ThemeStyling.heading6}>Show Entry Labels</Text>
-                        </View>
-                        <View>
-                             <Switch
-                                onValueChange={this.toggleSwitch2}
-                                value={this.state.switchValue2}
-                            />
-                        </View>
-                    </View>
+                <View style={ThemeStyling.container}>
+                    <Text>Hello</Text>
                 </View>
             </MainLayout>
         );

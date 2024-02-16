@@ -131,6 +131,20 @@ export const ThemeStyling = StyleSheet.create({
     paddingLeft: 20,
     borderWidth: 1,
   },
+  formcontrol2: {
+    flex: 1,
+    color: Colors.primary_color,
+    borderStyle: 'solid',
+    borderBottomColor: Colors.gray400,
+    padding: 5,
+    paddingLeft:0,
+    borderBottomWidth: 1
+  },
+  formLabel:{
+    color: Colors.dark_color,
+    fontSize:Colors.FontSize.h6,
+    marginBottom:0
+  },
   inputbtn: {
     position: 'absolute',
     top: 5,
@@ -235,6 +249,9 @@ export const ThemeStyling = StyleSheet.create({
   },
   col4: {
     width: '38%'
+  },
+  col5: {
+    width: '48%'
   },
   col6: {
     width: '55%'
@@ -639,7 +656,8 @@ export const ThemeStyling = StyleSheet.create({
   },
   cardTitle:{
     fontSize:18,
-    fontWeight:"500"
+    fontWeight:"500",
+    color:Colors.primary_color
   },
   cardImageContaiiner:{
     marginBottom:15,
@@ -661,6 +679,26 @@ export const ThemeStyling = StyleSheet.create({
   iconStar:{
     marginRight:5,
     fontSize:Colors.FontSize.f16,
+  },
+  paymentMethod:{
+    width: 120, 
+    minHeight: 100, 
+    justifyContent: "center", 
+    alignItems: "center", 
+    marginBottom: 0, 
+    borderRadius: 12, 
+    backgroundColor: Colors.white,
+    shadowColor: '#000', 
+    shadowOffset: { width: -2, height: 4 }, 
+    shadowOpacity: 0.4, 
+    shadowRadius: 12
+  },
+  paymentSelected:{
+    borderWidth: 1, 
+    borderColor: Colors.primary_color, 
+    borderStyle: "solid",
+    shadowColor:'transparent',
+    shadowOpacity:.1
   }
 });
 
