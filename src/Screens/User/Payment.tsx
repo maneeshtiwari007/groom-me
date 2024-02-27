@@ -67,7 +67,7 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
                             showsHorizontalScrollIndicator={false}>
                             <View style={[ThemeStyling.threeColumnLayout, { borderBottomWidth: 1, borderBlockColor: Colors.secondry_color, borderStyle: "dashed", padding: 15 }]}>
                                 <View style={{ marginRight: 15 }}>
-                                    <View style={[ThemeStyling.paymentMethod, ThemeStyling.paymentSelected]}>
+                                    <View style={[ThemeStyling.paymentMethod]}>
                                         <FontAwesome style={{ marginBottom: 5 }} name="cc-mastercard" size={18} color="red" />
                                         <Text style={[ThemeStyling.text1, { textAlign: "center", fontWeight: '400', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Mastercard</Text>
                                     </View>
@@ -85,7 +85,7 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
                                     </View>
                                 </View>
                                 <View>
-                                    <View style={[ThemeStyling.paymentMethod]}>
+                                    <View style={[ThemeStyling.paymentMethod, ThemeStyling.paymentSelected]}>
                                         <FontAwesome style={{ marginBottom: 5 }} name="cc-paypal" size={18} color="blue" />
                                         <Text style={[ThemeStyling.text1, { textAlign: "center", fontWeight: '400', color: Colors.secondry_color, marginBottom: 0, marginLeft: 5 }]}>Paypal</Text>
                                     </View>
@@ -96,7 +96,7 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
                     <ScrollView>
                         <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
                             {/*Start Master Card */}
-                            <View>
+                            {/* <View>
                                 <View style={{ marginBottom: 15 }}>
                                     <Text style={ThemeStyling.formLabel}>Card holder Name</Text>
                                     <TextInput style={ThemeStyling.formcontrol2} placeholder="Enter your card holder Name"></TextInput>
@@ -119,10 +119,10 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
                                         </View>
                                     </View>
                                 </View>
-                            </View>
+                            </View> */}
                             {/* End Master Card */}
                             {/* Start Google Pay */}
-                            <View style={{ marginBottom: 20 }}>
+                            {/* <View style={{ marginBottom: 20 }}>
                                 <View style={{ alignItems: "center", marginBottom: 15 }}>
                                     <FontAwesome6 style={{ marginBottom: 0 }} name="google-pay" size={42} color="orange" />
                                     <Text style={[ThemeStyling.heading5, { fontWeight: '400', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Pay with google Pay</Text>
@@ -130,7 +130,7 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
                                 <View>
                                     <TextInput style={ThemeStyling.formcontrol} placeholder="Enter your UPI ID"></TextInput>
                                 </View>
-                            </View>
+                            </View> */}
                             {/* End Google Pay */}
                             {/* Start Paypal */}
                             <View>
