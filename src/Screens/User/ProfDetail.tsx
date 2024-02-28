@@ -3,7 +3,7 @@ import { FontAwesome, Ionicons, AntDesign, FontAwesome5 } from '@expo/vector-ico
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, StyleSheet, ImageBackground, Dimensions, Pressable } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageBackground, Dimensions, Pressable, Button } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -17,6 +17,8 @@ import { TabBar, TabView } from 'react-native-tab-view';
 import ProfServicesComponent from "../../Components/ProfServicesComponent";
 import ProfInformationComponent from "../../Components/ProfInformationComponent";
 import ProfReviewComponent from "../../Components/ProfReviewComponent";
+import { CommonHelper } from "../../utilty/CommonHelper";
+import ButtonComponent from "../../Components/Common/ButtonComponent";
 export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -28,6 +30,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
                 { key: '2', title: 'Information' },
                 { key: '3', title: 'Review' },
             ],
+
         }
     }
     async componentDidMount() {
@@ -48,7 +51,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
     _renderScene = ({ route }) => {
         switch (route.key) {
             case '1':
-                return <ProfServicesComponent data={this.state?.dataObj}></ProfServicesComponent>;
+                return <ProfServicesComponent data={this.state?.dataObj} onClickResponse={(data)=>{this.setState({commonData:data?.data});}}></ProfServicesComponent>;
             case '2':
                 return <ProfInformationComponent></ProfInformationComponent>;
             case '3':
@@ -65,7 +68,9 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
             style={{ backgroundColor: 'white', paddingTop: 5, paddingBottom: 5, borderColor: Colors.primary_color }}
         />
     );
-
+    ContinueBooking(){
+        this.props?.navigation?.navigate("Review Cart",{data:this.state?.commonData,prof:this.state?.dataObj?.users})
+    }
     render() {
         return (
             <MainLayout scollEnabled={false} onRefresh={() => { }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 0.5 }} navigation={this.props.navigation} route={this.props.route}>
@@ -114,15 +119,19 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
                                 </View>
                             </View>
                         </View>
-                        <TabView
-                            navigationState={{ index: this.state.index, routes: this.state.routes }}
-                            renderScene={this._renderScene}
-                            onIndexChange={index => this.setState({ index })}
-                            initialLayout={{ width: Dimensions.get('window').width }}
-                            style={{ height: Dimensions.get('screen').height / 2 - 90 }}
-                            renderTabBar={this._renderTabBar}
-
-                        />
+                        <View style={{ height:Dimensions.get('screen').height-CommonHelper.getHeightPercentage(Dimensions.get('screen').height,46.7) }}>
+                            <TabView
+                                navigationState={{ index: this.state.index, routes: this.state.routes }}
+                                renderScene={this._renderScene}
+                                onIndexChange={index => this.setState({ index })}
+                                initialLayout={{ width: Dimensions.get('window').width }}
+                                style={{ height: (Dimensions.get('screen').height / 2)-CommonHelper.getHeightPercentage(Dimensions.get('screen').height,0.09) }}
+                                renderTabBar={this._renderTabBar}
+                            />
+                        </View>
+                        <View>
+                            <ButtonComponent title="Continue" onPressCall={()=>{this.ContinueBooking()}} isDisabled={(this.state?.commonData?.length > 0)?'false':'true'}></ButtonComponent>
+                        </View>
                     </>
                 }
             </MainLayout>

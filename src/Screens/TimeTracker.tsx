@@ -50,7 +50,6 @@ export default class Workorder extends Component<ScreenInterfcae, WorkorderState
             job_site_id: this.props?.route?.params?.machine?.job_site_id,
         }
         CommonApiRequest.getTodaysTimerLog(objApiData).then((response) => {
-            console.log(response)
             this.setState({ loader: false });
             if (response?.status == 200) {
                 this.setState({
@@ -64,7 +63,6 @@ export default class Workorder extends Component<ScreenInterfcae, WorkorderState
         })
     }
     async startTimer() {
-        //console.log(this.state.clockInId);
         //if (this.state.clockInId) {
             this.setState({ loader: true });
             let location = await Location.getCurrentPositionAsync({});
@@ -78,7 +76,6 @@ export default class Workorder extends Component<ScreenInterfcae, WorkorderState
             CommonApiRequest.startLogTimer(objApiData).then((response) => {
                 this.setState({ loader: false });
                 this.getApiData();
-                console.log(response);
                 if (response?.status == 200 || response?.status == 500) {
                     this.setState({ isStarted: true });
                     this.setState({ clockedInStartTime: response?.results?.job_start_time, clockInId: response?.results?.id });
@@ -103,7 +100,6 @@ export default class Workorder extends Component<ScreenInterfcae, WorkorderState
             }
             CommonApiRequest.endLogTimer(objApiData).then((response) => {
                 this.setState({ loader: false });
-                console.log(response);
                 if (response?.status == 200 || response?.status == 500) {
                     this.setState({ isStarted: false });
                     this.setState({ clockedInStartTime: undefined, clockInId: undefined });

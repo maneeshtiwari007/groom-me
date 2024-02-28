@@ -150,7 +150,6 @@ export const CommonApiRequest = {
     return response?.data;
   },
   getServiceCategory: async function (params: any, cancel = false) {
-    console.log(params);
     const response: any = await api.request({
       url: `/services/category`+params,
       method: "get",
@@ -185,6 +184,27 @@ export const CommonApiRequest = {
     const response: any = await api.request({
       url: `/professional/details/`+params,
       method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getUserBookingList: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/user/booking/list?`+params,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getPriceCalculated: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/user/servicesPrice`,
+      method: "POST",
+      data:params,
       // retrieving the signal value by using the property name
       signal: undefined,
     });

@@ -12,5 +12,6 @@ export default interface LayoutInterface {
     showHeaderText?:boolean,
     isSearchBar?:boolean,
     scollEnabled?:boolean,
-    onSearchCallback?:any
+    onSearchCallback?:any,
+    otherText?:string
 }

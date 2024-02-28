@@ -9,5 +9,8 @@ export default interface CommonScreenStateInterface{
     type?:any,
     index?:number,
     routes?:any,
-    navigation?:any
+    navigation?:any,
+    commonData?:any,
+    count?:any,
+    otherData?:any
 }

@@ -36,7 +36,6 @@ export default class Profile extends Component<ScreenInterfcae, CommonScreenStat
         //     }
         // }).catch((error) => {
         //     this.setState({ loader: false })
-        //     console.log(error);
         // })
     }
     getMarkerView() {

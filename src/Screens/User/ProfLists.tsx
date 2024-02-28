@@ -28,10 +28,16 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
         this.setState({ loader: true })
         await this.getApiData();
     }
-    async getApiData() {
+    async getApiData(search:any=undefined) {
         const location = await Location.getCurrentPositionAsync({});
         this.setState({ location: location })
-        const params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude + "&cat=" + this.props?.route?.params?.data?.id
+        let params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude
+        if(this.props?.route?.params?.data?.id){
+            params= params+"&cat=" + this.props?.route?.params?.data?.id
+        }
+        if(search){
+            params= params+"&q=" +search;
+        }
         CommonApiRequest.getProfListsForUser(params).then((response: any) => {
             this.setState({ loader: false })
             if (response?.status == 200) {
@@ -39,7 +45,6 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
             }
         }).catch((error) => {
             this.setState({ loader: false })
-            console.log(error);
         })
     }
     getMarkerView() {
@@ -51,6 +56,10 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
         this.state.dataObj[index].isFav = isFav;
         this.setState({ dataObj: this.state.dataObj })
     }
+    searchCategory(text){
+        this.setState({ loader: true })
+        this.getApiData(text);
+    }
     render() {
         return (
             <MainLayout
@@ -61,6 +70,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                 navigation={this.props.navigation}
                 route={this.props.route}
                 isSearchBar={true}
+                onSearchCallback={(data)=>{this.searchCategory(data)}}
             >
                 <View style={{ width: '100%'}}>
                     <View style={{ flexDirection: "row" }}>

@@ -105,28 +105,39 @@ export const CommonHelper = {
             return "";
         }
     },
-    getCurrentDate(){
+    getCurrentDate() {
         var myDateObj = new Date();
         const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][myDateObj.getMonth()]
         const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
-        "Sunday"][myDateObj.getDay()]
-        return day+", "+myDateObj.getDate() + " " + month + " " +myDateObj.getFullYear();
+            "Sunday"][myDateObj.getDay()]
+        return day + ", " + myDateObj.getDate() + " " + month + " " + myDateObj.getFullYear();
     },
-    getClockType(data:any){
-        if(data?.type_id===1){
+    getClockType(data: any) {
+        if (data?.type_id === 1) {
             return <MaterialCommunityIcons name="timer-outline" size={18} style={{ color: Colors.primary_color }} />
         } else {
             return <MaterialCommunityIcons name="timer-off-outline" size={18} style={{ color: Colors.errorColor }} />
         }
     },
-    returnDistanceWithUnit(data:any){
-        return data+" k.m"
+    returnDistanceWithUnit(data: any) {
+        return data + " k.m"
     },
-    returnPriceWithCurrency(amount){
-        return '$'+amount
+    returnPriceWithCurrency(amount) {
+        return '$' + amount
     },
-    getHeightPercentage(height:any,percenatge:number){
-        return (height*percenatge)/100;
+    getHeightPercentage(height: any, percenatge: number) {
+        return (height * percenatge) / 100;
+    },
+    getTotalPriceCount: async function (data: any) {
+        var countPrice: any = 0
+        if (data) {
+            for (var i = 0; i <= data?.length; i++) {
+                if (data[i]?.price) {
+                    countPrice = parseInt(countPrice) + parseInt(data[i]?.price);
+                }
+            }
+        }
+        return CommonHelper.returnPriceWithCurrency(countPrice)
     }
 }

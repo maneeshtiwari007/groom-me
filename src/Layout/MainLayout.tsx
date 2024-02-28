@@ -39,6 +39,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
     }
     async componentDidMount() {
         this.changeTextDebouncer = debounce(this.changeTextDebounced, 800);
+        const checkRoutes = ["Bookings","Home","Settings"]
         const user = await CommonHelper.getUserData();
         if (this.props.scollEnabled === false) {
             this.setState({ scrollEnabled: this.props.scollEnabled });
@@ -62,11 +63,11 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
             } else {
                 this.setState({ canGoBack: false })
             }
-            if (this.props?.route?.name === 'Home') {
+            if (checkRoutes?.includes(this.props?.route?.name)) {
                 this.setState({ canGoBack: false })
             }
         });
-        if (this.props?.route?.name === 'Home') {
+        if (checkRoutes?.includes(this.props?.route?.name)) {
             this.setState({ canGoBack: false })
         }
         DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, (data: any) => {
@@ -113,6 +114,11 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                             {this.state?.showHeaderText &&
                                 <View style={{ marginLeft: 10 }}>
                                     <Text style={ThemeStyling.heading5}>Hi, {this.state?.userObj?.name}</Text>
+                                </View>
+                            }
+                            {this.props?.otherText &&
+                                <View style={{ marginLeft: 10 }}>
+                                    <Text style={ThemeStyling.heading5}>{this.props?.otherText}</Text>
                                 </View>
                             }
                         </View>

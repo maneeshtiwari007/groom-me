@@ -37,7 +37,6 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
         //     }
         // }).catch((error) => {
         //     this.setState({ loader: false })
-        //     console.log(error);
         // })
     }
     getMarkerView() {
@@ -68,28 +67,11 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
                             <View style={[ThemeStyling.threeColumnLayout, { borderBottomWidth: 1, borderBlockColor: Colors.secondry_color, borderStyle: "dashed", padding: 15 }]}>
                                 <View style={{ marginRight: 15 }}>
                                     <View style={[ThemeStyling.paymentMethod]}>
-                                        <FontAwesome style={{ marginBottom: 5 }} name="cc-mastercard" size={18} color="red" />
-                                        <Text style={[ThemeStyling.text1, { textAlign: "center", fontWeight: '400', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Mastercard</Text>
+                                        <FontAwesome style={{ marginBottom: 5 }} name="cc-stripe" size={18} color="red" />
+                                        <Text style={[ThemeStyling.text1, { textAlign: "center", fontWeight: '400', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Stripe</Text>
                                     </View>
                                 </View>
-                                <View style={{ marginRight: 15 }}>
-                                    <View style={[ThemeStyling.paymentMethod]}>
-                                        <Fontisto style={{ marginBottom: 5 }} name="american-express" size={18} color="blue" />
-                                        <Text style={[ThemeStyling.text1, { textAlign: "center", fontWeight: '400', color: Colors.secondry_color, marginBottom: 0, marginLeft: 5 }]}>American Express</Text>
-                                    </View>
-                                </View>
-                                <View style={{ marginRight: 15 }}>
-                                    <View style={[ThemeStyling.paymentMethod]}>
-                                        <FontAwesome6 style={{ marginBottom: 0 }} name="google-pay" size={32} color="orange" />
-                                        <Text style={[ThemeStyling.text1, { textAlign: "center", fontWeight: '400', color: Colors.secondry_color, marginBottom: 0, marginLeft: 5 }]}>Google Pay</Text>
-                                    </View>
-                                </View>
-                                <View>
-                                    <View style={[ThemeStyling.paymentMethod, ThemeStyling.paymentSelected]}>
-                                        <FontAwesome style={{ marginBottom: 5 }} name="cc-paypal" size={18} color="blue" />
-                                        <Text style={[ThemeStyling.text1, { textAlign: "center", fontWeight: '400', color: Colors.secondry_color, marginBottom: 0, marginLeft: 5 }]}>Paypal</Text>
-                                    </View>
-                                </View>
+                                
                             </View>
                         </ScrollView>
                     </View>

@@ -34,6 +34,7 @@ api.interceptors.response.use(
 // defining a custom error handler for all APIs
 const errorHandler = (error:any) => {
   const statusCode = error.response?.status;
+  //console.log(error.response);
   // logging only errors that are not 401
   if (statusCode && statusCode === 405) {
     DeviceEventEmitter.emit(ConstantsVar.API_ERROR,{color:Colors.errorColor,msgData:{head:'Error',subject:'Something went wronf please try after some time!'}})

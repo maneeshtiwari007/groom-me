@@ -29,7 +29,6 @@ export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenS
         //this.props.navigation.navigate("AppContainer");
         this.setState({ loader: true });
         CommonApiRequest.loginUser(this.state).then((response: any) => {
-            console.log(response);
             this.setState({ loader: false });
             this.setState({ isDisable: false });
             if (response?.code == 200) {

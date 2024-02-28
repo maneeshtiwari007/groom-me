@@ -30,7 +30,6 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
             }
         }).catch((error)=>{
             this.setState({loader:false})
-            console.log(error);
         })
     }
     searchCategory(text:string){

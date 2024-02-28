@@ -635,7 +635,7 @@ export const ThemeStyling = StyleSheet.create({
     marginBottom:1
   },
   cardWithBorder:{
-    borderWidth:1,
+    borderWidth:0,
     borderColor:Colors.primary_color,
     borderStyle:"solid",
     borderRadius:10,
@@ -646,7 +646,11 @@ export const ThemeStyling = StyleSheet.create({
     marginBottom:12,
     padding:15,
     alignItems:'center',
-    justifyContent:'center'
+    justifyContent:'center',
+    backgroundColor:'white',
+    shadowColor: "white",
+    shadowOpacity: 0.1,  
+    shadowRadius: 3
   },
   cardContainer:{
     flexDirection:"row",

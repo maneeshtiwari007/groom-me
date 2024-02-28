@@ -48,7 +48,6 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
   async componentDidMount() {
     const user = await CommonHelper.getUserData();
     this.setState({ user: user });
-    //this.RegisterStackNavigator()
   }
   Logout = () => {
     CommonHelper.logoutUser();
@@ -85,6 +84,11 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         <Stack.Screen name="Review Cart" component={ReviewCart} />
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Work" component={Jobsite} />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     );
   }
@@ -146,8 +150,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
     return (<>
       <Drawer.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{ headerShown: false, headerStyle: { backgroundColor: Colors.primary_color } }}
-        backBehavior="history"
+        screenOptions={{ headerShown: false, headerStyle: { backgroundColor: Colors.primary_color },unmountOnBlur:true }}
         drawerContent={props => <CustomDrawerContent {...props} />}
       >
         <Drawer.Screen
@@ -167,8 +170,8 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
           }}
         />
         <Drawer.Screen
-          name="WorkOrder"
-          component={this.WorkOrderScreen}
+          name="Professionals"
+          component={ProfLists}
           options={{
             drawerIcon: ({ focused, size }) =>(
               <FontAwesome
@@ -178,7 +181,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               />
             ),
             drawerLabel: () => (
-              <Text style={{ color: Colors.gray_color }}>Work Order</Text>
+              <Text style={{ color: Colors.gray_color }}>Professionals</Text>
             ),
           }}
         />
@@ -263,18 +266,6 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
             drawerIcon: ({ focused, size }) =>
               <MaterialCommunityIcons
                 name="help-circle-outline"
-                size={size}
-                color={Colors.secondry_color}
-              />
-          }}
-        />
-        <Drawer.Screen
-          name="Logout"
-          component={this.Logout}
-          options={{
-            drawerIcon: ({ focused, size }) =>
-              <Feather
-                name="power"
                 size={size}
                 color={Colors.secondry_color}
               />

@@ -5,5 +5,6 @@ export default interface ScreenInterfcae{
     location?:any;
     didUpdate?:func;
     onClickResponse?:func
-    isOnPressed?:boolean
+    isOnPressed?:boolean,
+    isArchive?:boolean,
 }

@@ -13,6 +13,7 @@ import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 import Colors from "../../utilty/Colors";
 import * as Location from 'expo-location';
 import { CommonHelper } from "../../utilty/CommonHelper";
+import BookingCard from "../../Components/Common/BookingCard";
 export default class Bookings extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -22,22 +23,22 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
         }
     }
     async componentDidMount() {
-        //this.setState({ loader: true })
+        this.setState({ loader: true })
         await this.getApiData();
     }
     async getApiData() {
         //const location = await Location.getCurrentPositionAsync({});
-        // this.setState({ location: location })
-        // const params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude + "&cat=" + this.props?.route?.params?.data?.id
-        // CommonApiRequest.getProfListsForUser(params).then((response: any) => {
-        //     this.setState({ loader: false })
-        //     if (response?.status == 200) {
-        //         this.setState({ dataObj: response?.results })
-        //     }
-        // }).catch((error) => {
-        //     this.setState({ loader: false })
-        //     console.log(error);
-        // })
+        //this.setState({ location: location })
+        //const params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude + "&cat=" + this.props?.route?.params?.data?.id
+        CommonApiRequest.getUserBookingList("").then((response: any) => {
+            
+            this.setState({ loader: false })
+            if (response?.status == 200) {
+                this.setState({ dataObj: response?.result })
+            }
+        }).catch((error) => {
+            this.setState({ loader: false })
+        })
     }
     getMarkerView() {
         if (this.state?.dataObj?.length) {
@@ -51,318 +52,20 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
         return (
             <MainLayout
                 onRefresh={() => { this.getApiData() }}
-                headerText=""
+                otherText="Booking Lists"
                 loader={this.state?.loader}
                 containerStyle={{ paddingTop: 1 }}
                 navigation={this.props.navigation}
                 route={this.props.route}
                 isSearchBar={true}
-                scollEnabled={false}
+                scollEnabled={true}
             >
-                <View style={{ height: Dimensions.get('screen').height - this.find_dimesions() }}>
+                <View>
                     <ScrollView>
                         <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
-                            <View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View><View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View><View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View><View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View><View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View><View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={ThemeStyling.card}>
-                                <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, {alignItems:"center"}]}>
-                                        <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={require('../../../assets/staticimages/default.jpg')} />
-                                        </View>
-                                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>Salon irdescent</Text>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Shop 103/16 Lonsdale St, Braddon ACT 2612, Australia</Text></View>
-                                                </View>
-                                                <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                                    <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>25 March 2022 (9:00AM)</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.twoColumnLayout,{marginBottom:0}]}>
-                                                    <View style={{marginRight:10}}>
-                                                        <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View>
-                                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal:8, paddingVertical:6 }]}>
-                                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View>
+                            {this.state?.dataObj && this.state?.dataObj?.map((item,key)=>{
+                                return <BookingCard data={item} key={key} isArchive={true}></BookingCard>
+                            })}
                         </View>
                     </ScrollView>
                     {/* <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 10, paddingHorizontal: 15 }]}>

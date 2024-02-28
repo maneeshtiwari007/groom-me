@@ -36,7 +36,6 @@ export default class Settings extends Component<ScreenInterfcae, CommonScreenSta
         //     }
         // }).catch((error) => {
         //     this.setState({ loader: false })
-        //     console.log(error);
         // })
     }
     getMarkerView() {
@@ -74,7 +73,7 @@ export default class Settings extends Component<ScreenInterfcae, CommonScreenSta
         return (
             <MainLayout
                 onRefresh={() => { this.getApiData() }}
-                headerText=""
+                otherText="Settings"
                 loader={this.state?.loader}
                 containerStyle={{ paddingTop: 1 }}
                 navigation={this.props.navigation}
