@@ -31,6 +31,7 @@ import ReviewCart from "../Screens/User/ReviewCart";
 import Payment from "../Screens/User/Payment";
 import Settings from "../Screens/User/Settings";
 import Bookings from "../Screens/User/Bookings";
+import SelectAddress from "../Screens/User/SelectAddress";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -170,8 +171,8 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
           }}
         />
         <Drawer.Screen
-          name="Professionals"
-          component={ProfLists}
+          name="Address"
+          component={SelectAddress}
           options={{
             drawerIcon: ({ focused, size }) =>(
               <FontAwesome
@@ -181,7 +182,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               />
             ),
             drawerLabel: () => (
-              <Text style={{ color: Colors.gray_color }}>Professionals</Text>
+              <Text style={{ color: Colors.gray_color }}>Address</Text>
             ),
           }}
         />
