@@ -143,6 +143,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                     {this.props?.loader &&
                         <View style={ThemeStyling.loader}>
                             <ActivityIndicator size="large" color={Colors.primary_color} />
+                            <Text style={{color:'white'}}>Please wait..</Text>
                         </View>
                     }
                     {this.props?.onSearchCallback &&

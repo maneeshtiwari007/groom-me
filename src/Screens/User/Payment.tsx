@@ -3,7 +3,7 @@ import { FontAwesome, FontAwesome6, MaterialCommunityIcons, Feather, FontAwesome
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, Dimensions, Pressable, TextInput} from 'react-native';
+import { View, Text, Image, Dimensions, Pressable, TextInput } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -14,12 +14,22 @@ import Colors from "../../utilty/Colors";
 import * as Location from 'expo-location';
 import { CommonHelper } from "../../utilty/CommonHelper";
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
-export default class Payment extends Component<ScreenInterfcae, CommonScreenStateInterface>{
+import usePaymentHook from '../../utilty/usePaymentHook';
+import {
+    BillingDetails,
+    CardField,
+    CardFieldInput,
+    CardForm,
+    StripeProvider,
+    useStripe,
+} from '@stripe/stripe-react-native';
+import PaymentStateInterface from "../../Interfaces/States/PaymentStateInterface";
+export default class Payment extends Component<ScreenInterfcae, PaymentStateInterface>{
+    publishableKey = "pk_test_x923gp2pqkT8utgAVRjfLHNY";
     constructor(props: any) {
         super(props);
         this.state = {
             loader: false,
-            type: 'map',
         }
     }
     async componentDidMount() {
@@ -27,17 +37,8 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
         await this.getApiData();
     }
     async getApiData() {
-        //const location = await Location.getCurrentPositionAsync({});
-        // this.setState({ location: location })
-        // const params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude + "&cat=" + this.props?.route?.params?.data?.id
-        // CommonApiRequest.getProfListsForUser(params).then((response: any) => {
-        //     this.setState({ loader: false })
-        //     if (response?.status == 200) {
-        //         this.setState({ dataObj: response?.results })
-        //     }
-        // }).catch((error) => {
-        //     this.setState({ loader: false })
-        // })
+        await this.setUpIntent()
+
     }
     getMarkerView() {
         if (this.state?.dataObj?.length) {
@@ -46,6 +47,31 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
     }
     find_dimesions() {
         return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 21.5)
+    }
+    async addCard() {
+        const billingDetails: BillingDetails = {
+            email: 'test096343rnhyg@gmail.com',
+            name: 'Test-test096343rnhyg',
+
+        };
+        this.setState({loader:true})
+        CommonApiRequest.startPayment(this.state.dataObj?.client_secret, billingDetails, this.state.dataObj?.id).then((response) => {
+            console.log("Payment")
+            console.log(response);
+            this.setState({loader:false})
+        }).catch(()=>{
+            this.setState({loader:false})
+        })
+    }
+    async setUpIntent() {
+        this.setState({loader:true})
+        const params = { amount: this.props.route?.params?.otherData?.totalamount };
+        CommonApiRequest.createStripeIntent(params).then((response) => {
+            this.setState({loader:false})
+            this.setState({ dataObj: response?.result })
+        }).catch(()=>{
+            this.setState({loader:false})
+        })
     }
     render() {
         return (
@@ -71,12 +97,25 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
                                         <Text style={[ThemeStyling.text1, { textAlign: "center", fontWeight: '400', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Stripe</Text>
                                     </View>
                                 </View>
-                                
+
                             </View>
                         </ScrollView>
                     </View>
                     <ScrollView>
                         <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
+                            <StripeProvider publishableKey={this.publishableKey} urlScheme="https://fw.kurieta.ca/">
+                                <CardForm
+                                    onFormComplete={(cardDetails) => {
+                                        console.log('card details', cardDetails);
+                                        this.setState({ card: cardDetails })
+
+                                    }}
+                                    style={{ height: 200 }}
+                                />
+                                <Pressable onPress={() => this.addCard()}>
+                                    <Text>Add Card to Wallet</Text>
+                                </Pressable>
+                            </StripeProvider>
                             {/*Start Master Card */}
                             {/* <View>
                                 <View style={{ marginBottom: 15 }}>
@@ -115,21 +154,28 @@ export default class Payment extends Component<ScreenInterfcae, CommonScreenStat
                             </View> */}
                             {/* End Google Pay */}
                             {/* Start Paypal */}
-                            <View>
+                            {/* <View>
                                 <View style={{ alignItems: "center", marginBottom: 15 }}>
                                     <FontAwesome name="cc-paypal" size={42} color="blue" />
                                 </View>
                                 <View>
                                     <TextInput style={ThemeStyling.formcontrol} placeholder="Enter your e-mail id"></TextInput>
                                 </View>
-                            </View>
+                            </View> */}
                             {/* End Paypal */}
                         </View>
                     </ScrollView>
                     <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 10, paddingHorizontal: 15 }]}>
-                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]}>
-                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Payment</Text>
-                        </TouchableOpacity>
+                        {!this.state?.card &&
+                            <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, opacity: 0.5 }]} onPress={() => this.addCard()} disabled={(this.state?.card) ? false : true}>
+                                <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Payment</Text>
+                            </TouchableOpacity>
+                        }
+                        {this.state?.card &&
+                            <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]} onPress={() => this.addCard()}>
+                                <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Payment</Text>
+                            </TouchableOpacity>
+                        }
                     </View>
                 </View>
             </MainLayout >
