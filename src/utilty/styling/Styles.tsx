@@ -241,6 +241,9 @@ export const ThemeStyling = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row"
   },
+  col1:{
+    width: '8%'
+  },
   col2:{
     width: '18%'
   },
@@ -261,6 +264,9 @@ export const ThemeStyling = StyleSheet.create({
   },
   col10: {
     width: '78%',
+  },
+  col11: {
+    width: '88%',
   },
   text2: {
     fontSize: Colors.FontSize.f12,
