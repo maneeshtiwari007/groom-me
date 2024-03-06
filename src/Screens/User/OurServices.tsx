@@ -24,7 +24,7 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
     async getApiData(params:any={}){
         const urlParams = (params)?'?' + new URLSearchParams(params).toString():'';
         CommonApiRequest.getServiceCategory(urlParams).then((response:any)=>{
-            this.setState({loader:false})
+            this.setState({loader:false});
             if(response?.status==200){
                 this.setState({dataObj:response?.results})
             }

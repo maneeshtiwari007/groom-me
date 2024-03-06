@@ -46,6 +46,10 @@ export default class Profile extends Component<ScreenInterfcae, CommonScreenStat
     find_dimesions() {
         return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 21.5)
     }
+    logout(){
+        CommonHelper.logoutUser();
+        this.props?.navigation.navigate("LoginScreen");
+      }
     render() {
         return (
             <MainLayout
@@ -58,12 +62,12 @@ export default class Profile extends Component<ScreenInterfcae, CommonScreenStat
                 isSearchBar={true}
                 scollEnabled={false}
             >
-                <View style={{ height: Dimensions.get('screen').height - this.find_dimesions() }}>                    
+                <View style={{ height: Dimensions.get('screen').height - this.find_dimesions() }}>    
                     <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 10, paddingHorizontal: 15 }]}>
-                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]}>
-                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Give Rate</Text>
+                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]} onPress={()=>{this.logout()}}>
+                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Logout</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View>   
                 </View>
             </MainLayout >
         );
