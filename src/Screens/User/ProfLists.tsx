@@ -20,7 +20,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
         super(props);
         this.state = {
             loader: false,
-            type: 'map',
+            type: 'list',
         }
     }
     async componentDidMount() {
@@ -31,6 +31,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
     async getApiData(search:any=undefined) {
         const location = await Location.getCurrentPositionAsync({});
         this.setState({ location: location })
+        console.log(await Location.reverseGeocodeAsync({latitude:location?.coords?.latitude,longitude:location?.coords?.longitude}));
         let params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude
         if(this.props?.route?.params?.data?.id){
             params= params+"&cat=" + this.props?.route?.params?.data?.id
