@@ -19,7 +19,7 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
         }
     }
     async componentDidMount() {
-        
+        console.log(this.props?.location?.coords);
     }
     setMarkerCallOut(objData) {
         this.setState({ dataObj: objData })
@@ -29,7 +29,12 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
             <View style={{ width: '100%', height: '100%' }}>
                 <MapView
                     provider={PROVIDER_GOOGLE}
-                    initialRegion={this.props?.data?.location}
+                    initialRegion={{
+                        latitude: this.props?.location?.coords?.latitude,
+                        longitude: this.props?.location?.coords?.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
                     style={styles.map}
                 >
                     <View>
@@ -50,7 +55,7 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
                         <ProfCard data={this.state.dataObj} navigation={this.props.navigation} didUpdate={(data: any) => {
                             this.state.dataObj.isFav = data;
                             this.setState({ dataObj: this.state.dataObj });
-                        }} isOnPressed={true} onClickResponse={()=>{this.props.navigation.navigate("Professional Detail", { data: this.state.dataObj })}}></ProfCard>
+                        }} isOnPressed={true} onClickResponse={() => { this.props.navigation.navigate("Professional Detail", { data: this.state.dataObj }) }}></ProfCard>
                     </View>
                 }
             </View>

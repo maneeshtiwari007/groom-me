@@ -20,7 +20,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
         super(props);
         this.state = {
             loader: false,
-            type: 'list',
+            type: 'map',
         }
     }
     async componentDidMount() {
@@ -30,8 +30,8 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
     }
     async getApiData(search:any=undefined) {
         const location = await Location.getCurrentPositionAsync({});
-        this.setState({ location: location })
-        console.log(await Location.reverseGeocodeAsync({latitude:location?.coords?.latitude,longitude:location?.coords?.longitude}));
+        this.setState({ location: location });
+        //console.log(await Location.reverseGeocodeAsync({latitude:location?.coords?.latitude,longitude:location?.coords?.longitude}));
         let params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude
         if(this.props?.route?.params?.data?.id){
             params= params+"&cat=" + this.props?.route?.params?.data?.id
@@ -72,13 +72,17 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                 route={this.props.route}
                 isSearchBar={true}
                 onSearchCallback={(data)=>{this.searchCategory(data)}}
+                isTab={true}
+                tabData={[{name:'Map',key:'map'},{name:'List',key:'list'}]}
+                tabDefaultKey={this.state?.type}
+                onClickTab={(changeTab)=>{this.setState({ type:changeTab})}}
             >
-                <View style={{ width: '100%'}}>
+                {/* <View style={{ width: '100%'}}>
                     <View style={{ flexDirection: "row" }}>
                         <Pressable style={{ width: '48%', marginRight: 5 }} onPress={() => { this.setState({ type: 'map' }) }}><Text>Map</Text></Pressable>
                         <Pressable style={{ width: '48%' }} onPress={() => { this.setState({ type: 'list' }) }}><Text>List</Text></Pressable>
                     </View>
-                </View>
+                </View> */}
 
                 {this.state?.type === 'list' &&
                     <View style={ThemeStyling.container}>
@@ -92,7 +96,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                     </View>
                 }
                 {this.state?.type === 'map' && this.state?.dataObj && this.state.location &&
-                    <View style={{ height: Dimensions.get('screen').height - 157, width: Dimensions.get('screen').width, backgroundColor: 'red' }}>
+                    <View style={{ height: Dimensions.get('screen').height - 187, width: Dimensions.get('screen').width, backgroundColor: 'red' }}>
                         <MapCard data={this.state?.dataObj} location={this.state.location} navigation={this.props.navigation}></MapCard>
                     </View>
                 }

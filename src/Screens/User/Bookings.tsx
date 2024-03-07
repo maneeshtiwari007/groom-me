@@ -14,24 +14,22 @@ import Colors from "../../utilty/Colors";
 import * as Location from 'expo-location';
 import { CommonHelper } from "../../utilty/CommonHelper";
 import BookingCard from "../../Components/Common/BookingCard";
+import NoRecordFound from "../../Components/Common/NoRecordFound";
 export default class Bookings extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
             loader: false,
-            type: 'map',
+            type: 'up'
         }
     }
     async componentDidMount() {
         this.setState({ loader: true })
-        await this.getApiData();
+        await this.getApiUpcomingData();
     }
     async getApiData() {
-        //const location = await Location.getCurrentPositionAsync({});
-        //this.setState({ location: location })
-        //const params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude + "&cat=" + this.props?.route?.params?.data?.id
+        this.setState({ loader: true })
         CommonApiRequest.getUserBookingList("").then((response: any) => {
-            
             this.setState({ loader: false })
             if (response?.status == 200) {
                 this.setState({ dataObj: response?.result })
@@ -40,39 +38,73 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
             this.setState({ loader: false })
         })
     }
-    getMarkerView() {
-        if (this.state?.dataObj?.length) {
-
+    async getApiUpcomingData() {
+        this.setState({ loader: true })
+        CommonApiRequest.getUserUpcomingBookingList("").then((response: any) => {
+            this.setState({ loader: false })
+            if (response?.status == 200) {
+                this.setState({ dataObj: response?.result })
+            }
+        }).catch((error) => {
+            this.setState({ loader: false })
+        })
+    }
+    changeTab(type: string = 'up') {
+        console.log(type);
+        this.setState({ type: type });
+        if(type==='up'){
+            this.getApiUpcomingData()
+        } else {
+            this.getApiData();
         }
     }
-    find_dimesions() {
-        return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 21.5)
+    refreshAPiData(){
+        if(this.state.type==='up'){
+            this.getApiUpcomingData()
+        } else {
+            this.getApiData();
+        }
     }
     render() {
         return (
             <MainLayout
-                onRefresh={() => { this.getApiData() }}
+                onRefresh={() => { this.refreshAPiData() }}
                 otherText="Booking Lists"
                 loader={this.state?.loader}
-                containerStyle={{ paddingTop: 1 }}
+                containerStyle={{ paddingTop: 0.1 }}
                 navigation={this.props.navigation}
                 route={this.props.route}
-                isSearchBar={true}
+                isSearchBar={false}
                 scollEnabled={true}
+                isTab={true}
+                tabData={[{name:'Upcoming',key:'up'},{name:'Archive',key:'arc'}]}
+                tabDefaultKey={this.state?.type}
+                onClickTab={(changeTab)=>{this.changeTab(changeTab)}}
             >
+                {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.primary_color }}>
+                    <View style={[(this.state?.type === 'up') ? ThemeStyling.tabActive : {}, { width: '45%', marginRight: 10, justifyContent: 'center', alignItems: 'center' }]}>
+                        <Pressable onPress={() => { this.changeTab('up') }} style={{ width: '100%', alignItems: 'center', paddingVertical: 15 }}>
+                            <Text style={{ color: Colors.white }}>Upcoming</Text>
+                        </Pressable>
+                    </View>
+                    <View style={[(this.state?.type === 'arc') ? ThemeStyling.tabActive : {}, { width: '45%', marginLeft: 10, justifyContent: 'center', alignItems: 'center' }]}>
+                        <Pressable onPress={() => { this.changeTab('arc') }} style={{ width: '100%', alignItems: 'center', paddingVertical: 15 }}>
+                            <Text style={{ color: Colors.white }}>Archive</Text>
+                        </Pressable>
+                    </View>
+                </View> */}
                 <View>
-                    <ScrollView>
-                        <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
-                            {this.state?.dataObj && this.state?.dataObj?.map((item,key)=>{
-                                return <BookingCard data={item} key={key} isArchive={true}></BookingCard>
-                            })}
-                        </View>
-                    </ScrollView>
-                    {/* <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 10, paddingHorizontal: 15 }]}>
-                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]}>
-                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Book Appointment</Text>
-                        </TouchableOpacity>
-                    </View> */}
+                    <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
+                        {this.state?.dataObj && this.state?.dataObj?.map((item, key) => {
+                            return <BookingCard data={item} key={key} isArchive={true}></BookingCard>
+                        })}
+                        {/* <View style={{ minHeight:300,justifyContent:'center',alignItems:'center',flex:1 }}>
+                            <Text style={[ThemeStyling.heading4,{textAlign:'center',color:'black',opacity:1}]}>No data found</Text>
+                        </View> */}
+                        {this.state?.dataObj?.length <= 0 &&
+                            <NoRecordFound data={{head:'No Record found',msg:'There is no data found please try with other'}}></NoRecordFound>
+                        }
+                    </View>
                 </View>
             </MainLayout >
         );

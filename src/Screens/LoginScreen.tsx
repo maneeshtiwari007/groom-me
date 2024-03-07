@@ -88,7 +88,7 @@ export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenS
                                         </TouchableOpacity>
                                     </View>
                                     <View style={[ThemeStyling.footer]}>
-                                        <TouchableOpacity style={[ThemeStyling.btnLink, { display: 'flex', flexDirection: "row", justifyContent: "center" }]}>
+                                        <TouchableOpacity onPress={()=>{this.props?.navigation?.navigate("Register")}} style={[ThemeStyling.btnLink, { display: 'flex', flexDirection: "row", justifyContent: "center" }]}>
                                             <Text>Don't have and account?</Text><Text style={ThemeStyling.btnText2}>Sign up</Text>
                                         </TouchableOpacity>
                                     </View>

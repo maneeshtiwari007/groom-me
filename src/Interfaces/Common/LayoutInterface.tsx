@@ -13,5 +13,9 @@ export default interface LayoutInterface {
     isSearchBar?:boolean,
     scollEnabled?:boolean,
     onSearchCallback?:any,
-    otherText?:string
+    otherText?:string,
+    isTab?:boolean,
+    tabData?:any,
+    onClickTab?:any,
+    tabDefaultKey?:any
 }

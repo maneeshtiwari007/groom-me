@@ -1,0 +1,19 @@
+export default interface RegisterUserInterface{
+    dataObj?:any,
+    userObj?:any,
+    loader?:boolean,
+    email?:any,
+    password?:any,
+    location?:any,
+    index?:any,
+    routes?:any,
+    navigation?:any,
+    phone_no?:any,
+    c_password?:any,
+    role?:any,
+    type?:any,
+    isDisable?:boolean,
+    name?:string,
+    isConfirmPassError?:boolean,
+    confirmPassError?:string
+}

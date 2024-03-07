@@ -39,7 +39,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
     }
     async componentDidMount() {
         this.changeTextDebouncer = debounce(this.changeTextDebounced, 800);
-        const checkRoutes = ["Bookings","Home","Settings"]
+        const checkRoutes = ["Bookings","Home","Settings","Profile","Help"]
         const user = await CommonHelper.getUserData();
         if (this.props.scollEnabled === false) {
             this.setState({ scrollEnabled: this.props.scollEnabled });
@@ -88,7 +88,11 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
             this.props?.onSearchCallback(text);
         }
     }
-
+    tabClickCallBack(data:any){
+        if(this.props?.onClickTab){
+            this.props?.onClickTab(data);
+        }
+    }
     render() {
         return (
             <>
@@ -129,17 +133,25 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                         }
                     </View>
                 </View>
+                {this.props?.isTab && this.props?.tabData?.length > 0 &&
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.primary_color }}>
+                    {this.props?.tabData?.map((item,index)=>{
+                        return <View key={index} style={[(this.props?.tabDefaultKey === item?.key) ? ThemeStyling.tabActive : {},, { width: '45%', marginRight: 10, justifyContent: 'center', alignItems: 'center' }]}>
+                                    <Pressable onPress={()=>{this.tabClickCallBack(item?.key)}} style={{ width: '100%', alignItems: 'center', paddingVertical: 15 }}>
+                                        <Text style={{ color: Colors.white }}>{item?.name}</Text>
+                                    </Pressable>
+                                </View>
+                    })}
+                    
+                </View>
+                }
                 <ScrollView nestedScrollEnabled={true} scrollEnabled={this.state.scrollEnabled} refreshControl={<RefreshControl
                     refreshing={this.state?.refresh}
                     //refresh control used for the Pull to Refresh
                     onRefresh={this.refreshData.bind(this)}
                 />} style={[ThemeStyling.scrollView, this.props?.style]} contentContainerStyle={[this.props.containerStyle, { paddingTop: (this.props.containerStyle?.paddingTop) ? this.props.containerStyle?.paddingTop : 45 }]}>
 
-                    {this.props?.isTopLogo &&
-                        <View style={ThemeStyling.imagecontainer}>
-                            <Image style={ThemeStyling.image} source={require('../../assets/staticimages/logo.png')} />
-                        </View>
-                    }
+                    
                     {this.props?.loader &&
                         <View style={ThemeStyling.loader}>
                             <ActivityIndicator size="large" color={Colors.primary_color} />

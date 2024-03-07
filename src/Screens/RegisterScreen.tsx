@@ -2,43 +2,68 @@ import { Component } from "react";
 import { Text, Button, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions } from "react-native";
 import { ThemeStyling } from "../utilty/styling/Styles";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-export default class RegisterScreen extends Component<{}>{
+import FormGroup from "../Components/Common/FormGroup";
+import InputComponent from "../Components/Common/InputComponent";
+import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
+import CommonScreenStateInterface from "../Interfaces/States/CommonScreenStateInterface";
+import { TabBar, TabView } from "react-native-tab-view";
+import { CommonHelper } from "../utilty/CommonHelper";
+import CustomerRegisterComponent from "../Components/CustomerRegisterComponent";
+import Colors from "../utilty/Colors";
+import ProfRegisterComponent from "../Components/ProfRegisterComponent";
+export default class RegisterScreen extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props) {
         super(props);
+        this.state = {
+            email: '',
+            password: '',
+            phone: '',
+            isDisable: false,
+            loader: false,
+            index: 1,
+            routes: [
+                { key: '1', title: 'Customer' },
+                { key: '2', title: 'Professional' }
+            ],
+        }
     }
-    navigateToLogin() {
-        this.props.navigation.navigate("Login");
+    RegisterUser() {
+
     }
+    upDateMasterState(attr: any, value: any) {
+        this.setState({ [attr]: value });
+    }
+    _renderScene = ({ route }) => {
+        switch (route.key) {
+            case '1':
+                return <CustomerRegisterComponent data={this.state?.dataObj} onClickResponse={(data) => { this.setState({ commonData: data?.data }); }} navigation={this.props.navigation}></CustomerRegisterComponent>;
+            case '2':
+                return <ProfRegisterComponent data={this.state?.dataObj} onClickResponse={(data) => { this.setState({ commonData: data?.data }); }} navigation={this.props.navigation}></ProfRegisterComponent>;
+            default:
+                return null;
+        }
+    };
+    _renderTabBar = (props) => (
+        <TabBar
+            {...props}
+            activeColor={Colors.primary_color}
+            inactiveColor={Colors.secondry_color}
+            style={{ backgroundColor: 'white', paddingTop: 5, paddingBottom: 5, borderColor: Colors.primary_color }}
+        />
+    );
     render() {
         return (
             <>
-                {/* <Text>Register</Text>
-            <Button title="Click To Login" onPress={()=>{this.navigateToLogin()}}></Button> */}
-                <ScrollView style={ThemeStyling.scrollView} contentContainerStyle={{ paddingTop: 45, height: '100%', zIndex: 1, position: 'relative' }}>
-                    <KeyboardAwareScrollView style={{ width: '100%', height: Dimensions.get('window').height - 45 }}>
-                        <View style={{ height: Dimensions.get('window').height - 45 }}>
-                            <ScrollView contentContainerStyle={[ThemeStyling.container, { flex: 1 }]}>
-                                <View style={{ marginBottom: 'auto', marginTop: 'auto' }}>
-                                    <View style={[ThemeStyling.imagecontainer, { marginBottom: 80 }]}>
-                                        <Image style={ThemeStyling.image} source={require('../../assets/staticimages/logo.png')} />
-                                    </View>
-                                    <View>
-                                        <Text style={[ThemeStyling.heading2, { textAlign: "center" }]}>Forgot Password?</Text>
-                                    </View>
-                                    <View>
-                                        <Text style={[ThemeStyling.text1, { textAlign: "center" }]}>Enter your email to get a password reset link</Text>
-                                    </View>
-                                    <View style={[ThemeStyling.btnContainer, { marginBottom: 80 }]}>
-                                        <TouchableOpacity style={[ThemeStyling.btnPrimary]}>
-                                            <Text style={ThemeStyling.btnText}>Reset Password</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </ScrollView>
-                        </View>
-                    </KeyboardAwareScrollView>
-
-                </ScrollView>
+                <View style={{ height: Dimensions.get('screen').height,marginTop:45,backgroundColor:'#ebebff' }}>
+                    <TabView
+                        navigationState={{ index: this.state.index, routes: this.state.routes }}
+                        renderScene={this._renderScene}
+                        onIndexChange={index => this.setState({ index })}
+                        initialLayout={{ width: Dimensions.get('window').width }}
+                        style={{ height: (Dimensions.get('screen').height / 2) - CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 0.09),backgroundColor:'#ebebff' }}
+                        renderTabBar={this._renderTabBar}
+                    />
+                </View>
             </>
         );
     }

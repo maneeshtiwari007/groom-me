@@ -61,8 +61,10 @@ export default class InputComponent extends Component<Inputinterface> {
         return (
             <View style={ThemeStyling.formgroup}>
                 <TextInput style={ThemeStyling.formcontrol} secureTextEntry={(this.props.secureTextEntry) ? this.props.secureTextEntry : false} placeholder={this.props?.placeholder} value={this.props?.value} onFocus={this._handleFocus}
-                            onBlur={this._handleBlur}
-                            onChangeText={this._onChangeText}></TextInput>
+                    onBlur={this._handleBlur}
+                    blurOnSubmit={false}
+                    textContentType={(this.props.secureTextEntry)?'newPassword':'none'}
+                    onChangeText={this._onChangeText}></TextInput>
                 {this.props?.icon &&
                     <View style={ThemeStyling.inputIcon}>
                         {this.props?.icon}

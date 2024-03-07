@@ -6,7 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import {
   FontAwesome5
 } from "@expo/vector-icons";
-import { StyleSheet, NativeModules, Image, Text, View } from "react-native";
+import { StyleSheet, NativeModules, Image, Text, View, DeviceEventEmitter } from "react-native";
 import { SimpleLineIcons, Entypo } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 // import {transparent} from "react-native-papger/lib/typescript/src/styles/themes/v2/colors";
@@ -32,6 +32,8 @@ import Payment from "../Screens/User/Payment";
 import Settings from "../Screens/User/Settings";
 import Bookings from "../Screens/User/Bookings";
 import SelectAddress from "../Screens/User/SelectAddress";
+import UserProfile from "../Screens//User/Profile";
+import { ConstantsVar } from "../utilty/ConstantsVar";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -49,6 +51,11 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
   async componentDidMount() {
     const user = await CommonHelper.getUserData();
     this.setState({ user: user });
+    DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, async (data: any) => {
+      const user = await CommonHelper.getUserData();
+      console.log(user);
+      this.setState({ user: user });
+  });
   }
   Logout = () => {
     CommonHelper.logoutUser();
@@ -151,8 +158,9 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
     return (<>
       <Drawer.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{ headerShown: false, headerStyle: { backgroundColor: Colors.primary_color },unmountOnBlur:true }}
-        drawerContent={props => <CustomDrawerContent {...props} />}
+        screenOptions={{ headerShown: false, headerStyle: { backgroundColor: 'green' },unmountOnBlur:true }}
+        drawerContent={props => <CustomDrawerContent {...props} user={this.state.user} />}
+        
       >
         <Drawer.Screen
           name="HomeScreen"
@@ -170,7 +178,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
             ),
           }}
         />
-        <Drawer.Screen
+        {/* <Drawer.Screen
           name="Address"
           component={SelectAddress}
           options={{
@@ -199,8 +207,8 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               />
               
           }}
-        />
-        <Drawer.Screen
+        /> */}
+        {/* <Drawer.Screen
           name="Review Cart"
           component={ReviewCart}
           options={{
@@ -223,19 +231,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
                 color={Colors.secondry_color}
               />
           }}
-        />
-        <Drawer.Screen
-          name="Settings"
-          component={Settings}
-          options={{
-            drawerIcon: ({ focused, size }) =>
-              <Ionicons
-                name="settings-outline"
-                size={size}
-                color={Colors.secondry_color}
-              />
-          }}
-        />
+        /> */}
         <Drawer.Screen
           name="Bookings"
           component={Bookings}
@@ -250,11 +246,23 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         />
         <Drawer.Screen
           name="Profile"
-          component={Profile}
+          component={UserProfile}
           options={{
             drawerIcon: ({ focused, size }) =>
               <SimpleLineIcons
                 name="user"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
+        />
+        <Drawer.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <Ionicons
+                name="settings-outline"
                 size={size}
                 color={Colors.secondry_color}
               />
@@ -275,23 +283,6 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
       </Drawer.Navigator>
     </>)
   }
-  CustomDrawerContent = (props) => (
-    <DrawerContentScrollView {...props} >
-      <View
-        style={{
-          backgroundColor: '#f50057',
-          height: 140,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Text style={{ color: 'white', fontSize: 30 }}>
-          Header
-        </Text>
-      </View>
-      <DrawerItem {...props} />
-    </DrawerContentScrollView>
-  )
   render() {
     //this.RegisterStackNavigator();
     if (this.state?.user?.type == 2) {
@@ -308,7 +299,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
 });
-export const CustomDrawerContent = (props) => {
+export const CustomDrawerContent = (props,user) => {
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -324,15 +315,15 @@ export const CustomDrawerContent = (props) => {
       >
         <View style={[ThemeStyling.twoColumnLayout, { marginLeft: 10, marginTop: 25, marginBottom: 0 }]}>
           <View style={[ThemeStyling.col2, { marginRight: 10 }]}>
-            <Image style={[ThemeStyling.cardImage, { borderRadius: 8 }]} source={require('../../assets/staticimages/thumbnail2.jpg')} />
+            <Image style={[ThemeStyling.cardImage, { borderRadius: 8 }]} source={{uri:props?.user?.photo}} />
           </View>
           <View style={ThemeStyling.col10}>
-            <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>Manish Kumar Tiwari</Text>
-            <Text style={[ThemeStyling.text2, { color: Colors.secondry_color, marginBottom: 0 }]}>maneeshtiwari007@gmail.com</Text>
+            <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>{props?.user?.name}</Text>
+            <Text style={[ThemeStyling.text2, { color: Colors.secondry_color, marginBottom: 0 }]}>{props?.user?.email}</Text>
           </View>
         </View>
       </View>
-      <DrawerContentScrollView {...props} style={{ top: 0 }}>
+      <DrawerContentScrollView contentContainerStyle={{top:-35,padding:0,margin:0}} {...props} style={{ paddingTop:0,marginTop:0 }}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View

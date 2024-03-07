@@ -122,14 +122,16 @@ export const ThemeStyling = StyleSheet.create({
   },
   formcontrol: {
     flex: 1,
-    borderRadius: 100,
+    borderRadius: 10,
     // borderColor: Colors.primary_color,
     color: Colors.gray400,
     borderStyle: 'solid',
     borderColor: Colors.gray400,
     padding: 8,
-    paddingLeft: 20,
+    paddingLeft: 15,
     borderWidth: 1,
+    minHeight:45,
+    fontSize:16
   },
   formcontrol2: {
     flex: 1,
@@ -531,7 +533,7 @@ export const ThemeStyling = StyleSheet.create({
   },
   formgroup2: {
     flex: 1,
-    marginBottom: 20
+    marginBottom: 15
   },
   btnDark: {
     backgroundColor: Colors.dark_color,
@@ -709,6 +711,12 @@ export const ThemeStyling = StyleSheet.create({
     borderStyle: "solid",
     shadowColor:'transparent',
     shadowOpacity:.1
+  },
+  tabActive:{
+    borderBottomColor: 'white', borderBottomWidth: 2,
+  },
+  disable:{
+    opacity:0.4
   }
 });
 

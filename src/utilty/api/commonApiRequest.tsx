@@ -76,9 +76,9 @@ export const CommonApiRequest = {
     // returning the product returned by the API
     return response?.data;
   },
-  upDateUserProfile: async function (params: any, id: any) {
+  upDateUserProfile: async function (params: any) {
     const response: any = await api.request({
-      url: `/users/` + id,
+      url: `/users/update/`,
       method: "POST",
       data: params,
       // retrieving the signal value by using the property name
@@ -238,7 +238,26 @@ export const CommonApiRequest = {
     if (error) {
       return {status:"error",data:error}
     }
-  }
-
+  },
+  getUserUpcomingBookingList: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/user/booking/upcoming/list?` + params,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getUserDetail: async function (cancel = false) {
+    const response: any = await api.request({
+      url: `/user/details`,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
 }
 const cancelApiObject = defineCancelApiObject(CommonApiRequest)

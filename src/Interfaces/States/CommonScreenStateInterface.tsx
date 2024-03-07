@@ -7,10 +7,12 @@ export default interface CommonScreenStateInterface{
     isDisable?:boolean,
     location?:any,
     type?:any,
-    index?:number,
+    index?:any,
     routes?:any,
     navigation?:any,
     commonData?:any,
     count?:any,
-    otherData?:any
+    otherData?:any,
+    phone?:any,
+    confirmPassword?:any
 }
