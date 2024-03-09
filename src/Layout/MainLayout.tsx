@@ -39,7 +39,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
     }
     async componentDidMount() {
         this.changeTextDebouncer = debounce(this.changeTextDebounced, 800);
-        const checkRoutes = ["Bookings","Home","Settings","Profile","Help"]
+        const checkRoutes = ["Bookings","Home","Settings","Profile","Help","BookingSuccess"]
         const user = await CommonHelper.getUserData();
         if (this.props.scollEnabled === false) {
             this.setState({ scrollEnabled: this.props.scollEnabled });

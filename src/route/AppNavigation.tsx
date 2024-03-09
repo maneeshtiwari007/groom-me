@@ -34,6 +34,9 @@ import Bookings from "../Screens/User/Bookings";
 import SelectAddress from "../Screens/User/SelectAddress";
 import UserProfile from "../Screens//User/Profile";
 import { ConstantsVar } from "../utilty/ConstantsVar";
+import BookingSuccess from "../Screens/User/BookingSuccess";
+import ProfessionalCategory from "../Screens/Professional/ProfessionalCategory";
+import BookingDetail from "../Screens/User/BookingDetail";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -53,9 +56,8 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
     this.setState({ user: user });
     DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, async (data: any) => {
       const user = await CommonHelper.getUserData();
-      console.log(user);
       this.setState({ user: user });
-  });
+    });
   }
   Logout = () => {
     CommonHelper.logoutUser();
@@ -91,7 +93,18 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         <Stack.Screen name="Professional Detail" component={ProfDetail} />
         <Stack.Screen name="Review Cart" component={ReviewCart} />
         <Stack.Screen name="Payment" component={Payment} />
-        <Stack.Screen name="Work" component={Jobsite} />
+        <Drawer.Screen
+          name="BookingSuccess"
+          component={BookingSuccess}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <Ionicons
+                name="settings-outline"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
+        />
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
@@ -158,9 +171,9 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
     return (<>
       <Drawer.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{ headerShown: false, headerStyle: { backgroundColor: 'green' },unmountOnBlur:true }}
+        screenOptions={{ headerShown: false, headerStyle: { backgroundColor: 'green' }, unmountOnBlur: true }}
         drawerContent={props => <CustomDrawerContent {...props} user={this.state.user} />}
-        
+
       >
         <Drawer.Screen
           name="HomeScreen"
@@ -269,6 +282,30 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
           }}
         />
         <Drawer.Screen
+          name="Detail"
+          component={BookingDetail}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <Ionicons
+                name="settings-outline"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
+        />
+        <Drawer.Screen
+          name="Professional Category"
+          component={ProfessionalCategory}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <Ionicons
+                name="settings-outline"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
+        />
+        <Drawer.Screen
           name="Help"
           component={Profile}
           options={{
@@ -299,7 +336,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
 });
-export const CustomDrawerContent = (props,user) => {
+export const CustomDrawerContent = (props, user) => {
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -315,7 +352,7 @@ export const CustomDrawerContent = (props,user) => {
       >
         <View style={[ThemeStyling.twoColumnLayout, { marginLeft: 10, marginTop: 25, marginBottom: 0 }]}>
           <View style={[ThemeStyling.col2, { marginRight: 10 }]}>
-            <Image style={[ThemeStyling.cardImage, { borderRadius: 8 }]} source={{uri:props?.user?.photo}} />
+            <Image style={[ThemeStyling.cardImage, { borderRadius: 8 }]} source={{ uri: props?.user?.photo }} />
           </View>
           <View style={ThemeStyling.col10}>
             <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>{props?.user?.name}</Text>
@@ -323,7 +360,7 @@ export const CustomDrawerContent = (props,user) => {
           </View>
         </View>
       </View>
-      <DrawerContentScrollView contentContainerStyle={{top:-35,padding:0,margin:0}} {...props} style={{ paddingTop:0,marginTop:0 }}>
+      <DrawerContentScrollView contentContainerStyle={{ top: -35, padding: 0, margin: 0 }} {...props} style={{ paddingTop: 0, marginTop: 0 }}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View

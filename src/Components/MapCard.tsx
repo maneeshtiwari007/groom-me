@@ -19,7 +19,7 @@ export default class MapCard extends Component<ScreenInterfcae, CommonScreenStat
         }
     }
     async componentDidMount() {
-        console.log(this.props?.location?.coords);
+        
     }
     setMarkerCallOut(objData) {
         this.setState({ dataObj: objData })

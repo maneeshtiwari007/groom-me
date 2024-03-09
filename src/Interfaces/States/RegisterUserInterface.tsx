@@ -15,5 +15,8 @@ export default interface RegisterUserInterface{
     isDisable?:boolean,
     name?:string,
     isConfirmPassError?:boolean,
-    confirmPassError?:string
+    confirmPassError?:string,
+    pushToken?:any,
+    catData?:any,
+    selectedCat?:any
 }

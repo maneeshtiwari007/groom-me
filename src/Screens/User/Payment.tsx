@@ -3,7 +3,7 @@ import { FontAwesome, FontAwesome6, MaterialCommunityIcons, Feather, FontAwesome
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, Dimensions, Pressable, TextInput } from 'react-native';
+import { View, Text, Image, Dimensions, Pressable, TextInput, DeviceEventEmitter } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -24,8 +24,9 @@ import {
     useStripe,
 } from '@stripe/stripe-react-native';
 import PaymentStateInterface from "../../Interfaces/States/PaymentStateInterface";
+import { ConstantsVar } from "../../utilty/ConstantsVar";
 export default class Payment extends Component<ScreenInterfcae, PaymentStateInterface>{
-    publishableKey = "pk_test_x923gp2pqkT8utgAVRjfLHNY";
+    publishableKey = "pk_test_516DulZE61VXq3iXLo6rMjpiLpvExilReH3ma8LW7gm20HNSCP1yQ8M9hlzfXZNMrrR6FnmTLpMUtaKprfH8FNs8p00ZVc5a88T";
     constructor(props: any) {
         super(props);
         this.state = {
@@ -34,7 +35,10 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
     }
     async componentDidMount() {
         //this.setState({ loader: true })
-        await this.getApiData();
+        const location = await Location.getCurrentPositionAsync({});
+        this.setState({ location: location });
+        const user = await CommonHelper.getUserData();
+        this.setState({ userObj: user })
     }
     async getApiData() {
         await this.setUpIntent()
@@ -49,28 +53,77 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
         return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 21.5)
     }
     async addCard() {
-        const billingDetails: BillingDetails = {
-            email: 'test096343rnhyg@gmail.com',
-            name: 'Test-test096343rnhyg',
+        setTimeout(() => {
+            const billingDetails: BillingDetails = {
+                email: this?.state?.userObj?.email,
+                name: this?.state?.userObj?.name,
 
-        };
-        this.setState({loader:true})
-        CommonApiRequest.startPayment(this.state.dataObj?.client_secret, billingDetails, this.state.dataObj?.id).then((response) => {
-            console.log("Payment")
-            console.log(response);
-            this.setState({loader:false})
-        }).catch(()=>{
-            this.setState({loader:false})
-        })
+            };
+            CommonApiRequest.startPayment(this.state.dataObj?.client_secret, billingDetails, this.state.dataObj?.id).then((response) => {
+                this.setState({ loader: false });
+                this.setState({ loader: true });
+                if (response?.status == 'success') {
+                    this.setState({ paymentData: response?.data });
+                    setTimeout(() => {
+                        this.createOrder();
+                    }, 500)
+                }
+            }).catch(() => {
+                this.setState({ loader: false })
+            })
+        }, 700)
+
     }
     async setUpIntent() {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         const params = { amount: this.props.route?.params?.otherData?.totalamount };
         CommonApiRequest.createStripeIntent(params).then((response) => {
-            this.setState({loader:false})
-            this.setState({ dataObj: response?.result })
-        }).catch(()=>{
-            this.setState({loader:false})
+            this.setState({ dataObj: response?.result });
+            setTimeout(() => {
+                this.addCard()
+            }, 700)
+        }).catch(() => {
+            this.setState({ loader: false })
+        })
+    }
+    async formatObjOrderData() {
+        const reverGeocode = await Location.reverseGeocodeAsync({ latitude: this.state.location?.coords?.latitude, longitude: this.state.location?.coords?.longitude });
+        const orderObj = {
+            services: this?.props?.route?.params?.dataObj,
+            customer_detail: this.state.userObj,
+            address: {
+                zip_code: reverGeocode?.[0]?.postalCode,
+                latitude: this.state.location?.coords?.latitude,
+                longitude: this.state.location?.coords?.longitude,
+                city: reverGeocode?.[0]?.city,
+                state: reverGeocode?.[0]?.district,
+                country: reverGeocode?.[0]?.country,
+                subLocality: reverGeocode?.[0]?.name,
+                address: reverGeocode?.[0]?.name + " " + reverGeocode?.[0]?.city + " " + reverGeocode?.[0]?.country,
+            },
+            payment: this.state?.paymentData,
+            bookingType: 'live',
+            card: this.state?.card
+        }
+        return orderObj;
+    }
+    async createOrder() {
+        const objOrderData = await this.formatObjOrderData();
+        CommonApiRequest.createUserOrder(objOrderData).then((response) => {
+            console.log('response');
+            console.log(response);
+            if (response?.status === 200) {
+                DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.success_color, msgData: { head: 'Success', subject: 'Booking placed successfully!!', top: 20 } });
+                this.props.navigation.navigate("BookingSuccess");
+            } else if (response?.status === 500) {
+                DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.errorColor, msgData: { head: 'Error', subject: response?.msg, top: 20 } })
+            } else {
+                DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.errorColor, msgData: { head: 'Error', subject: 'Something went wrong please try after sometime', top: 20 } })
+            }
+            this.setState({ loader: false });
+            //this.props.navigation.navigate("BookingSuccess");
+        }).catch(() => {
+            this.setState({ loader: false })
         })
     }
     render() {
@@ -106,73 +159,22 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
                             <StripeProvider publishableKey={this.publishableKey} urlScheme="https://fw.kurieta.ca/">
                                 <CardForm
                                     onFormComplete={(cardDetails) => {
-                                        console.log('card details', cardDetails);
-                                        this.setState({ card: cardDetails })
-
+                                        this.setState({ card: cardDetails });
                                     }}
                                     style={{ height: 200 }}
+
                                 />
-                                <Pressable onPress={() => this.addCard()}>
-                                    <Text>Add Card to Wallet</Text>
-                                </Pressable>
                             </StripeProvider>
-                            {/*Start Master Card */}
-                            {/* <View>
-                                <View style={{ marginBottom: 15 }}>
-                                    <Text style={ThemeStyling.formLabel}>Card holder Name</Text>
-                                    <TextInput style={ThemeStyling.formcontrol2} placeholder="Enter your card holder Name"></TextInput>
-                                </View>
-                                <View style={{ marginBottom: 15 }}>
-                                    <Text style={ThemeStyling.formLabel}>Card Number</Text>
-                                    <TextInput style={ThemeStyling.formcontrol2} placeholder="Enter your card Number"></TextInput>
-                                </View>
-                                <View style={ThemeStyling.twoColumnLayout}>
-                                    <View style={[ThemeStyling.col5, { marginRight: 15 }]}>
-                                        <View style={{ marginBottom: 15 }}>
-                                            <Text style={ThemeStyling.formLabel}>MM/YY</Text>
-                                            <TextInput style={ThemeStyling.formcontrol2} placeholder="Enter date"></TextInput>
-                                        </View>
-                                    </View>
-                                    <View style={ThemeStyling.col5}>
-                                        <View style={{ marginBottom: 15 }}>
-                                            <Text style={ThemeStyling.formLabel}>CVV Code</Text>
-                                            <TextInput style={ThemeStyling.formcontrol2} placeholder="CVV date"></TextInput>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View> */}
-                            {/* End Master Card */}
-                            {/* Start Google Pay */}
-                            {/* <View style={{ marginBottom: 20 }}>
-                                <View style={{ alignItems: "center", marginBottom: 15 }}>
-                                    <FontAwesome6 style={{ marginBottom: 0 }} name="google-pay" size={42} color="orange" />
-                                    <Text style={[ThemeStyling.heading5, { fontWeight: '400', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Pay with google Pay</Text>
-                                </View>
-                                <View>
-                                    <TextInput style={ThemeStyling.formcontrol} placeholder="Enter your UPI ID"></TextInput>
-                                </View>
-                            </View> */}
-                            {/* End Google Pay */}
-                            {/* Start Paypal */}
-                            {/* <View>
-                                <View style={{ alignItems: "center", marginBottom: 15 }}>
-                                    <FontAwesome name="cc-paypal" size={42} color="blue" />
-                                </View>
-                                <View>
-                                    <TextInput style={ThemeStyling.formcontrol} placeholder="Enter your e-mail id"></TextInput>
-                                </View>
-                            </View> */}
-                            {/* End Paypal */}
                         </View>
                     </ScrollView>
                     <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 10, paddingHorizontal: 15 }]}>
                         {!this.state?.card &&
-                            <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, opacity: 0.5 }]} onPress={() => this.addCard()} disabled={(this.state?.card) ? false : true}>
+                            <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, opacity: 0.5 }]} onPress={() => this.setUpIntent()} disabled={(this.state?.card) ? false : true}>
                                 <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Payment</Text>
                             </TouchableOpacity>
                         }
                         {this.state?.card &&
-                            <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]} onPress={() => this.addCard()}>
+                            <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12 }]} onPress={() => this.setUpIntent()}>
                                 <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Payment</Text>
                             </TouchableOpacity>
                         }

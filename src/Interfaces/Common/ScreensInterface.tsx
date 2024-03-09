@@ -7,4 +7,5 @@ export default interface ScreenInterfcae{
     onClickResponse?:func
     isOnPressed?:boolean,
     isArchive?:boolean,
+    showCount?:boolean
 }

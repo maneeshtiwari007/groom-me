@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Text, Button, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions } from "react-native";
+import { Text, Button, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions, DeviceEventEmitter } from "react-native";
 import { ThemeStyling } from "../utilty/styling/Styles";
 import InputComponent from "../Components/Common/InputComponent";
 import FormGroup from "../Components/Common/FormGroup";
@@ -11,14 +11,16 @@ import { CommonHelper } from "../utilty/CommonHelper";
 import { ConstantsVar } from "../utilty/ConstantsVar";
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../Interfaces/States/CommonScreenStateInterface";
-export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenStateInterface>{
+import { Snackbar } from "react-native-paper";
+export default class LoginScreen extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
             email: '',
             password: '',
             isDisable: false,
-            loader: false
+            loader: false,
+            visible: false,
         }
     }
     navigateToRegister() {
@@ -33,11 +35,11 @@ export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenS
             this.setState({ isDisable: false });
             if (response?.code == 200) {
                 CommonHelper.saveStorageData(ConstantsVar.USER_STORAGE_KEY, JSON.stringify(response?.results));
-                if(response?.results?.type==2){
+                if (response?.results?.type == 2) {
                     this.props.navigation.navigate("UserIntroSlider");
-                }else if(response?.results?.type==4){
+                } else if (response?.results?.type == 4) {
                     this.props.navigation.navigate("ProfIntroSlider");
-                }else {
+                } else {
                     this.props.navigation.navigate("AppContainer");
                 }
                 //this.props.navigation.navigate("UserIntroSlider");
@@ -50,6 +52,20 @@ export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenS
     upDateMasterState(attr: any, value: any) {
         this.setState({ [attr]: value });
     }
+    componentDidMount() {
+        DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, (data: any) => {
+            this.setState({ visible: true })
+            this.setState({
+                color: data?.color,
+                msgData: data?.msgData
+            })
+            if (data?.top) {
+                this.setState({
+                    top: data?.top
+                });
+            }
+        });
+    }
     render() {
         return (
             <>
@@ -58,7 +74,23 @@ export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenS
                         <ActivityIndicator size="large" color={Colors.primary_color} />
                     </View>
                 }
-                <ScrollView style={ThemeStyling.scrollView} contentContainerStyle={{ paddingTop: 45, height: '100%', zIndex: 1, position: 'relative',backgroundColor:'#ebebff' }}>
+                <ScrollView style={ThemeStyling.scrollView} contentContainerStyle={{ paddingTop: 45, height: '100%', zIndex: 1, position: 'relative', backgroundColor: '#ebebff' }}>
+                    <Snackbar
+                        visible={(this.state?.visible) ? true : false}
+                        onDismiss={() => this.setState({ visible: false })}
+                        duration={3000}
+                        style={{ backgroundColor: this.state.color, top: 0 }}
+                        wrapperStyle={{ top: this.state.top }}
+                    >
+                        <View>
+                            {this.state?.msgData?.head &&
+                                <Text style={[ThemeStyling.heading3, { marginBottom: 0, color: Colors.white }]}>{this.state?.msgData?.head} : </Text>
+                            }
+                            {this.state?.msgData?.subject &&
+                                <Text style={[ThemeStyling.text1, { fontWeight: '400', color: Colors.white, marginBottom: 0, flexWrap: 'wrap' }]}>{this.state?.msgData?.subject}</Text>
+                            }
+                        </View>
+                    </Snackbar>
                     <KeyboardAwareScrollView style={{ width: '100%', height: Dimensions.get('window').height - 45 }}>
                         <View style={{ height: Dimensions.get('window').height - 45 }}>
                             <ScrollView contentContainerStyle={[ThemeStyling.container, { flex: 1 }]}>
@@ -88,13 +120,13 @@ export default class LoginScreen extends Component<ScreenInterfcae,CommonScreenS
                                         </TouchableOpacity>
                                     </View>
                                     <View style={[ThemeStyling.footer]}>
-                                        <TouchableOpacity onPress={()=>{this.props?.navigation?.navigate("Register")}} style={[ThemeStyling.btnLink, { display: 'flex', flexDirection: "row", justifyContent: "center" }]}>
+                                        <TouchableOpacity onPress={() => { this.props?.navigation?.navigate("Register") }} style={[ThemeStyling.btnLink, { display: 'flex', flexDirection: "row", justifyContent: "center" }]}>
                                             <Text>Don't have and account?</Text><Text style={ThemeStyling.btnText2}>Sign up</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
                             </ScrollView>
-                            
+
                         </View>
                     </KeyboardAwareScrollView>
 

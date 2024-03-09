@@ -13,5 +13,6 @@ export default interface Inputinterface {
     secureTextEntry?:boolean,
     anyError?:any,
     placeholder?:any,
-    icon?:any
+    icon?:any,
+    textContentType?:any,
 }

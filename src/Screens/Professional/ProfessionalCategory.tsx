@@ -10,7 +10,7 @@ import MainLayout from "../../Layout/MainLayout";
 import CardWithImage from "../../Components/Common/CardsWithImage";
 import { ThemeStyling } from "../../utilty/styling/Styles";
 import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
-export default class OurServices extends Component<ScreenInterfcae, CommonScreenStateInterface>{
+export default class ProfessionalCategory extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
@@ -51,7 +51,7 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
                 >
                 <View style={ThemeStyling.cardContainer}>
                     {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item:any,index:number)=>{
-                        return <CardWithImage showCount={true} data={item} key={index} navigation={this.props.navigation}></CardWithImage>
+                        return <CardWithImage showCount={false}  data={item} key={index} navigation={this.props.navigation}></CardWithImage>
                     })}
                 </View>
             </MainLayout>

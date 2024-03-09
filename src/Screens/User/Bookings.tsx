@@ -50,7 +50,6 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
         })
     }
     changeTab(type: string = 'up') {
-        console.log(type);
         this.setState({ type: type });
         if(type==='up'){
             this.getApiUpcomingData()

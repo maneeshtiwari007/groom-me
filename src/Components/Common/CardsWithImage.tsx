@@ -10,14 +10,18 @@ export default class CardWithImage extends Component<ScreenInterfcae>{
     }
     render() {
         return (
-            <Pressable style={[ThemeStyling.cardWithBorder]} onPress={()=>{
-                this.props.navigation.navigate("Professionals",{data:this.props?.data})
+            <Pressable style={[ThemeStyling.cardWithBorder]} onPress={() => {
+                this.props.navigation.navigate("Professionals", { data: this.props?.data })
             }}>
                 <View style={ThemeStyling.cardImageContaiiner}>
-                    <Image source={{uri:this.props?.data?.image}} style={ThemeStyling.cardImage}></Image>
+                    <Image source={{ uri: this.props?.data?.image }} style={ThemeStyling.cardImage}></Image>
                 </View>
                 <View>
-                    <Text style={ThemeStyling.cardTitle}>{this.props?.data?.name}<Text style={{fontSize:13,alignItems:'center'}}>({this.props?.data?.professionalCount})</Text></Text>
+                    <Text style={ThemeStyling.cardTitle}>{this.props?.data?.name}
+                        {this.props?.showCount &&
+                            <Text style={{ fontSize: 13, alignItems: 'center' }}>({this.props?.data?.professionalCount})</Text>
+                        }
+                    </Text>
                 </View>
             </Pressable>
         );

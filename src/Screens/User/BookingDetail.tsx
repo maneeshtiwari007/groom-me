@@ -13,7 +13,7 @@ import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 import Colors from "../../utilty/Colors";
 import * as Location from 'expo-location';
 import { CommonHelper } from "../../utilty/CommonHelper";
-export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenStateInterface>{
+export default class BookingDetail extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {

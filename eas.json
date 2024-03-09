@@ -1,0 +1,14 @@
+{
+    "build": {
+      "development": {
+        "developmentClient": true,
+        "distribution": "internal"
+      },
+      "preview": {
+        "distribution": "internal"
+      },
+      "production": {}
+    },
+    "projectId":"2d96f7ce-3031-4897-aa5e-dcff8a899bb2"
+  }
+  

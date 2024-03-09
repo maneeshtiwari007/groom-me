@@ -259,5 +259,37 @@ export const CommonApiRequest = {
     // returning the product returned by the API
     return response?.data;
   },
+  registerUser: async function (params:any,cancel = false) {
+    const response: any = await api.request({
+      url: `/register`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfCategory: async function (cancel = false) {
+    const response: any = await api.request({
+      url: `/services/category/info`,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  createUserOrder: async function (params,cancel = false) {
+    const response: any = await api.request({
+      url: `/order/store`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
 }
 const cancelApiObject = defineCancelApiObject(CommonApiRequest)

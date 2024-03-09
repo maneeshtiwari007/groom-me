@@ -46,13 +46,12 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
                 const user = response?.results;
                 this.setState({ fname: (user?.name) ? user?.name : user?.name });
                 this.setState({ phone: (user?.user_customer_details?.phone) ? user?.user_customer_details?.phone_no : '' });
-                this.setState({ photo: (user?.photo !== "") ? user?.photo : null });
+                this.setState({ photo: (user?.user_profile_images?.image !== "") ? user?.user_profile_images?.image : null });
                 this.setState({ email: user?.email });
                 this.setState({ gender: user?.user_customer_details?.gender });
                 this.setState({ is_photo: '' });
             }
         }).catch((err) => {
-            console.log(err)
         });
     }
     onPressLogout() {
@@ -123,14 +122,14 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
             location: this.state.location,
             gender:this.state.gender
         }
-        //console.log(userProfileData)
         this.setState({ loader: true });
         CommonApiRequest.upDateUserProfile(userProfileData).then((response) => {
-            console.log(response)
             this.setState({ loader: false });
             if (response?.status == 200) {
                 this.updateUserStorage(response?.results);
-                DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.success_color, msgData: { head: 'Success', subject: 'Profile updated successfully!!', top: 20 } })
+                setTimeout(()=>{
+                    DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.success_color, msgData: { head: 'Success', subject: 'Profile updated successfully!!', top: 20 } });
+                },1000);
             } else {
                 DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.errorColor, msgData: { head: 'Error', subject: response?.msg, top: 20 } })
             }
@@ -143,12 +142,11 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
     }
     async updateUserStorage(data: any) {
         let userData: any = await CommonHelper.getUserData();
-        console.log(userData);
         userData.name = data?.name;
         userData.phone = data?.user_details?.phone_no;
         userData.gender = data?.user_details?.gender;
-        if (data.photo) {
-            userData.photo = data?.photo;
+        if (data?.user_profile_images?.image) {
+            userData.photo = data?.user_profile_images?.image;
         }
         await CommonHelper.saveStorageData(ConstantsVar.USER_STORAGE_KEY, JSON.stringify(userData));
     }

@@ -12,5 +12,7 @@ export default interface PaymentStateInterface{
     scrollEnabled?:boolean,
     loader?:boolean,
     dataObj?:any,
-    card?:any
+    card?:any,
+    paymentData?:any,
+    location?:any
 }

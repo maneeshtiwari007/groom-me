@@ -14,5 +14,9 @@ export default interface CommonScreenStateInterface{
     count?:any,
     otherData?:any,
     phone?:any,
-    confirmPassword?:any
+    confirmPassword?:any,
+    visible?:boolean,
+    top?:any,
+    color?:any,
+    msgData?:any
 }

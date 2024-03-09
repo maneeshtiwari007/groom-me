@@ -130,7 +130,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
                             />
                         </View>
                         <View>
-                            <ButtonComponent title="Continue" onPressCall={()=>{this.ContinueBooking()}} isDisabled={(this.state?.commonData?.length > 0)?'false':'true'}></ButtonComponent>
+                            <ButtonComponent style={[(this.state?.commonData?.length > 0)?{opacity:1}:{opacity:0.4},{backgroundColor:Colors.primary_color}]} textStyle={{color:Colors.white}} title="Continue" onPressCall={()=>{this.ContinueBooking()}} isDisabled={(this.state?.commonData?.length > 0)?'false':'true'}></ButtonComponent>
                         </View>
                     </>
                 }
