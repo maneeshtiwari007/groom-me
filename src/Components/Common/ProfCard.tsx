@@ -14,17 +14,17 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
             dataObj: [1, 2, 3, 4, 5]
         }
     }
-    makeProfFavorite(){
-        const params = {isFav:(this.props?.data?.isFav)?false:true,id:this.props?.data?.id}
-        CommonApiRequest.makeProfFavorite(params).then((response)=>{
-            this.props.data.isFav=params?.isFav;
-            if(this.props.didUpdate){
+    makeProfFavorite() {
+        const params = { isFav: (this.props?.data?.isFav) ? false : true, id: this.props?.data?.id }
+        CommonApiRequest.makeProfFavorite(params).then((response) => {
+            this.props.data.isFav = params?.isFav;
+            if (this.props.didUpdate) {
                 this.props.didUpdate(params?.isFav);
             }
         })
     }
-    onPressResponse(){
-        if(this.props.isOnPressed){
+    onPressResponse() {
+        if (this.props.isOnPressed) {
             this.props.onClickResponse();
         }
     }
@@ -36,19 +36,21 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                 <View style={[ThemeStyling.cardBody, { padding: 0, paddingTop: 8 }]}>
                     <View style={[ThemeStyling.twoColumnLayout, { alignItems: "flex-start" }]}>
                         <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                            <Image style={[ThemeStyling.cardImage2]} source={{ uri: this.props?.data?.photo }} />
+                            <Image style={[ThemeStyling.cardImage2]} source={{ uri: this.props?.data?.photo_image }} />
                         </View>
-                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0}]}>
+                        <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
                             <View style={{ marginBottom: 5 }}>
-                                <Pressable style={{ marginRight:5, alignItems:"flex-end",height:30,justifyContent:"center" }} onPress={()=>{this.makeProfFavorite()}}>
-                                    {this.props?.data?.isFav &&
-                                        <AntDesign name="heart" size={18} color={Colors.primary_color} />
-                                    }
-                                    {!this.props?.data?.isFav &&
-                                        <AntDesign name="hearto" size={18} color={Colors.primary_color} />
-                                    }
-                                </Pressable>
-                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 5 }]}>{this.props?.data?.name}</Text>
+                                <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                                    <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 5 }]}>{this.props?.data?.name}</Text>
+                                    <Pressable style={{ marginRight: 5, alignItems: "flex-start", height: 30, justifyContent: "center" }} onPress={() => { this.makeProfFavorite() }}>
+                                        {this.props?.data?.isFav &&
+                                            <AntDesign name="heart" size={18} color={Colors.primary_color} />
+                                        }
+                                        {!this.props?.data?.isFav &&
+                                            <AntDesign name="hearto" size={18} color={Colors.primary_color} />
+                                        }
+                                    </Pressable>
+                                </View>
                                 <View style={[ThemeStyling.starRating, { marginBottom: 5 }]}>
                                     {this.state?.dataObj && this.state?.dataObj?.map((itemNumber: any, index: number) => {
                                         if (itemNumber <= this.props?.data?.profavgrating) {
@@ -60,10 +62,12 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                                 </View>
                                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
                                     {this.props?.data?.services?.length > 0 && this.props?.data?.services?.map((item: any, index: number) => {
-                                        return <View key={index} style={{ width: '49%', flexDirection: 'row', marginTop: 3, marginBottom: 3, justifyContent: 'flex-start', alignItems: 'center' }}>
-                                            <Image style={{ width: 17, height: 17, marginRight: 2 }} source={{ uri: item?.icon }}></Image>
-                                            <Text style={{ fontSize: 12 }}>{item?.service_name}</Text>
-                                        </View>
+                                        if (index < 2) {
+                                            return <View key={index} style={{ width: '49%', flexDirection: 'row', marginTop: 3, marginBottom: 3, justifyContent: 'flex-start', alignItems: 'center' }}>
+                                                <Image style={{ width: 17, height: 17, marginRight: 2 }} source={{ uri: item?.icon }}></Image>
+                                                <Text style={{ fontSize: 12 }}>{item?.service_name}</Text>
+                                            </View>
+                                        }
                                     })}
                                 </View>
                             </View>
@@ -74,7 +78,7 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                             {this.props?.data?.user_professional_details?.location &&
                                 <View style={{ flexDirection: "row" }}>
                                     <View><Ionicons name="location-outline" size={18} style={{ color: Colors.secondry_color }} /></View>
-                                    <Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>{this.props?.data?.user_professional_details?.location}</Text>
+                                    <Text style={[ThemeStyling.text2, { color: Colors.secondry_color,flexWrap: 'wrap',flex:1 }]}>{this.props?.data?.user_professional_details?.location}</Text>
                                 </View>
                             }
                         </View>

@@ -95,7 +95,7 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
                 <View>
                     <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
                         {this.state?.dataObj && this.state?.dataObj?.map((item, key) => {
-                            return <BookingCard data={item} key={key} isArchive={true}></BookingCard>
+                            return <BookingCard navigation={this.props.navigation} data={item} key={key} isArchive={true}></BookingCard>
                         })}
                         {/* <View style={{ minHeight:300,justifyContent:'center',alignItems:'center',flex:1 }}>
                             <Text style={[ThemeStyling.heading4,{textAlign:'center',color:'black',opacity:1}]}>No data found</Text>

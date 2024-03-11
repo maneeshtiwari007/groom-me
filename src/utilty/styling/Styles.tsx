@@ -608,10 +608,8 @@ export const ThemeStyling = StyleSheet.create({
   badge: {
     paddingVertical: 3,
     paddingHorizontal: 10,
-    backgroundColor: Colors.grayLight,
-    borderRadius: 6,
     fontSize: Colors.FontSize.f12,
-    padding: 0
+    textAlign:'center',
   },
   circles: {
     flexDirection: 'row',

@@ -40,6 +40,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
     async getApiData() {
         const id = this.props.route?.params?.data?.id;
         CommonApiRequest.getProfDetails(id).then((response) => {
+            console.log(response);
             this.setState({ loader: false });
             if (response?.status === 200) {
                 this.setState({ dataObj: response?.results });
@@ -77,7 +78,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
                 {this.state?.dataObj &&
                     <>
                         <View>
-                            <ImageBackground source={{ uri: this.state?.dataObj?.users?.photo }} resizeMode="cover" style={{ flex: 1, height: 150, width: '100%' }}></ImageBackground>
+                            <ImageBackground source={{ uri: this.state?.dataObj?.users?.photo_image }} resizeMode="cover" style={{ flex: 1, height: 150, width: '100%' }}></ImageBackground>
                         </View>
                         <View style={[ThemeStyling.card, { backgroundColor: Colors.gray200, borderRadius: 0, marginBottom: 0 }]}>
                             <View style={[ThemeStyling.cardBody, { paddingBottom: 10 }]}>

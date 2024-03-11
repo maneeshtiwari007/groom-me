@@ -35,8 +35,8 @@ export default class Badge extends Component<BadgeInterFace,BadgeInterFace> {
     }
     render() {
         return (
-            <View style={{ width: 90 }}>
-                <Text style={[ThemeStyling.badge, this.state?.badgeStyle, { color: this.state?.color, marginLeft: 5 }]}>{this.props.title}</Text>
+            <View style={[(this.props?.badgeStyle)?this.props?.badgeStyle:{backgroundColor:Colors.gray200},{ borderWidth:1,borderColor:'transparent',borderRadius:5}]}>
+                <Text style={[ThemeStyling.badge, (this.props?.badgeStyle)?{color:this.props?.badgeStyle?.color}:{ color: this.state?.color}]}>{this.props.title}</Text>
             </View>
         );
     }

@@ -68,6 +68,11 @@ export default class UserIntroSlider extends Component<ScreenInterfcae, CommonSc
                         <Text style={{ color:'white' }}>Done</Text>
                     </TouchableOpacity>
                 }}
+                renderSkipButton={() => {
+                    return <TouchableOpacity style={{ backgroundColor:'#ae1911',paddingLeft:10,paddingRight:10,paddingTop:5,paddingBottom:5,borderRadius:5 }}>
+                        <Text style={{ color:'white' }}>Skip</Text>
+                    </TouchableOpacity>
+                }}
                 activeDotStyle={{ backgroundColor: '#ae1911' }}
             />
         );

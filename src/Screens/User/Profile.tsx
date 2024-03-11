@@ -16,6 +16,7 @@ import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 import InputComponent from "../../Components/Common/InputComponent";
 import FormGroup from "../../Components/Common/FormGroup";
 import { RadioButton } from 'react-native-paper';
+import * as Location from 'expo-location';
 
 export default class UserProfile extends Component<ScreenInterfcae, ProfileScreenInterface>{
     constructor(props: any) {
@@ -45,9 +46,10 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
             if (response?.status == 200) {
                 const user = response?.results;
                 this.setState({ fname: (user?.name) ? user?.name : user?.name });
-                this.setState({ phone: (user?.user_customer_details?.phone) ? user?.user_customer_details?.phone_no : '' });
+                this.setState({ phone: (user?.user_customer_details?.phone_no) ? user?.user_customer_details?.phone_no : '' });
                 this.setState({ photo: (user?.user_profile_images?.image !== "") ? user?.user_profile_images?.image : null });
                 this.setState({ email: user?.email });
+                this.setState({ location: user?.user_customer_details?.location });
                 this.setState({ gender: user?.user_customer_details?.gender });
                 this.setState({ is_photo: '' });
             }
@@ -117,19 +119,19 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
     async updateUserProfile() {
         const userProfileData: any = {
             name: this.state.fname,
-            image: (this.state.base64Data)?"image/png;base64," + this.state.base64Data:null,
+            image: (this.state.base64Data) ? "image/png;base64," + this.state.base64Data : null,
             phone: this.state.phone,
             location: this.state.location,
-            gender:this.state.gender
+            gender: this.state.gender
         }
         this.setState({ loader: true });
         CommonApiRequest.upDateUserProfile(userProfileData).then((response) => {
             this.setState({ loader: false });
             if (response?.status == 200) {
                 this.updateUserStorage(response?.results);
-                setTimeout(()=>{
+                setTimeout(() => {
                     DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.success_color, msgData: { head: 'Success', subject: 'Profile updated successfully!!', top: 20 } });
-                },1000);
+                }, 1000);
             } else {
                 DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.errorColor, msgData: { head: 'Error', subject: response?.msg, top: 20 } })
             }
@@ -163,6 +165,13 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
                 this.updateUserStorage(response?.results);
             }
         });
+    }
+    async getCurrentLocation(){
+        this.setState({loader:true});
+        const location = await Location.getCurrentPositionAsync({});
+        const reverGeocode = await Location.reverseGeocodeAsync({ latitude: location?.coords?.latitude, longitude: location?.coords?.longitude });
+        this.setState({location:reverGeocode?.[0]?.name + " " + reverGeocode?.[0]?.city + " " + reverGeocode?.[0]?.country+" "+reverGeocode?.[0]?.postalCode})
+        this.setState({loader:false});
     }
     render() {
         return (
@@ -213,8 +222,8 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
                                     <RadioButton.Android
                                         value="male"
                                         color={Colors.primary_color}
-                                        onPress={() => this.setState({gender:'male'})} 
-                                        status={(this.state?.gender==='male'?'checked':'unchecked')}
+                                        onPress={() => this.setState({ gender: 'male' })}
+                                        status={(this.state?.gender === 'male' ? 'checked' : 'unchecked')}
                                     />
                                     <Text style={styles.radioLabel}>
                                         Male
@@ -225,8 +234,8 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
                                     <RadioButton.Android
                                         value="female"
                                         color={Colors.primary_color}
-                                        onPress={() => this.setState({gender:'female'})} 
-                                        status={(this.state?.gender==='female'?'checked':'unchecked')}
+                                        onPress={() => this.setState({ gender: 'female' })}
+                                        status={(this.state?.gender === 'female' ? 'checked' : 'unchecked')}
                                     />
                                     <Text style={styles.radioLabel}>
                                         Female
@@ -236,7 +245,12 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
                         </View>
                         <View style={ThemeStyling.formgroup2}>
                             <Text style={[ThemeStyling.heading5, { color: Colors.dark_color }]}>Address</Text>
-                            <TextInput editable={false} style={ThemeStyling.formcontrol} secureTextEntry={false} placeholder="Address .. " value={this.state?.location}></TextInput>
+                            <TextInput style={ThemeStyling.formcontrol} secureTextEntry={false} placeholder="Address .. " value={this.state?.location}></TextInput>
+                            <View style={{ marginVertical: 10 }}>
+                                <TouchableOpacity onPress={()=>{this.getCurrentLocation()}}>
+                                    <Text style={{ fontSize:12,backgroundColor:Colors.gray200,width:160,justifyContent:'center',alignItems:'center',textAlign:'center',padding:5,borderRadius:5,borderWidth:1,borderColor:Colors.gray200 }}>Get My Current Location</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <View style={{ marginBottom: 10 }}>
                             <TouchableOpacity onPress={() => { this.updateUserProfile() }} style={[ThemeStyling.btnSuccess, { justifyContent: 'center', paddingVertical: 12, borderRadius: 13 }]}>
@@ -260,7 +274,7 @@ const styles = StyleSheet.create({
     radioGroup: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginBottom:15
+        marginBottom: 15
     },
     radioButton: {
         flexDirection: 'row',

@@ -40,6 +40,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
             params= params+"&q=" +search;
         }
         CommonApiRequest.getProfListsForUser(params).then((response: any) => {
+            console.log(response?.results?.[0]?.user_professional_details)
             this.setState({ loader: false })
             if (response?.status == 200) {
                 this.setState({ dataObj: response?.results })

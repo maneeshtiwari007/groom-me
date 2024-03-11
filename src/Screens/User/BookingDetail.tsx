@@ -13,6 +13,8 @@ import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 import Colors from "../../utilty/Colors";
 import * as Location from 'expo-location';
 import { CommonHelper } from "../../utilty/CommonHelper";
+import { Divider } from "react-native-paper";
+import Badge from "../../Components/Common/Badge";
 export default class BookingDetail extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -26,23 +28,23 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
     async componentDidMount() {
         this.setState({ loader: true })
         this.getApiData(this.props.route?.params?.data);
-        this.setState({ dataObj: this.props.route?.params?.data, userObj: this.props.route?.params?.prof, count: await CommonHelper.getTotalPriceCount(this.props.route?.params?.data) });
+
     }
     find_dimesions() {
         return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 21.5)
     }
     getApiData(params) {
-        CommonApiRequest.getPriceCalculated({ services: params }).then((response: any) => {
+        CommonApiRequest.getUserBookingDetail(params).then((response: any) => {
             this.setState({ loader: false })
             if (response?.status == 200) {
-                this.setState({ otherData: response?.data });
+                this.setState({ dataObj: response });
             }
         }).catch((error) => {
             this.setState({ loader: false })
         })
     }
     payment() {
-        this.props?.navigation?.navigate("Payment", { dataObj: this.state?.dataObj, userObj: this.state?.userObj, otherData: this.state?.otherData })
+
     }
     render() {
         return (
@@ -53,23 +55,23 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
                 containerStyle={{ paddingTop: 1 }}
                 navigation={this.props.navigation}
                 route={this.props.route}
-                scollEnabled={false}
+                scollEnabled={true}
             >
-                <View style={{ height: Dimensions.get('screen').height - this.find_dimesions() }}>
-                    <ScrollView>
+                {this.state?.dataObj &&
+                    <View style={{ height: Dimensions.get('screen').height - this.find_dimesions() }}>
                         <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
                             <View style={ThemeStyling.card}>
                                 <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
                                     <View style={[ThemeStyling.twoColumnLayout]}>
                                         <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={{ uri: this?.state?.userObj?.photo }} />
+                                            <Image style={[ThemeStyling.cardImage2]} source={{ uri: this?.state?.dataObj?.professionalDetails?.photo_image }} />
                                         </View>
                                         <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
                                             <View style={{ marginBottom: 5 }}>
-                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 5 }]}>{this.state?.userObj?.name}</Text>
+                                                <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 5 }]}>{this.state?.dataObj?.professionalName}</Text>
                                                 <View style={[ThemeStyling.starRating, { marginBottom: 8 }]}>
                                                     {this.state?.commonData && this.state?.commonData?.map((itemNumber: any, index: number) => {
-                                                        if (itemNumber <= this.state?.userObj?.profavgrating) {
+                                                        if (itemNumber <= this.state?.dataObj?.avg_rating) {
                                                             return <FontAwesome style={[ThemeStyling.iconStar]} name="star" color={Colors.primary_color} key={index} />
                                                         } else {
                                                             return <FontAwesome style={[ThemeStyling.iconStar]} name="star" color={Colors.gray400} key={index} />
@@ -78,7 +80,7 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
                                                 </View>
                                                 <View style={{ flexDirection: "row", marginBottom: 0 }}>
                                                     <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>{this.state?.userObj?.user_professional_details?.location}</Text></View>
+                                                    <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>{this.state?.dataObj?.professionalAddress}</Text></View>
                                                 </View>
                                             </View>
                                         </View>
@@ -86,26 +88,26 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
                                 </View>
                             </View>
                             <View style={[ThemeStyling.threeColumnLayout]}>
-                                <View style={[ThemeStyling.col5, { borderRightColor: Colors.gray400, borderStyle: "solid", borderRightWidth: 1, alignItems: "center" }]}>
+                                <View style={[ThemeStyling.col3, { borderRightColor: Colors.gray400, borderStyle: "solid", borderRightWidth: 1, alignItems: "center" }]}>
                                     <View style={{ flexDirection: "row", marginBottom: 0 }}>
                                         <AntDesign style={{ position: "relative", top: 2 }} name="calendar" size={13} color="black" />
                                         <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.f12, fontWeight: '600', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Date</Text>
                                     </View>
-                                    <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>19 Sep 2022</Text>
+                                    <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>{this.state?.dataObj?.bookingSlot?.booking_date}</Text>
                                 </View>
-                                {/* <View style={[ThemeStyling.col3, { borderRightColor: Colors.gray400, borderStyle: "solid", borderRightWidth: 1, alignItems: "center" }]}>
+                                <View style={[ThemeStyling.col3, { borderRightColor: Colors.gray400, borderStyle: "solid", borderRightWidth: 1, alignItems: "center" }]}>
                                     <View style={{ flexDirection: "row", marginBottom: 0 }}>
                                         <AntDesign style={{ position: "relative", top: 2 }} name="clockcircleo" size={13} color="black" />
                                         <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.f12, fontWeight: '600', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Time</Text>
                                     </View>
-                                    <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>10:00 - 12 AM</Text>
-                                </View> */}
-                                <View style={[ThemeStyling.col5, { alignItems: "center" }]}>
+                                    <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>{this.state?.dataObj?.bookingSlot?.booking_time}</Text>
+                                </View>
+                                <View style={[ThemeStyling.col3, { alignItems: "center" }]}>
                                     <View style={{ flexDirection: "row", marginBottom: 0 }}>
-                                        <Feather style={{ position: "relative", top: 3 }} name="phone" size={13} color="black" />
-                                        <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.f12, fontWeight: '600', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Phone Number</Text>
+                                        <FontAwesome style={{ position: "relative", top: 3 }} name="scissors" size={13} color={"black"} />
+                                        <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.f12, fontWeight: '600', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Booking Status</Text>
                                     </View>
-                                    <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>+91(1234567891)</Text>
+                                    <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f12, color: this.state?.dataObj?.order_status?.iconcolor,textTransform:'capitalize' }]}>{this.state?.dataObj?.order_status?.status}</Text>
                                 </View>
                             </View>
                         </View>
@@ -114,13 +116,13 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
                         </View>
 
                         <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
-                            {this.state?.dataObj && this.state?.dataObj?.map((item, index) => {
+                            {this.state?.dataObj?.services && this.state?.dataObj?.services?.map((item, index) => {
                                 return <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between", marginBottom: 5 }]} key={index}>
                                     <View>
-                                        <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>{item?.service_name}</Text>
+                                        <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>{item?.service}</Text>
                                     </View>
                                     <View>
-                                        <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>{CommonHelper.returnPriceWithCurrency(item?.price)}</Text>
+                                        <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>{(item?.price)}</Text>
                                     </View>
                                 </View>
                             })}
@@ -130,10 +132,10 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
                                     <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>Sub Total</Text>
                                 </View>
                                 <View>
-                                    <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.primary_color, marginBottom: 0 }]}>{this.state?.otherData?.subtotal}</Text>
+                                    <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.primary_color, marginBottom: 0 }]}>{this.state?.dataObj?.data?.subtotal}</Text>
                                 </View>
                             </View>
-                            {this.state?.otherData?.tax && this.state?.otherData?.tax?.map((item, index) => {
+                            {this.state?.dataObj?.data?.tax && this.state?.dataObj?.data?.tax?.map((item, index) => {
                                 return <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between", marginBottom: 5 }]} key={index}>
                                     <View>
                                         <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>{item?.name}</Text>
@@ -145,21 +147,22 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
                             })}
                             <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between", marginBottom: 5 }]}>
                                 <View>
-                                    <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>Total Pay</Text>
+                                    <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>Total Payment</Text>
                                 </View>
                                 <View>
-                                    <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.primary_color, marginBottom: 0 }]}>{this.state?.otherData?.total}</Text>
+                                    <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.primary_color, marginBottom: 0 }]}>{this.state?.dataObj?.data?.total}</Text>
                                 </View>
                             </View>
+                            {this.state?.dataObj?.remark &&
+                                <>
+                                    <Divider bold={true} style={{ marginVertical: 10 }}></Divider>
+                                    <View>
+                                        <Text style={[ThemeStyling.heading5, { color: Colors.dark_color,fontWeight:'900' }]}>Remarks : </Text>
+                                        <Text style={[ThemeStyling.text1]}>{this.state?.dataObj?.remark}</Text>
+                                    </View>
+                                </>
+                            }
                         </View>
-                    </ScrollView>
-
-                </View>
-                {this.state?.otherData?.total &&
-                    <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 0, paddingHorizontal: 15, paddingVertical: 15 }]}>
-                        <TouchableOpacity onPress={()=>{this.payment()}} style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, opacity: (this.state?.otherData?.total) ? 1 : 0.5 }]} disabled={(this.state?.otherData?.total) ? false : true}>
-                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Pay {this.state?.otherData?.total}</Text>
-                        </TouchableOpacity>
                     </View>
                 }
             </MainLayout >

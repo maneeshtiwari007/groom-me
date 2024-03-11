@@ -291,5 +291,16 @@ export const CommonApiRequest = {
     // returning the product returned by the API
     return response?.data;
   },
+  getUserBookingDetail: async function (params,cancel = false) {
+    console.log('user/booking/Detail/'+params);
+    const response: any = await api.request({
+      url: `/user/booking/Detail/`+params,
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
 }
 const cancelApiObject = defineCancelApiObject(CommonApiRequest)

@@ -18,5 +18,6 @@ export default interface CommonScreenStateInterface{
     visible?:boolean,
     top?:any,
     color?:any,
-    msgData?:any
+    msgData?:any,
+    remark?:any
 }

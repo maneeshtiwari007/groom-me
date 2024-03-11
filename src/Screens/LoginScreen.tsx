@@ -34,19 +34,25 @@ export default class LoginScreen extends Component<ScreenInterfcae, CommonScreen
             this.setState({ loader: false });
             this.setState({ isDisable: false });
             if (response?.code == 200) {
-                CommonHelper.saveStorageData(ConstantsVar.USER_STORAGE_KEY, JSON.stringify(response?.results));
-                if (response?.results?.type == 2) {
-                    this.props.navigation.navigate("UserIntroSlider");
-                } else if (response?.results?.type == 4) {
-                    this.props.navigation.navigate("ProfIntroSlider");
+                if (response?.error === true) {
+                    DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.errorColor, msgData: { head: 'Error', subject: response?.message, top: 20 } });
                 } else {
-                    this.props.navigation.navigate("AppContainer");
+                    CommonHelper.saveStorageData(ConstantsVar.USER_STORAGE_KEY, JSON.stringify(response?.results));
+                    if (response?.results?.type == 2) {
+                        setTimeout(()=>{
+                            this.props.navigation.navigate("UserIntroSlider");
+                        },500)
+                    } else if (response?.results?.type == 4) {
+                        this.props.navigation.navigate("ProfIntroSlider");
+                    } else {
+                        this.props.navigation.navigate("AppContainer");
+                    }
                 }
-                //this.props.navigation.navigate("UserIntroSlider");
             }
-        }).catch(() => {
+        }).catch((eeror) => {
             this.setState({ loader: false });
             this.setState({ isDisable: false });
+            DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.errorColor, msgData: { head: 'Error', subject: "Please enter valid email and password", top: 20 } });
         })
     }
     upDateMasterState(attr: any, value: any) {
@@ -106,7 +112,7 @@ export default class LoginScreen extends Component<ScreenInterfcae, CommonScreen
                                     </View>
                                     <View>
                                         <FormGroup>
-                                            <InputComponent attrName={'email'} value={this.state?.email} secureTextEntry={false} placeholder={"Username or email"} updateMasterState={(attr: any, value: any) => { this.upDateMasterState(attr, value) }}></InputComponent>
+                                            <InputComponent keyboardType="email-address" attrName={'email'} value={this.state?.email} secureTextEntry={false} placeholder={"Username or email"} updateMasterState={(attr: any, value: any) => { this.upDateMasterState(attr, value) }}></InputComponent>
                                         </FormGroup>
                                     </View>
                                     <View>

@@ -16,3 +16,5 @@ node_modules/
 .gitattributes
 .expo
 package-lock.json
+android
+ios

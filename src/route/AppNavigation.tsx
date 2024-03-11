@@ -87,12 +87,13 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
     return (
       <Stack.Navigator
         initialRouteName="HomeScreen"
-        screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={OurServices} />
-        <Stack.Screen name="Professionals" component={ProfLists} />
-        <Stack.Screen name="Professional Detail" component={ProfDetail} />
+        screenOptions={{ headerShown: false }}
+        >
+        <Stack.Screen name="Home" component={OurServices} options={{gestureEnabled:false}}/>
+        <Stack.Screen name="Professionals" component={ProfLists}  options={{gestureEnabled:false}}/>
+        <Stack.Screen name="Professional Detail" component={ProfDetail}  options={{gestureEnabled:false}}/>
         <Stack.Screen name="Review Cart" component={ReviewCart} />
-        <Stack.Screen name="Payment" component={Payment} />
+        <Stack.Screen name="Payment" component={Payment}  options={{gestureEnabled:false}}/>
         <Drawer.Screen
           name="BookingSuccess"
           component={BookingSuccess}
@@ -108,8 +109,17 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: false,gestureEnabled:false }}
         />
+      </Stack.Navigator>
+    );
+  }
+  BookingScreen() {
+    return (
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Bookings" component={Bookings} />
+        <Stack.Screen name="Bookings Detail" component={BookingDetail} />
       </Stack.Navigator>
     );
   }
@@ -183,78 +193,28 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               <SimpleLineIcons
                 name="home"
                 size={size}
-                color={Colors.primary_color}
+                color={(focused)?Colors.primary_color:Colors.gray_color}
               />
             ),
-            drawerLabel: () => (
-              <Text style={{ color: Colors.primary_color }}>Home</Text>
-            ),
-          }}
-        />
-        {/* <Drawer.Screen
-          name="Address"
-          component={SelectAddress}
-          options={{
-            drawerIcon: ({ focused, size }) =>(
-              <FontAwesome
-                name="scissors"
-                size={size}
-                color={Colors.gray_color}
-              />
-            ),
-            drawerLabel: () => (
-              <Text style={{ color: Colors.gray_color }}>Address</Text>
+            drawerLabel: ({ focused }) => (
+              <Text style={{ color: (focused)?Colors.primary_color:Colors.gray_color }}>Home</Text>
             ),
           }}
         />
-
         <Drawer.Screen
-          name="Schedule"
-          component={Schedule}
+          name="BookingScreen"
+          component={this.BookingScreen}
           options={{
-            drawerIcon: ({ focused, size }) =>
-              <AntDesign
-                name="calendar"
-                size={size}
-                color={Colors.gray_color}
-              />
-              
-          }}
-        /> */}
-        {/* <Drawer.Screen
-          name="Review Cart"
-          component={ReviewCart}
-          options={{
-            drawerIcon: ({ focused, size }) =>
-              <AntDesign
-                name="shoppingcart"
-                size={size}
-                color={Colors.secondry_color}
-              />
-          }}
-        />
-        <Drawer.Screen
-          name="Payment"
-          component={Payment}
-          options={{
-            drawerIcon: ({ focused, size }) =>
-              <MaterialCommunityIcons
-                name="card-multiple-outline"
-                size={size}
-                color={Colors.secondry_color}
-              />
-          }}
-        /> */}
-        <Drawer.Screen
-          name="Bookings"
-          component={Bookings}
-          options={{
-            drawerIcon: ({ focused, size }) =>
+            drawerIcon: ({ focused, size }) => (
               <Ionicons
                 name="desktop-sharp"
                 size={size}
-                color={Colors.secondry_color}
+                color={(focused)?Colors.primary_color:Colors.gray_color}
               />
+            ),
+            drawerLabel: ({focused}) => (
+              <Text style={{color:(focused)?Colors.primary_color:Colors.gray_color}}>Bookings</Text>
+            ),
           }}
         />
         <Drawer.Screen
@@ -265,8 +225,12 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               <SimpleLineIcons
                 name="user"
                 size={size}
-                color={Colors.secondry_color}
+                color={(focused)?Colors.primary_color:Colors.gray_color}
               />
+              ,
+              drawerLabel: ({focused}) => {
+                return <Text style={{ color: (focused)?Colors.primary_color:Colors.gray_color }}>Profile</Text>
+              },
           }}
         />
         <Drawer.Screen
@@ -277,23 +241,14 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               <Ionicons
                 name="settings-outline"
                 size={size}
-                color={Colors.secondry_color}
-              />
+                color={(focused)?Colors.primary_color:Colors.gray_color}
+              />,
+              drawerLabel: ({focused}) => {
+                return <Text style={{ color: (focused)?Colors.primary_color:Colors.gray_color }}>Settings</Text>
+              },
           }}
         />
-        <Drawer.Screen
-          name="Detail"
-          component={BookingDetail}
-          options={{
-            drawerIcon: ({ focused, size }) =>
-              <Ionicons
-                name="settings-outline"
-                size={size}
-                color={Colors.secondry_color}
-              />
-          }}
-        />
-        <Drawer.Screen
+        {/* <Drawer.Screen
           name="Professional Category"
           component={ProfessionalCategory}
           options={{
@@ -316,7 +271,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
                 color={Colors.secondry_color}
               />
           }}
-        />
+        /> */}
       </Drawer.Navigator>
     </>)
   }

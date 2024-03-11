@@ -103,15 +103,17 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
             },
             payment: this.state?.paymentData,
             bookingType: 'live',
-            card: this.state?.card
+            card: this.state?.card,
+            remark:this?.props?.route?.params?.remark
         }
+        console.log(orderObj)
         return orderObj;
     }
     async createOrder() {
         const objOrderData = await this.formatObjOrderData();
         CommonApiRequest.createUserOrder(objOrderData).then((response) => {
             console.log('response');
-            console.log(response);
+            //console.log(response);
             if (response?.status === 200) {
                 DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.success_color, msgData: { head: 'Success', subject: 'Booking placed successfully!!', top: 20 } });
                 this.props.navigation.navigate("BookingSuccess");
@@ -143,7 +145,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
                         <ScrollView
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}>
-                            <View style={[ThemeStyling.threeColumnLayout, { borderBottomWidth: 1, borderBlockColor: Colors.secondry_color, borderStyle: "dashed", padding: 15 }]}>
+                            <View style={[ThemeStyling.threeColumnLayout, {padding: 15 }]}>
                                 <View style={{ marginRight: 15 }}>
                                     <View style={[ThemeStyling.paymentMethod]}>
                                         <FontAwesome style={{ marginBottom: 5 }} name="cc-stripe" size={18} color="red" />

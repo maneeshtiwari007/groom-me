@@ -82,6 +82,10 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                 });
             }
         });
+        DeviceEventEmitter.addListener(ConstantsVar.API_ERROR_LOGOUT, (data: any) => {
+            CommonHelper.logoutUser();
+            this.props.navigation.navigate("LoginScreen");
+        });
     }
     changeTextDebounced = (text) => {
         if (this.props?.onSearchCallback) {

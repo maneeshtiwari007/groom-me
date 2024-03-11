@@ -7,7 +7,6 @@ import LoginScreen from './src/Screens/LoginScreen';
 import UserIntroSlider from './src/Screens/IntroSlides/UserIntroSlider';
 import AppContainer from './src/route/AppNavigation';
 import RegisterScreen from './src/Screens/RegisterScreen';
-import AppLoading from 'expo-app-loading';
 import * as Location from 'expo-location';
 import {
   useFonts,
@@ -85,40 +84,46 @@ export default function App() {
       </Stack.Navigator>
     );
   };
-  if (!fontsLoaded) {
-    <AppLoading />
-  } else {
-    return (
-      <Provider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="SplashScreen">
-            {/* SplashScreen which will come once for 5 Seconds */}
-            <Stack.Screen
-              name="SplashScreen"
-              component={SplashScreen}
-              // Hiding header for Splash Screen
-              options={{ headerShown: false }}
-            />
-            {/* Auth Navigator: Include Login and Signup */}
-            <Stack.Screen
-              name="Auth"
-              component={Auth}
-              options={{ headerShown: false }}
-            />
-            {/* Navigation Drawer as a landing page */}
-            <Stack.Screen
-              name="AppContainer"
-              component={AppContainer}
-              // Hiding header for Navigation Drawer
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>
-    );
-  }
-}
 
+  return (
+    <Provider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SplashScreen">
+          {/* SplashScreen which will come once for 5 Seconds */}
+          <Stack.Screen
+            name="SplashScreen"
+            component={SplashScreen}
+            // Hiding header for Splash Screen
+            options={{ headerShown: false }}
+          />
+          {/* Auth Navigator: Include Login and Signup */}
+          <Stack.Screen
+            name="Auth"
+            component={Auth}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="UserIntroSlider"
+            component={UserIntroSlider}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ProfIntroSlider"
+            component={ProfIntroSlider}
+            options={{ headerShown: false }}
+          />
+          {/* Navigation Drawer as a landing page */}
+          <Stack.Screen
+            name="AppContainer"
+            component={AppContainer}
+            // Hiding header for Navigation Drawer
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
