@@ -12,6 +12,8 @@ import { ConstantsVar } from "../utilty/ConstantsVar";
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../Interfaces/States/CommonScreenStateInterface";
 import { Snackbar } from "react-native-paper";
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
 export default class LoginScreen extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -58,7 +60,9 @@ export default class LoginScreen extends Component<ScreenInterfcae, CommonScreen
     upDateMasterState(attr: any, value: any) {
         this.setState({ [attr]: value });
     }
-    componentDidMount() {
+    async componentDidMount() {
+        const token = await CommonHelper.getData(ConstantsVar.NOTIFICATION_STORAGE_KEY);
+        this.setState({uidToken:token?.token});
         DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, (data: any) => {
             this.setState({ visible: true })
             this.setState({

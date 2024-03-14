@@ -37,9 +37,12 @@ import { ConstantsVar } from "../utilty/ConstantsVar";
 import BookingSuccess from "../Screens/User/BookingSuccess";
 import ProfessionalCategory from "../Screens/Professional/ProfessionalCategory";
 import BookingDetail from "../Screens/User/BookingDetail";
+import * as Notifications from 'expo-notifications';
+import FavoriteProfessional from "../Screens/User/FavoriteProfessional";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
+import * as Location from 'expo-location';
 
 export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: any, user?: any }> {
   constructor(props: any) {
@@ -53,10 +56,22 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
 
   async componentDidMount() {
     const user = await CommonHelper.getUserData();
+    Location.getCurrentPositionAsync({}).then((location)=>{
+      CommonHelper.saveStorageData(ConstantsVar.LOCATION_KEY,JSON.stringify({location:location}));
+    });
+    
     this.setState({ user: user });
     DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, async (data: any) => {
       const user = await CommonHelper.getUserData();
       this.setState({ user: user });
+    });
+    const subscription = Notifications.addNotificationReceivedListener(notification => {
+      //console.log(notification?.request?.content);
+    });
+    const subscriptionRecived = Notifications.addNotificationResponseReceivedListener(response => {
+      if (response?.notification?.request?.content?.data?.order_id) {
+        this.props.navigation?.navigate("Bookings Detail", { data: response?.notification?.request?.content?.data?.order_id, from: 'App' });
+      }
     });
   }
   Logout = () => {
@@ -88,12 +103,13 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
       <Stack.Navigator
         initialRouteName="HomeScreen"
         screenOptions={{ headerShown: false }}
-        >
-        <Stack.Screen name="Home" component={OurServices} options={{gestureEnabled:false}}/>
-        <Stack.Screen name="Professionals" component={ProfLists}  options={{gestureEnabled:false}}/>
-        <Stack.Screen name="Professional Detail" component={ProfDetail}  options={{gestureEnabled:false}}/>
+      >
+        <Stack.Screen name="Home" component={OurServices} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="Professionals" component={ProfLists} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="Professional Detail" component={ProfDetail} options={{ gestureEnabled: false }} />
         <Stack.Screen name="Review Cart" component={ReviewCart} />
-        <Stack.Screen name="Payment" component={Payment}  options={{gestureEnabled:false}}/>
+        <Stack.Screen name="Payment" component={Payment} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="Bookings Detail" component={BookingDetail} />
         <Drawer.Screen
           name="BookingSuccess"
           component={BookingSuccess}
@@ -109,7 +125,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
-          options={{ headerShown: false,gestureEnabled:false }}
+          options={{ headerShown: false, gestureEnabled: false }}
         />
       </Stack.Navigator>
     );
@@ -119,6 +135,39 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
       <Stack.Navigator
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Bookings" component={Bookings} />
+        <Stack.Screen name="Bookings Detail" component={BookingDetail} />
+      </Stack.Navigator>
+    );
+  }
+  ProfileMenu() {
+    return (
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Favorite Professionals" component={FavoriteProfessional} />
+        <Stack.Screen name="Professional Detail" component={ProfDetail} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="Review Cart" component={ReviewCart} />
+        <Stack.Screen name="Payment" component={Payment} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="Bookings Detail" component={BookingDetail} />
+        <Drawer.Screen
+          name="BookingSuccess"
+          component={BookingSuccess}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <Ionicons
+                name="settings-outline"
+                size={size}
+                color={Colors.secondry_color}
+              />
+          }}
+        />
+      </Stack.Navigator>
+    );
+  }
+  facProfScreen() {
+    return (
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Bookings Detail" component={BookingDetail} />
       </Stack.Navigator>
     );
@@ -193,11 +242,11 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               <SimpleLineIcons
                 name="home"
                 size={size}
-                color={(focused)?Colors.primary_color:Colors.gray_color}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
               />
             ),
             drawerLabel: ({ focused }) => (
-              <Text style={{ color: (focused)?Colors.primary_color:Colors.gray_color }}>Home</Text>
+              <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Home</Text>
             ),
           }}
         />
@@ -209,28 +258,44 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               <Ionicons
                 name="desktop-sharp"
                 size={size}
-                color={(focused)?Colors.primary_color:Colors.gray_color}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
               />
             ),
-            drawerLabel: ({focused}) => (
-              <Text style={{color:(focused)?Colors.primary_color:Colors.gray_color}}>Bookings</Text>
+            drawerLabel: ({ focused }) => (
+              <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Bookings</Text>
             ),
           }}
         />
         <Drawer.Screen
-          name="Profile"
-          component={UserProfile}
+          name="FavoriteProf"
+          component={this.ProfileMenu}
           options={{
             drawerIcon: ({ focused, size }) =>
               <SimpleLineIcons
                 name="user"
                 size={size}
-                color={(focused)?Colors.primary_color:Colors.gray_color}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
               />
-              ,
-              drawerLabel: ({focused}) => {
-                return <Text style={{ color: (focused)?Colors.primary_color:Colors.gray_color }}>Profile</Text>
-              },
+            ,
+            drawerLabel: ({ focused }) => {
+              return <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Favorite Professionals</Text>
+            },
+          }}
+        />
+        <Drawer.Screen
+          name="ProfileScreen"
+          component={this.ProfileMenu}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <SimpleLineIcons
+                name="user"
+                size={size}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
+              />
+            ,
+            drawerLabel: ({ focused }) => {
+              return <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Profile</Text>
+            },
           }}
         />
         <Drawer.Screen
@@ -241,11 +306,11 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
               <Ionicons
                 name="settings-outline"
                 size={size}
-                color={(focused)?Colors.primary_color:Colors.gray_color}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
               />,
-              drawerLabel: ({focused}) => {
-                return <Text style={{ color: (focused)?Colors.primary_color:Colors.gray_color }}>Settings</Text>
-              },
+            drawerLabel: ({ focused }) => {
+              return <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Settings</Text>
+            },
           }}
         />
         {/* <Drawer.Screen

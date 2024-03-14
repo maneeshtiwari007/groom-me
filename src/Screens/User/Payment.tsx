@@ -35,7 +35,9 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
     }
     async componentDidMount() {
         //this.setState({ loader: true })
-        const location = await Location.getCurrentPositionAsync({});
+        const locationObj = await CommonHelper.getData(ConstantsVar.LOCATION_KEY);
+        const location = locationObj?.location
+        this.setState({ location: location });
         this.setState({ location: location });
         const user = await CommonHelper.getUserData();
         this.setState({ userObj: user })

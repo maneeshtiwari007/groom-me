@@ -1,6 +1,6 @@
 {
   "name": "groom-me",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -8,7 +8,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "ts:check": "tsc",
-    "build:ios": "react-native bundle --entry-file='node_modules/expo/AppEntry.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
+    "build:ios": "react-native bundle --entry-file='node_modules/expo/AppEntry.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
+    "build:android":"react-native bundle --platform android --dev false --entry-file='node_modules/expo/AppEntry.js' --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.3",

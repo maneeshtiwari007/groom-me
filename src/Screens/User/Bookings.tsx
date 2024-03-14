@@ -51,14 +51,14 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
     }
     changeTab(type: string = 'up') {
         this.setState({ type: type });
-        if(type==='up'){
+        if (type === 'up') {
             this.getApiUpcomingData()
         } else {
             this.getApiData();
         }
     }
-    refreshAPiData(){
-        if(this.state.type==='up'){
+    refreshAPiData() {
+        if (this.state.type === 'up') {
             this.getApiUpcomingData()
         } else {
             this.getApiData();
@@ -76,9 +76,9 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
                 isSearchBar={false}
                 scollEnabled={true}
                 isTab={true}
-                tabData={[{name:'Upcoming',key:'up'},{name:'Archive',key:'arc'}]}
+                tabData={[{ name: 'Upcoming', key: 'up' }, { name: 'Archive', key: 'arc' }]}
                 tabDefaultKey={this.state?.type}
-                onClickTab={(changeTab)=>{this.changeTab(changeTab)}}
+                onClickTab={(changeTab) => { this.changeTab(changeTab) }}
             >
                 {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.primary_color }}>
                     <View style={[(this.state?.type === 'up') ? ThemeStyling.tabActive : {}, { width: '45%', marginRight: 10, justifyContent: 'center', alignItems: 'center' }]}>
@@ -101,7 +101,7 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
                             <Text style={[ThemeStyling.heading4,{textAlign:'center',color:'black',opacity:1}]}>No data found</Text>
                         </View> */}
                         {this.state?.dataObj?.length <= 0 &&
-                            <NoRecordFound data={{head:'No Record found',msg:'There is no data found please try with other'}}></NoRecordFound>
+                            <NoRecordFound data={{ head: 'No Record found', msg: 'There is no data found please try with other' }}></NoRecordFound>
                         }
                     </View>
                 </View>

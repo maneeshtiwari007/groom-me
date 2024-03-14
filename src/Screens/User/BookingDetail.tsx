@@ -28,7 +28,6 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
     async componentDidMount() {
         this.setState({ loader: true })
         this.getApiData(this.props.route?.params?.data);
-
     }
     find_dimesions() {
         return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 21.5)

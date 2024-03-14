@@ -15,9 +15,9 @@ import * as Location from 'expo-location';
 import ProfCard from "../../Components/Common/ProfCard";
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapCard from "../../Components/MapCard";
-import { CommonHelper } from "../../utilty/CommonHelper";
 import { ConstantsVar } from "../../utilty/ConstantsVar";
-export default class ProfLists extends Component<ScreenInterfcae, CommonScreenStateInterface>{
+import { CommonHelper } from "../../utilty/CommonHelper";
+export default class FavoriteProfessional extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
@@ -34,14 +34,15 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
         const locationObj = await CommonHelper.getData(ConstantsVar.LOCATION_KEY);
         const location = locationObj?.location
         this.setState({ location: location });
-        let params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude
+        //console.log(await Location.reverseGeocodeAsync({latitude:location?.coords?.latitude,longitude:location?.coords?.longitude}));
+        let params = "?latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude
         if (this.props?.route?.params?.data?.id) {
             params = params + "&cat=" + this.props?.route?.params?.data?.id
         }
         if (search) {
             params = params + "&q=" + search;
         }
-        CommonApiRequest.getProfListsForUser(params).then((response: any) => {
+        CommonApiRequest.getUserFavProf(params).then((response: any) => {
             this.setState({ loader: false })
             if (response?.status == 200) {
                 this.setState({ dataObj: response?.results })
@@ -74,34 +75,15 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                 route={this.props.route}
                 isSearchBar={true}
                 onSearchCallback={(data) => { this.searchCategory(data) }}
-                isTab={true}
-                tabData={[{ name: 'Map', key: 'map' }, { name: 'List', key: 'list' }]}
-                tabDefaultKey={this.state?.type}
-                onClickTab={(changeTab) => { this.setState({ type: changeTab }) }}
+                otherText="Favorite Professionals"
             >
-                {/* <View style={{ width: '100%'}}>
-                    <View style={{ flexDirection: "row" }}>
-                        <Pressable style={{ width: '48%', marginRight: 5 }} onPress={() => { this.setState({ type: 'map' }) }}><Text>Map</Text></Pressable>
-                        <Pressable style={{ width: '48%' }} onPress={() => { this.setState({ type: 'list' }) }}><Text>List</Text></Pressable>
-                    </View>
-                </View> */}
-
-                {this.state?.type === 'list' &&
-                    <View style={ThemeStyling.container}>
-
-                        {/* Card */}
-                        {this.state?.type === 'list' && this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item, index) => {
-                            return <ProfCard data={item} key={index} navigation={this.props.navigation} didUpdate={(data) => { this.updateState(data, index) }} isOnPressed={true} onClickResponse={() => {
-                                this.props.navigation.navigate("Professional Detail", { data: item })
-                            }}></ProfCard>
-                        })}
-                    </View>
-                }
-                {this.state?.type === 'map' && this.state?.dataObj && this.state.location &&
-                    <View style={{ height: Dimensions.get('screen').height - 187, width: Dimensions.get('screen').width, backgroundColor: 'red' }}>
-                        <MapCard data={this.state?.dataObj} location={this.state.location} navigation={this.props.navigation}></MapCard>
-                    </View>
-                }
+                <View style={ThemeStyling.container}>
+                    {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item, index) => {
+                        return <ProfCard data={item} key={index} navigation={this.props.navigation} didUpdate={(data) => { this.updateState(data, index) }} isOnPressed={true} onClickResponse={() => {
+                            this.props.navigation.navigate("Professional Detail", { data: item })
+                        }}></ProfCard>
+                    })}
+                </View>
             </MainLayout>
         );
     }

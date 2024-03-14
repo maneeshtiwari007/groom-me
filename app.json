@@ -2,7 +2,7 @@
   "expo": {
     "name": "Groom Me",
     "slug": "groom-me-app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,7 +16,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.groommetech.app"
+      "bundleIdentifier": "com.groommetech.app",
+      "version": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +28,8 @@
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
       ],
-      "package": "com.groommetech.app"
+      "package": "com.groommetech.app",
+      "version": "1.0.1"
     },
     "web": {
       "favicon": "./assets/favicon.png"
