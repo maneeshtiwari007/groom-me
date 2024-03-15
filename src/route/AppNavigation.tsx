@@ -139,7 +139,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
       </Stack.Navigator>
     );
   }
-  ProfileMenu() {
+  FavProf() {
     return (
       <Stack.Navigator
         screenOptions={{ headerShown: false }}>
@@ -163,7 +163,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
       </Stack.Navigator>
     );
   }
-  facProfScreen() {
+  ProfileScreen() {
     return (
       <Stack.Navigator
         screenOptions={{ headerShown: false }}>
@@ -268,7 +268,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         />
         <Drawer.Screen
           name="FavoriteProf"
-          component={this.ProfileMenu}
+          component={this.FavProf}
           options={{
             drawerIcon: ({ focused, size }) =>
               <SimpleLineIcons
@@ -284,7 +284,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         />
         <Drawer.Screen
           name="ProfileScreen"
-          component={this.ProfileMenu}
+          component={this.ProfileScreen}
           options={{
             drawerIcon: ({ focused, size }) =>
               <SimpleLineIcons
