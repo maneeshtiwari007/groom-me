@@ -56,10 +56,10 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
 
   async componentDidMount() {
     const user = await CommonHelper.getUserData();
-    Location.getCurrentPositionAsync({}).then((location)=>{
-      CommonHelper.saveStorageData(ConstantsVar.LOCATION_KEY,JSON.stringify({location:location}));
+    Location.getCurrentPositionAsync({}).then((location) => {
+      CommonHelper.saveStorageData(ConstantsVar.LOCATION_KEY, JSON.stringify({ location: location }));
     });
-    
+
     this.setState({ user: user });
     DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, async (data: any) => {
       const user = await CommonHelper.getUserData();
@@ -264,6 +264,21 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
             drawerLabel: ({ focused }) => (
               <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Bookings</Text>
             ),
+          }}
+        />        
+        <Drawer.Screen
+          name="Schedule"
+          component={Schedule}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <MaterialCommunityIcons
+                name="calendar-clock-outline"
+                size={size}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
+              />,
+            drawerLabel: ({ focused }) => {
+              return <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Schedule</Text>
+            },
           }}
         />
         <Drawer.Screen
