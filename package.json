@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "ts:check": "tsc",
     "build:ios": "react-native bundle --entry-file='node_modules/expo/AppEntry.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
-    "build:android":"react-native bundle --platform android --dev false --entry-file='node_modules/expo/AppEntry.js' --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
+    "build:android": "react-native bundle --platform android --dev false --entry-file='node_modules/expo/AppEntry.js' --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res"
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.3",
@@ -37,6 +37,7 @@
     "react": "18.2.0",
     "react-native": "0.73.4",
     "react-native-app-intro-slider": "^4.0.4",
+    "react-native-calendar-picker": "^8.0.1",
     "react-native-dropdown-select-list": "^2.0.5",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

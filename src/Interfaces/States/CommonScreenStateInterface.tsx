@@ -20,5 +20,6 @@ export default interface CommonScreenStateInterface{
     color?:any,
     msgData?:any,
     remark?:any,
-    uidToken?:any
+    uidToken?:any,
+    selectedStartDate?:any
 }

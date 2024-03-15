@@ -6,7 +6,7 @@ import Colors from "../utilty/Colors";
 import { CommonApiRequest } from "../utilty/api/commonApiRequest";
 import WorkorderStateInterface from "../Interfaces/States/WorkorderStateInterface";
 import MainLayout from "../Layout/MainLayout";
-
+import CalendarPicker from "react-native-calendar-picker";
 
 export default class Workorder extends Component<{}, WorkorderStateInterface>{
     constructor(props: any) {
@@ -15,50 +15,46 @@ export default class Workorder extends Component<{}, WorkorderStateInterface>{
             objWorkorder: {},
             loader: false,
             serachText: '',
+            minDate: new Date().toString(),
+            selectedStartDate: null,
         }
+        this.onDateChange = this.onDateChange.bind(this);
     }
     async componentDidMount() {
-        this.props?.navigation.addListener("focus", async () => {
-            await this.getApiData();
-        });
-        this.setState({ loader: true });
-        await this.getApiData()
-    }
-    async getApiData(params: any = "") {
-        await CommonApiRequest.getUserWorkOrder(params).then((response: any) => {
-            this.setState({ objWorkorder: response?.results?.data });//response?.results?.data
-            this.setState({ loader: false });
-        }).catch(() => {
-            this.setState({ loader: false });
-        });
+
     }
     async refreshPage() {
-        await this.getApiData();
+
     }
     async serachingData() {
-        const serahcText = "?q=" + this.state?.serachText;
-        this.setState({ loader: true });
-        await this.getApiData(serahcText);
+
     }
-    retirectToDetail(data: any) {
-        this.props.navigation?.navigate("WorkOrderDetail", { data: data });
+    onDateChange(date) {
+        this.setState({
+            selectedStartDate: date,
+        });
     }
     render() {
         return (
-            <MainLayout isTopLogo={false} onRefresh={() => { this.refreshPage() }} loader={this.state?.loader}>
+            <MainLayout navigation={this.props.navigation} isTopLogo={false} onRefresh={() => { this.refreshPage() }} loader={this.state?.loader}>
                 <View>
                     <View style={[ThemeStyling.container, { minHeight: 'auto', marginTop: 0 }]}>
                         <View>
                             <Text style={[ThemeStyling.heading3, { marginBottom: 20, lineHeight: 25 }]}>Select Date</Text>
                         </View>
                         <View style={ThemeStyling.card}>
-                           <View style={ThemeStyling.cardBody}>
-                            <View>
-                                <Text style={ThemeStyling.heading3}>
-                                    Calender area
-                                </Text>
+                            <View style={ThemeStyling.cardBody}>
+                                <View>
+                                    <Text style={ThemeStyling.heading3}>
+                                        <CalendarPicker
+                                            selectedStartDate={this.state.selectedStartDate}
+                                            onDateChange={(date) => { this.onDateChange(date) }}
+                                            minDate={this.state.minDate}
+                                            initialDate={new Date().toString()}
+                                        />
+                                    </Text>
+                                </View>
                             </View>
-                           </View>
                         </View>
 
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -89,8 +85,8 @@ export default class Workorder extends Component<{}, WorkorderStateInterface>{
                             </View>
                         </View>
                         <View style={{ marginBottom: 20 }}>
-                            <TouchableOpacity  style={[ThemeStyling.btnSuccess, { justifyContent: 'center' }]}>
-                                <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f16, color:Colors.white }]}>Next</Text>
+                            <TouchableOpacity style={[ThemeStyling.btnSuccess, { justifyContent: 'center' }]}>
+                                <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f16, color: Colors.white }]}>Next</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

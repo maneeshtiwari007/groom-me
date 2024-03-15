@@ -14,5 +14,7 @@ export default interface WorkorderStateInterface {
     isAnyJobStarted?:boolean,
     clockedInStartTime?:any,
     clockInId?:number,
-    work_order_id?:number
+    work_order_id?:number,
+    selectedStartDate?:any,
+    minDate?:any
 }
