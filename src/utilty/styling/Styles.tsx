@@ -585,17 +585,20 @@ export const ThemeStyling = StyleSheet.create({
   },
   cardGroup: {
     display: 'flex',
-    justifyContent: "flex-start",
-    alignItems: 'center',
-    flexDirection: 'row'
+    flexWrap: "wrap",
+    flexDirection:'row',
+    marginRight: -5,
+    marginLeft:-5
   },
   cardStyle: {
-    width: 50,
+    width: '47%',
     height: 65,
     display: 'flex',
     justifyContent: "center",
     alignItems: 'center',
-    marginRight: 10
+    marginRight: 5,
+    marginLeft:5,
+    borderRadius:20
   },
   cardStyle2: {
     display: 'flex',
