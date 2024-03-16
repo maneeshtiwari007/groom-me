@@ -16,7 +16,7 @@ export default class Workorder extends Component<{}, WorkorderStateInterface>{
             loader: false,
             serachText: '',
             minDate: new Date().toString(),
-            selectedStartDate: null,
+            selectedStartDate:  new Date().toString(),
         }
         this.onDateChange = this.onDateChange.bind(this);
     }
@@ -48,9 +48,10 @@ export default class Workorder extends Component<{}, WorkorderStateInterface>{
                                     <Text style={ThemeStyling.heading3}>
                                         <CalendarPicker
                                             selectedStartDate={this.state.selectedStartDate}
-                                            onDateChange={(date) => { this.onDateChange(date) }}
+                                            onDateChange={this.onDateChange}
                                             minDate={this.state.minDate}
-                                            initialDate={new Date().toString()}
+                                            selectedDayColor={Colors.primary_color}
+                                            selectedDayTextColor={Colors.white}
                                         />
                                     </Text>
                                 </View>
