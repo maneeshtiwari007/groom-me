@@ -108,13 +108,11 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
             card: this.state?.card,
             remark:this?.props?.route?.params?.remark
         }
-        console.log(orderObj)
         return orderObj;
     }
     async createOrder() {
         const objOrderData = await this.formatObjOrderData();
         CommonApiRequest.createUserOrder(objOrderData).then((response) => {
-            console.log('response');
             //console.log(response);
             if (response?.status === 200) {
                 DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.success_color, msgData: { head: 'Success', subject: 'Booking placed successfully!!', top: 20 } });

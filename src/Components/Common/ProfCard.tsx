@@ -15,7 +15,7 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
         }
     }
     componentDidMount() {
-        console.log(this.props?.data?.live);
+        
     }
     makeProfFavorite() {
         const params = { isFav: (this.props?.data?.isFav) ? false : true, id: this.props?.data?.id }

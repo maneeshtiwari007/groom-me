@@ -129,7 +129,6 @@ export default function App(props){
     } else {
       alert('Must use physical device for Push Notifications');
     }
-    console.log(token?.data)
     return token?.data;
   }
   useEffect(() => {

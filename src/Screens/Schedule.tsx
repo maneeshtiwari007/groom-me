@@ -50,8 +50,8 @@ export default class Workorder extends Component<ScreenInterfcae, WorkorderState
                                         selectedStartDate={this.state.selectedStartDate}
                                         onDateChange={this.onDateChange}
                                         minDate={this.state.minDate}
-                                        selectedDayColor={Colors.primary_color}
                                         selectedDayTextColor={Colors.white}
+                                        selectedDayStyle={{backgroundColor:Colors.primary_color,color:Colors.white}}
                                     />
                                 </View>
                             </View>

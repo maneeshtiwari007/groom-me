@@ -41,7 +41,6 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
     async getApiData() {
         const id = this.props.route?.params?.data?.id;
         CommonApiRequest.getProfDetails(id).then((response) => {
-            console.log(response);
             this.setState({ loader: false });
             if (response?.status === 200) {
                 this.setState({ dataObj: response?.results });

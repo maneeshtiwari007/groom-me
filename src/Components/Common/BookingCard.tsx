@@ -20,7 +20,7 @@ export default class BookingCard extends Component<ScreenInterfcae, BadgeInterFa
         }
     }
     componentDidMount(): void {
-        console.log(this.props?.data)
+        
     }
     render() {
         return (
