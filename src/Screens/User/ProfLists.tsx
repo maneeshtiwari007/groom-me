@@ -3,7 +3,7 @@ import { FontAwesome, Ionicons, FontAwesome6, FontAwesome5 } from '@expo/vector-
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, StyleSheet, Dimensions, Pressable } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, Pressable, Platform } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -91,7 +91,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                     </View>
                 }
                 {this.state?.type === 'map' && this.state?.dataObj && this.state.location &&
-                    <View style={{ height: Dimensions.get('screen').height - 187, width: Dimensions.get('screen').width }}>
+                    <View style={{ height: (Platform.OS==='ios')?Dimensions.get('screen').height - 187:'auto', width: Dimensions.get('screen').width}}>
                         <MapCard data={this.state?.dataObj} location={this.state.location} navigation={this.props.navigation}></MapCard>
                     </View>
                 }
