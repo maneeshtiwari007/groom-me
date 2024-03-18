@@ -16,5 +16,6 @@ export default interface WorkorderStateInterface {
     clockInId?:number,
     work_order_id?:number,
     selectedStartDate?:any,
-    minDate?:any
+    minDate?:any,
+    navigation?:any
 }

@@ -7,8 +7,9 @@ import { CommonApiRequest } from "../utilty/api/commonApiRequest";
 import WorkorderStateInterface from "../Interfaces/States/WorkorderStateInterface";
 import MainLayout from "../Layout/MainLayout";
 import CalendarPicker from "react-native-calendar-picker";
+import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
 
-export default class Workorder extends Component<{}, WorkorderStateInterface>{
+export default class Workorder extends Component<ScreenInterfcae, WorkorderStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
@@ -16,7 +17,7 @@ export default class Workorder extends Component<{}, WorkorderStateInterface>{
             loader: false,
             serachText: '',
             minDate: new Date().toString(),
-            selectedStartDate:  new Date().toString(),
+            selectedStartDate: new Date().toString(),
         }
         this.onDateChange = this.onDateChange.bind(this);
     }
@@ -36,7 +37,7 @@ export default class Workorder extends Component<{}, WorkorderStateInterface>{
     }
     render() {
         return (
-            <MainLayout navigation={this.props.navigation} isTopLogo={false} onRefresh={() => { this.refreshPage() }} loader={this.state?.loader}>
+            <MainLayout navigation={this?.props?.navigation} isTopLogo={false} loader={this.state?.loader}>
                 <View>
                     <View style={[ThemeStyling.container, { minHeight: 'auto', marginTop: 0 }]}>
                         <View>
@@ -45,15 +46,13 @@ export default class Workorder extends Component<{}, WorkorderStateInterface>{
                         <View style={ThemeStyling.card}>
                             <View style={ThemeStyling.cardBody}>
                                 <View>
-                                    <Text style={ThemeStyling.heading3}>
-                                        <CalendarPicker
-                                            selectedStartDate={this.state.selectedStartDate}
-                                            onDateChange={this.onDateChange}
-                                            minDate={this.state.minDate}
-                                            selectedDayColor={Colors.primary_color}
-                                            selectedDayTextColor={Colors.white}
-                                        />
-                                    </Text>
+                                    <CalendarPicker
+                                        selectedStartDate={this.state.selectedStartDate}
+                                        onDateChange={this.onDateChange}
+                                        minDate={this.state.minDate}
+                                        selectedDayColor={Colors.primary_color}
+                                        selectedDayTextColor={Colors.white}
+                                    />
                                 </View>
                             </View>
                         </View>

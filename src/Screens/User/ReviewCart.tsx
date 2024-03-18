@@ -48,7 +48,6 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
     render() {
         return (
             <MainLayout
-                onRefresh={() => { }}
                 otherText=""
                 loader={this.state?.loader}
                 containerStyle={{ paddingTop: 1 }}
@@ -172,7 +171,7 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
 
                     </View>
                     {this.state?.otherData?.total &&
-                        <View style={[ThemeStyling.ForBottomOfSCreen, { marginBottom: 0, paddingHorizontal: 15, paddingVertical: 15 }]}>
+                        <View style={[ThemeStyling.ForBottomOfSCreen, {paddingHorizontal: 15, paddingVertical: 2 }]}>
                             <TouchableOpacity onPress={() => { this.payment() }} style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, opacity: (this.state?.otherData?.total) ? 1 : 0.5 }]} disabled={(this.state?.otherData?.total) ? false : true}>
                                 <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Pay {this.state?.otherData?.total}</Text>
                             </TouchableOpacity>

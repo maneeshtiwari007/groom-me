@@ -3,7 +3,7 @@ import { FontAwesome, Ionicons, AntDesign, FontAwesome5 } from '@expo/vector-ico
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, StyleSheet, ImageBackground, Dimensions, Pressable, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageBackground, Dimensions, Pressable, Button, Platform } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -34,6 +34,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
         }
     }
     async componentDidMount() {
+        console.log(Platform.OS);
         this.setState({ loader: true });
         await this.getApiData()
     }
@@ -74,7 +75,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
     }
     render() {
         return (
-            <MainLayout scollEnabled={false} onRefresh={() => { }} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 0.5 }} navigation={this.props.navigation} route={this.props.route}>
+            <MainLayout scollEnabled={false} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 0.5 }} navigation={this.props.navigation} route={this.props.route}>
                 {this.state?.dataObj &&
                     <>
                         <View>
@@ -120,7 +121,7 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
                                 </View>
                             </View>
                         </View>
-                        <View style={{ height:Dimensions.get('screen').height-CommonHelper.getHeightPercentage(Dimensions.get('screen').height,46.7) }}>
+                        <View style={{ height:Dimensions.get('screen').height-CommonHelper.getHeightPercentage(Dimensions.get('screen').height,(Platform?.OS==='android')?51.9:46.8) }}>
                             <TabView
                                 navigationState={{ index: this.state.index, routes: this.state.routes }}
                                 renderScene={this._renderScene}

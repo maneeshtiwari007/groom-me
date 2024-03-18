@@ -79,13 +79,6 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                 tabDefaultKey={this.state?.type}
                 onClickTab={(changeTab) => { this.setState({ type: changeTab }) }}
             >
-                {/* <View style={{ width: '100%'}}>
-                    <View style={{ flexDirection: "row" }}>
-                        <Pressable style={{ width: '48%', marginRight: 5 }} onPress={() => { this.setState({ type: 'map' }) }}><Text>Map</Text></Pressable>
-                        <Pressable style={{ width: '48%' }} onPress={() => { this.setState({ type: 'list' }) }}><Text>List</Text></Pressable>
-                    </View>
-                </View> */}
-
                 {this.state?.type === 'list' &&
                     <View style={ThemeStyling.container}>
 
@@ -98,7 +91,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                     </View>
                 }
                 {this.state?.type === 'map' && this.state?.dataObj && this.state.location &&
-                    <View style={{ height: Dimensions.get('screen').height - 187, width: Dimensions.get('screen').width, backgroundColor: 'red' }}>
+                    <View style={{ height: Dimensions.get('screen').height - 187, width: Dimensions.get('screen').width }}>
                         <MapCard data={this.state?.dataObj} location={this.state.location} navigation={this.props.navigation}></MapCard>
                     </View>
                 }

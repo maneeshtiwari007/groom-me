@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { createStackNavigator } from '@react-navigation/stack';
-import { ActivityIndicator, DeviceEventEmitter, Image, Pressable, RefreshControl, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, DeviceEventEmitter, Dimensions, Image, Pressable, RefreshControl, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { ThemeStyling } from "../utilty/styling/Styles";
 import LayoutInterface from "../Interfaces/Common/LayoutInterface";
 import Colors from "../utilty/Colors";
@@ -149,11 +149,11 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                     
                 </View>
                 }
-                <ScrollView nestedScrollEnabled={true} scrollEnabled={this.state.scrollEnabled} refreshControl={<RefreshControl
+                <ScrollView nestedScrollEnabled={true} scrollEnabled={this.state.scrollEnabled} refreshControl={(this.props?.onRefresh)?<RefreshControl
                     refreshing={this.state?.refresh}
                     //refresh control used for the Pull to Refresh
                     onRefresh={this.refreshData.bind(this)}
-                />} style={[ThemeStyling.scrollView, this.props?.style]} contentContainerStyle={[this.props.containerStyle, { paddingTop: (this.props.containerStyle?.paddingTop) ? this.props.containerStyle?.paddingTop : 45 }]}>
+                />:<></>} style={[ThemeStyling.scrollView, this.props?.style]} contentContainerStyle={[{minHeight:'100%'},this.props.containerStyle, { paddingTop: (this.props.containerStyle?.paddingTop) ? this.props.containerStyle?.paddingTop : 45 }]}>
 
                     
                     {this.props?.loader &&
