@@ -104,7 +104,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
                 address: reverGeocode?.[0]?.name + " " + reverGeocode?.[0]?.city + " " + reverGeocode?.[0]?.country,
             },
             payment: this.state?.paymentData,
-            bookingType: 'live',
+            bookingType: this.props.bookingType,
             card: this.state?.card,
             remark:this?.props?.route?.params?.remark
         }

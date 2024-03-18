@@ -8,5 +8,7 @@ export default interface ScreenInterfcae{
     isOnPressed?:boolean,
     isArchive?:boolean,
     showCount?:boolean,
-    remark?:any
+    remark?:any,
+    bookingType?:any,
+    onDismiss?:func
 }

@@ -21,5 +21,6 @@ export default interface CommonScreenStateInterface{
     msgData?:any,
     remark?:any,
     uidToken?:any,
-    selectedStartDate?:any
+    selectedStartDate?:any,
+    bookingType?:any,
 }

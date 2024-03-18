@@ -3,7 +3,7 @@ import { FontAwesome, MaterialCommunityIcons, Feather, FontAwesome5, AntDesign }
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, Dimensions, Pressable, TextInput } from 'react-native';
+import { View, Text, Image, Dimensions, Pressable, TextInput, Modal } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -14,6 +14,8 @@ import Colors from "../../utilty/Colors";
 import * as Location from 'expo-location';
 import { CommonHelper } from "../../utilty/CommonHelper";
 import { Divider } from "react-native-paper";
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import Schedule from "../Schedule";
 export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -21,7 +23,9 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
             loader: false,
             type: 'map',
             commonData: [1, 2, 3, 4, 5],
-            count: '$0'
+            count: '$0',
+            bookingType: 'live',
+            visible: false
         }
     }
     async componentDidMount() {
@@ -43,7 +47,17 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
         })
     }
     payment() {
-        this.props?.navigation?.navigate("Payment", { dataObj: this.state?.dataObj, userObj: this.state?.userObj, otherData: this.state?.otherData, remark: this?.state?.remark })
+        this.props?.navigation?.navigate("Payment", { dataObj: this.state?.dataObj, userObj: this.state?.userObj, otherData: this.state?.otherData, remark: this?.state?.remark, bookingType: this.state.bookingType })
+    }
+    selectBookingType(value: any) {
+        this.setState({ bookingType: value })
+        if (value === 'schedule') {
+            this.setState({ visible: true });
+        }
+    }
+    disMissModal(data) {
+        console.log(data)
+        this.setState({ visible: false });
     }
     render() {
         return (
@@ -110,6 +124,17 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                                     </View>
                                 </View>
                             </View>
+                            <View style={{ flex: 1, height: 1, backgroundColor: Colors.gray400, marginBottom: 10 }}></View>
+                            <View style={{ marginVertical: 10 }}>
+                                <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
+                                    <RadioButtonItem value="live" label="Live Booking" />
+                                    <RadioButtonItem
+                                        value="schedule"
+                                        label="Schedule Booking"
+                                    />
+                                </RadioButtonGroup>
+                            </View>
+                            <View style={{ flex: 1, height: 1, backgroundColor: Colors.gray400, marginBottom: 15 }}></View>
                             <View style={{ backgroundColor: Colors.primary_light_color, padding: 3, paddingTop: 5, paddingLeft: 15, marginBottom: 5, alignItems: 'center' }}>
                                 <Text style={[ThemeStyling.heading5, { margin: 0, color: Colors.primary_color }]}>Selected Services</Text>
                             </View>
@@ -161,7 +186,7 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                                             numberOfLines={4}
                                             onChangeText={(text) => { this.setState({ remark: text }) }}
                                             value={this.state?.remark}
-                                            style={{ minHeight: 90, borderRadius: 5, borderWidth: 1, borderColor: Colors.gray400, fontSize: 12,padding:5 }}
+                                            style={{ minHeight: 90, borderRadius: 5, borderWidth: 1, borderColor: Colors.gray400, fontSize: 12, padding: 5 }}
                                             placeholder="Please enter your remarks here...." />
                                     </View>
                                 </View>
@@ -171,13 +196,18 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
 
                     </View>
                     {this.state?.otherData?.total &&
-                        <View style={[ThemeStyling.ForBottomOfSCreen, {paddingHorizontal: 15, paddingVertical: 2 }]}>
+                        <View style={[ThemeStyling.ForBottomOfSCreen, { paddingHorizontal: 15, paddingVertical: 2 }]}>
                             <TouchableOpacity onPress={() => { this.payment() }} style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, opacity: (this.state?.otherData?.total) ? 1 : 0.5 }]} disabled={(this.state?.otherData?.total) ? false : true}>
                                 <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Pay {this.state?.otherData?.total}</Text>
                             </TouchableOpacity>
                         </View>
                     }
                 </KeyboardAwareScrollView>
+                <Modal
+                    visible={this.state.visible}
+                    transparent={false} >
+                    <Schedule onDismiss={(data:any)=>this.disMissModal(data)}></Schedule>
+                </Modal>
             </MainLayout >
         );
     }

@@ -14,5 +14,6 @@ export default interface PaymentStateInterface{
     dataObj?:any,
     card?:any,
     paymentData?:any,
-    location?:any
+    location?:any,
+    bookingType?:any
 }
