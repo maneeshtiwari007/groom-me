@@ -4,6 +4,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
 import { View, Text, Image, Dimensions, Pressable, TextInput } from 'react-native';
+import InputComponent from "../../Components/Common/InputComponent";
+import FormGroup from "../../Components/Common/FormGroup";
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -64,36 +66,32 @@ export default class SelectAddress extends Component<ScreenInterfcae, CommonScre
                                 <Text style={[ThemeStyling.heading3, { marginBottom: 10, paddingBottom: 0 }]}>Enter Complete Address</Text>
                             </View>
                             <View style={{ marginBottom: 15 }}>
-                                <Text style={ThemeStyling.formLabel}>Enter your name</Text>
-                                <TextInput style={ThemeStyling.formcontrol2} placeholder="eg: John kay"></TextInput>
+                                <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Enter your mobile number</Text>
+                                <TextInput style={ThemeStyling.formcontrol} placeholder=""></TextInput>
                             </View>
                             <View style={{ marginBottom: 15 }}>
-                                <Text style={ThemeStyling.formLabel}>Enter your mobile number</Text>
-                                <TextInput style={ThemeStyling.formcontrol2} placeholder="e.g. +91 xxxx xxxx xx"></TextInput>
+                                <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Enter your email id</Text>
+                                <TextInput style={ThemeStyling.formcontrol} placeholder=""></TextInput>
                             </View>
                             <View style={{ marginBottom: 15 }}>
-                                <Text style={ThemeStyling.formLabel}>Enter your email id</Text>
-                                <TextInput style={ThemeStyling.formcontrol2} placeholder="e.g. abc@gmail"></TextInput>
+                                <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Enter your email id</Text>
+                                <TextInput style={ThemeStyling.formcontrol} placeholder=""></TextInput>
                             </View>
                             <View style={{ marginBottom: 15 }}>
-                                <Text style={ThemeStyling.formLabel}>Enter your email id</Text>
-                                <TextInput style={ThemeStyling.formcontrol2} placeholder="e.g. abc@gmail"></TextInput>
+                                <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Enter your address</Text>
+                                <TextInput style={ThemeStyling.formcontrol} placeholder=""></TextInput>
                             </View>
                             <View style={{ marginBottom: 15 }}>
-                                <Text style={ThemeStyling.formLabel}>Enter your address</Text>
-                                <TextInput style={ThemeStyling.formcontrol2} placeholder="e.g. 225 Liberty St, 4th Fl"></TextInput>
+                                <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Enter your city</Text>
+                                <TextInput style={ThemeStyling.formcontrol} placeholder=""></TextInput>
                             </View>
                             <View style={{ marginBottom: 15 }}>
-                                <Text style={ThemeStyling.formLabel}>Enter your city</Text>
-                                <TextInput style={ThemeStyling.formcontrol2} placeholder="e.g. Londan"></TextInput>
+                                <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Enter your state</Text>
+                                <TextInput style={ThemeStyling.formcontrol} placeholder=""></TextInput>
                             </View>
                             <View style={{ marginBottom: 15 }}>
-                                <Text style={ThemeStyling.formLabel}>Enter your state</Text>
-                                <TextInput style={ThemeStyling.formcontrol2} placeholder="e.g. United Kingdom"></TextInput>
-                            </View>
-                            <View style={{ marginBottom: 15 }}>
-                                <Text style={ThemeStyling.formLabel}>Enter your state</Text>
-                                <TextInput style={ThemeStyling.formcontrol2} placeholder="e.g. United Kingdom"></TextInput>
+                                <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Enter your state</Text>
+                                <TextInput style={ThemeStyling.formcontrol} placeholder=""></TextInput>
                             </View>
                             <View>
                                 <Text style={ThemeStyling.text1}>Your saved address</Text>
@@ -112,7 +110,6 @@ export default class SelectAddress extends Component<ScreenInterfcae, CommonScre
                                             <View><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>
                                                 Groom Me Technologies Inc. 2411 Newcastle Crescent, Oakville, ON L6M 4P9</Text></View>
                                         </View>
-
                                     </View>
                                 </View>
                             </View>

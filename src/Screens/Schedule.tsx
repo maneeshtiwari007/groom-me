@@ -101,7 +101,7 @@ export default class Schedule extends Component<ScreenInterfcae, WorkorderStateI
                         </View>
                         <View style={{ marginBottom: 20 }}>
                             <TouchableOpacity style={[ThemeStyling.btnSuccess, { justifyContent: 'center' }]} onPress={()=>{this.dismissModal()}}>
-                                <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f16, color: Colors.white }]}>Next</Text>
+                                <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f16, color: Colors.white, paddingTop:5, paddingBottom:5 }]}>Book Now</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

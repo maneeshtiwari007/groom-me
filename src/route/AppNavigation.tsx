@@ -282,6 +282,21 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
           }}
         />
         <Drawer.Screen
+          name="Address"
+          component={SelectAddress}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <MaterialCommunityIcons
+                name="calendar-clock-outline"
+                size={size}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
+              />,
+            drawerLabel: ({ focused }) => {
+              return <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Address</Text>
+            },
+          }}
+        />
+        <Drawer.Screen
           name="FavoriteProf"
           component={this.FavProf}
           options={{
