@@ -35,6 +35,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
     }
     async componentDidMount() {
         //this.setState({ loader: true })
+        console.log(this.props?.route?.params?.bookingType)
         const locationObj = await CommonHelper.getData(ConstantsVar.LOCATION_KEY);
         const location = locationObj?.location
         this.setState({ location: location });
@@ -104,7 +105,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
                 address: reverGeocode?.[0]?.name + " " + reverGeocode?.[0]?.city + " " + reverGeocode?.[0]?.country,
             },
             payment: this.state?.paymentData,
-            bookingType: this.props.bookingType,
+            bookingType: this.props?.route?.params?.bookingType,
             card: this.state?.card,
             remark:this?.props?.route?.params?.remark
         }
@@ -113,7 +114,6 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
     async createOrder() {
         const objOrderData = await this.formatObjOrderData();
         CommonApiRequest.createUserOrder(objOrderData).then((response) => {
-            //console.log(response);
             if (response?.status === 200) {
                 DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.success_color, msgData: { head: 'Success', subject: 'Booking placed successfully!!', top: 20 } });
                 this.props.navigation.navigate("BookingSuccess");
