@@ -48,7 +48,7 @@ export default class BookingSuccess extends Component<ScreenInterfcae, CommonScr
                         </View>
                         <View style={[ThemeStyling.btnContainer, { marginBottom: 60,width:'100%' }]}>
                             <Pressable style={[ThemeStyling.btnPrimary,{paddingHorizontal:50}]} onPress={()=>{this.props.navigation.navigate("BookingScreen")}}>
-                                <Text style={ThemeStyling.btnText}>Go to Payment</Text>
+                                <Text style={ThemeStyling.btnText}>Go to Booking List</Text>
                             </Pressable>
                         </View>
                     </View>

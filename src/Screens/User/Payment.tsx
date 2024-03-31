@@ -34,8 +34,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
         }
     }
     async componentDidMount() {
-        //this.setState({ loader: true })
-        console.log(this.props?.route?.params?.bookingType)
+        console.log(this.props.route?.params)
         const locationObj = await CommonHelper.getData(ConstantsVar.LOCATION_KEY);
         const location = locationObj?.location
         this.setState({ location: location });
@@ -89,21 +88,23 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
             this.setState({ loader: false })
         })
     }
+
     async formatObjOrderData() {
+        // {
+        //     zip_code: reverGeocode?.[0]?.postalCode,
+        //     latitude: this.state.location?.coords?.latitude,
+        //     longitude: this.state.location?.coords?.longitude,
+        //     city: reverGeocode?.[0]?.city,
+        //     state: reverGeocode?.[0]?.district,
+        //     country: reverGeocode?.[0]?.country,
+        //     subLocality: reverGeocode?.[0]?.name,
+        //     address: reverGeocode?.[0]?.name + " " + reverGeocode?.[0]?.city + " " + reverGeocode?.[0]?.country,
+        // },
         const reverGeocode = await Location.reverseGeocodeAsync({ latitude: this.state.location?.coords?.latitude, longitude: this.state.location?.coords?.longitude });
         const orderObj = {
             services: this?.props?.route?.params?.dataObj,
             customer_detail: this.state.userObj,
-            address: {
-                zip_code: reverGeocode?.[0]?.postalCode,
-                latitude: this.state.location?.coords?.latitude,
-                longitude: this.state.location?.coords?.longitude,
-                city: reverGeocode?.[0]?.city,
-                state: reverGeocode?.[0]?.district,
-                country: reverGeocode?.[0]?.country,
-                subLocality: reverGeocode?.[0]?.name,
-                address: reverGeocode?.[0]?.name + " " + reverGeocode?.[0]?.city + " " + reverGeocode?.[0]?.country,
-            },
+            address: this.props.route?.params?.address,
             payment: this.state?.paymentData,
             bookingType: this.props?.route?.params?.bookingType,
             card: this.state?.card,

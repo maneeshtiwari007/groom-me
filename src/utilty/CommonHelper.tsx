@@ -105,8 +105,8 @@ export const CommonHelper = {
             return "";
         }
     },
-    getCurrentDate() {
-        var myDateObj = new Date();
+    getCurrentDate(date:any=undefined) {
+        var myDateObj = (date)?new Date(date):new Date();
         const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][myDateObj.getMonth()]
         const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",

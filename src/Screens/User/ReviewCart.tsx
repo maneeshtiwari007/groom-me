@@ -3,7 +3,7 @@ import { FontAwesome, MaterialCommunityIcons, Feather, FontAwesome5, AntDesign }
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, Dimensions, Pressable, TextInput, Modal } from 'react-native';
+import { View, Text, Image, Dimensions, Pressable, TextInput, Modal, DeviceEventEmitter } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -16,6 +16,9 @@ import { CommonHelper } from "../../utilty/CommonHelper";
 import { Divider } from "react-native-paper";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import Schedule from "../Schedule";
+import SelectAddress from "./SelectAddress";
+import { ConstantsVar } from "../../utilty/ConstantsVar";
+import { format } from "date-fns";
 export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -24,14 +27,19 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
             type: 'map',
             commonData: [1, 2, 3, 4, 5],
             count: '$0',
-            bookingType: 'live',
-            visible: false
+            visible: false,
+            visisbleAddress: false
         }
     }
     async componentDidMount() {
         this.setState({ loader: true })
         this.getApiData(this.props.route?.params?.data);
         this.setState({ dataObj: this.props.route?.params?.data, userObj: this.props.route?.params?.prof, count: await CommonHelper.getTotalPriceCount(this.props.route?.params?.data) });
+        if (this.props.route?.params?.prof?.live) {
+            this.setState({ bookingType: 'live' })
+        } else {
+            this.setState({ bookingType: undefined })
+        }
     }
     find_dimesions() {
         return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 21.5)
@@ -47,7 +55,11 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
         })
     }
     payment() {
-        this.props?.navigation?.navigate("Payment", { dataObj: this.state?.dataObj, userObj: this.state?.userObj, otherData: this.state?.otherData, remark: this?.state?.remark, bookingType: this.state.bookingType })
+        if (this.state.bookingType) {
+            this.props?.navigation?.navigate("Addresses", { dataObj: this.state?.dataObj, userObj: this.state?.userObj, otherData: this.state?.otherData, remark: this?.state?.remark, bookingType: this.state.bookingType })
+        } else {
+            DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.errorColor, msgData: { head: 'Error', subject: "Please select booking type!!", top: 20 } });
+        }
     }
     selectBookingType(value: any) {
         this.setState({ bookingType: value })
@@ -56,8 +68,15 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
         }
     }
     disMissModal(data) {
-        console.log(data)
+        if(!data?.slot){
+            this.setState({ bookingType: undefined,selectedDate:data?.selectedDate });
+        } else {
+            this.setState({selectedDate:CommonHelper.getCurrentDate(data?.selectedDate),slot:data?.slot,date:data?.selectedDate})
+        }
         this.setState({ visible: false });
+    }
+    disMissAddressModal(data) {
+        this.setState({ visisbleAddress: false });
     }
     render() {
         return (
@@ -106,7 +125,7 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                                             <AntDesign style={{ position: "relative", top: 2 }} name="calendar" size={13} color="black" />
                                             <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.f12, fontWeight: '600', color: Colors.dark_color, marginBottom: 0, marginLeft: 5 }]}>Date</Text>
                                         </View>
-                                        <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>{CommonHelper.getCurrentDate()}</Text>
+                                        <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>{(this.state.selectedDate)?this.state.selectedDate:CommonHelper.getCurrentDate()}</Text>
                                     </View>
                                     {/* <View style={[ThemeStyling.col3, { borderRightColor: Colors.gray400, borderStyle: "solid", borderRightWidth: 1, alignItems: "center" }]}>
                                     <View style={{ flexDirection: "row", marginBottom: 0 }}>
@@ -126,13 +145,28 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                             </View>
                             <View style={{ flex: 1, height: 1, backgroundColor: Colors.gray400, marginBottom: 10 }}></View>
                             <View style={{ marginVertical: 10 }}>
-                                <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
-                                    <RadioButtonItem value="live" label="Live Booking" />
-                                    <RadioButtonItem
-                                        value="schedule"
-                                        label="Schedule Booking"
-                                    />
-                                </RadioButtonGroup>
+                                {this.props.route?.params?.prof?.live && this.props.route?.params?.prof?.schedule &&
+                                    <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
+                                        <RadioButtonItem value="live" label="Live Booking" />
+                                        <RadioButtonItem
+                                            value="schedule"
+                                            label="Schedule Booking"
+                                        />
+                                    </RadioButtonGroup>
+                                }
+                                {this.props.route?.params?.prof?.live && !this.props.route?.params?.prof?.schedule &&
+                                    <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
+                                        <RadioButtonItem value="live" label="Live Booking" />
+                                    </RadioButtonGroup>
+                                }
+                                {!this.props.route?.params?.prof?.live && this.props.route?.params?.prof?.schedule &&
+                                    <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
+                                        <RadioButtonItem
+                                            value="schedule"
+                                            label="Schedule Booking"
+                                        />
+                                    </RadioButtonGroup>
+                                }
                             </View>
                             <View style={{ flex: 1, height: 1, backgroundColor: Colors.gray400, marginBottom: 15 }}></View>
                             <View style={{ backgroundColor: Colors.primary_light_color, padding: 3, paddingTop: 5, paddingLeft: 15, marginBottom: 5, alignItems: 'center' }}>
@@ -206,7 +240,10 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                 <Modal
                     visible={this.state.visible}
                     transparent={false} >
-                    <Schedule onDismiss={(data:any)=>this.disMissModal(data)}></Schedule>
+                    <Schedule onDismiss={(data: any) => this.disMissModal(data)} data={this.props.route?.params?.prof}></Schedule>
+                </Modal>
+                <Modal visible={this.state.visisbleAddress} transparent={false} >
+                    <SelectAddress onDismiss={(data) => { this.disMissAddressModal(data) }}></SelectAddress>
                 </Modal>
             </MainLayout >
         );

@@ -149,7 +149,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                     
                 </View>
                 }
-                <ScrollView nestedScrollEnabled={true} scrollEnabled={this.state.scrollEnabled} refreshControl={(this.props?.onRefresh)?<RefreshControl
+                <ScrollView keyboardShouldPersistTaps="always" nestedScrollEnabled={true} scrollEnabled={this.state.scrollEnabled} refreshControl={(this.props?.onRefresh)?<RefreshControl
                     refreshing={this.state?.refresh}
                     //refresh control used for the Pull to Refresh
                     onRefresh={this.refreshData.bind(this)}

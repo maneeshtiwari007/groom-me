@@ -311,5 +311,48 @@ export const CommonApiRequest = {
     // returning the product returned by the API
     return response?.data;
   },
+  getUserAddress: async function (params,cancel = false) {
+    const response: any = await api.request({
+      url: `/user/address`+params,
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  saveUserAddress: async function (params,cancel = false) {
+    const response: any = await api.request({
+      url: `/user/address`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  deleteUserAddress: async function (params,cancel = false) {
+    const response: any = await api.request({
+      url: `/user/address/`+params,
+      method: "DELETE",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfSlot: async function (params,cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/booking/slot`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
 }
 const cancelApiObject = defineCancelApiObject(CommonApiRequest)

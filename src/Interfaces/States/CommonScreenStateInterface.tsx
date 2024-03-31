@@ -23,4 +23,9 @@ export default interface CommonScreenStateInterface{
     uidToken?:any,
     selectedStartDate?:any,
     bookingType?:any,
+    address?:any,
+    visisbleAddress?:boolean,
+    selectedDate?:any,
+    slot?:any,
+    date?:any
 }

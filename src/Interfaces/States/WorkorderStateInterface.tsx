@@ -17,5 +17,10 @@ export default interface WorkorderStateInterface {
     work_order_id?:number,
     selectedStartDate?:any,
     minDate?:any,
-    navigation?:any
+    navigation?:any,
+    objData?:any,
+    objSlot?:any,
+    objSlotKey?:any,
+    selectedSlot?:any,
+    maxDate?:any,
 }

@@ -109,6 +109,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
         <Stack.Screen name="Professional Detail" component={ProfDetail} options={{ gestureEnabled: false }} />
         <Stack.Screen name="Review Cart" component={ReviewCart} />
         <Stack.Screen name="Payment" component={Payment} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="Addresses" component={SelectAddress} options={{ gestureEnabled: false }} />
         <Stack.Screen name="Bookings Detail" component={BookingDetail} />
         <Drawer.Screen
           name="BookingSuccess"
