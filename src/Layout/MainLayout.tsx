@@ -114,8 +114,11 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                                     <Pressable onPress={() => { this.props?.navigation?.goBack() }}>
                                         <Ionicons name="arrow-back" size={24} color="white" />
                                     </Pressable>
-                                    <View style={{ marginLeft: 10 }}>
-                                        <Text style={ThemeStyling.heading5}>{this.state?.previousScreenName}</Text>
+                                    <View style={{ marginLeft: 3 }}>
+                                        <Text style={ThemeStyling.heading6}>{this.state?.previousScreenName?.substring(0,6)+'...'}</Text>
+                                    </View>
+                                    <View style={{ marginLeft: 20,width:'30%',alignItems:'center' }}>
+                                            <Text style={ThemeStyling.heading5}>Testing</Text>
                                     </View>
                                 </>
                             }
@@ -179,6 +182,7 @@ export default class MainLayout extends Component<LayoutInterface, LayoutStateIn
                                     </TouchableOpacity>
                                 }
                                 <Text style={[ThemeStyling.heading3, { marginBottom: 0, paddingBottom: 0, textAlign: "center", flex: 1, marginLeft: 0 }]}>{this.props?.headerText}</Text>
+                                
                             </View>
                         </View>
                     }

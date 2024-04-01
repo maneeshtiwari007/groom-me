@@ -28,7 +28,8 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
             commonData: [1, 2, 3, 4, 5],
             count: '$0',
             visible: false,
-            visisbleAddress: false
+            visisbleAddress: false,
+            isDisable:true
         }
     }
     async componentDidMount() {
@@ -36,9 +37,9 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
         this.getApiData(this.props.route?.params?.data);
         this.setState({ dataObj: this.props.route?.params?.data, userObj: this.props.route?.params?.prof, count: await CommonHelper.getTotalPriceCount(this.props.route?.params?.data) });
         if (this.props.route?.params?.prof?.live) {
-            this.setState({ bookingType: 'live' })
+            this.setState({ bookingType: 'live',isDisable:false })
         } else {
-            this.setState({ bookingType: undefined })
+            this.setState({ bookingType: undefined,isDisable:true })
         }
     }
     find_dimesions() {
@@ -231,9 +232,9 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                     </View>
                     {this.state?.otherData?.total &&
                         <View style={[ThemeStyling.ForBottomOfSCreen, { paddingHorizontal: 15, paddingVertical: 2 }]}>
-                            <TouchableOpacity onPress={() => { this.payment() }} style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, opacity: (this.state?.otherData?.total) ? 1 : 0.5 }]} disabled={(this.state?.otherData?.total) ? false : true}>
+                            <Pressable  onPress={() => { this.payment() }} style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, opacity: (this.state?.otherData?.total && this.state.bookingType) ? 1 : 0.5 }]} disabled={(this.state?.otherData?.total && this.state.bookingType) ? false : true}>
                                 <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Pay {this.state?.otherData?.total}</Text>
-                            </TouchableOpacity>
+                            </Pressable>
                         </View>
                     }
                 </KeyboardAwareScrollView>

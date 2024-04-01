@@ -103,6 +103,13 @@ export const ThemeStyling = StyleSheet.create({
     textTransform: 'capitalize',
     color: Colors.white,
   },
+  heading6: {
+    fontSize: Colors.FontSize.h6,
+    fontFamily: 'Poppins_400Regular',
+    fontWeight: '400',
+    textTransform: 'capitalize',
+    color: Colors.white,
+  },
   text1: {
     fontSize: Colors.FontSize.p,
     fontFamily: 'Poppins_400Regular',
