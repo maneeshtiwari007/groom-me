@@ -31,7 +31,6 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
     }
     async getApiData() {
         this.setState({ loader: true });
-        console.log(this.state?.meta);
         CommonApiRequest.getUserBookingList(this.state?.meta?.next_page).then((response: any) => {
             this.setState({ loader: false,loadMore:false });
             const record = (this.state?.dataObj) ? this.state?.dataObj : [];

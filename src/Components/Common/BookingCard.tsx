@@ -20,12 +20,11 @@ export default class BookingCard extends Component<ScreenInterfcae, BadgeInterFa
         }
     }
     componentDidMount(): void {
-        
     }
     render() {
         return (
             <View style={ThemeStyling.card}>
-                <TouchableOpacity onPress={() => { this.props.navigation.navigate("Bookings Detail", { data: this.props?.data?.order_id }) }}>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate("Bookings Detail", { data: (this.props?.data?.id)?this.props?.data?.id:this.props?.data?.order_id }) }}>
                     <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
                         <View style={[ThemeStyling.twoColumnLayout, { alignItems: "center" }]}>
                             <View style={[ThemeStyling.col4, { marginRight: 10, position: 'relative' }]}>

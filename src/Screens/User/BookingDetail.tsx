@@ -31,7 +31,8 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
         }
     }
     async componentDidMount() {
-        this.setState({ loader: true, otherData: { review_text: undefined, rating: undefined } })
+        this.setState({ loader: true, otherData: { review_text: undefined, rating: undefined } });
+        console.log(this.props.route?.params?.data)
         this.getApiData(this.props.route?.params?.data);
         const locationObj = await CommonHelper.getData(ConstantsVar.LOCATION_KEY);
         const location = locationObj?.location
@@ -95,6 +96,7 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
                 navigation={this.props.navigation}
                 route={this.props.route}
                 scollEnabled={true}
+                onScroll={()=>{}}
             >
                 {this.state?.dataObj &&
                     <View style={{ height: 'auto', flex: 1 }}>

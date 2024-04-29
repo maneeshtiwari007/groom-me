@@ -347,8 +347,8 @@ export default class MainLayout extends Component<
           keyboardShouldPersistTaps="always"
           nestedScrollEnabled={true}
           scrollEnabled={this.state.scrollEnabled}
+          scrollEventThrottle={10}
           onScrollEndDrag={(event: any) => {
-            console.log(this.isCloseToBottom(event?.nativeEvent));
             if (this.isCloseToBottom(event?.nativeEvent)) {
               this.loadMore();
             }
