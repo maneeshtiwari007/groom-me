@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Text, Button, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions, DeviceEventEmitter } from "react-native";
+import { Text, Button, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions, DeviceEventEmitter, Pressable } from "react-native";
 import { ThemeStyling } from "../utilty/styling/Styles";
 import InputComponent from "../Components/Common/InputComponent";
 import FormGroup from "../Components/Common/FormGroup";
@@ -63,6 +63,17 @@ export default class LoginScreen extends Component<ScreenInterfcae, CommonScreen
     async componentDidMount() {
         const token = await CommonHelper.getData(ConstantsVar.NOTIFICATION_STORAGE_KEY);
         this.setState({uidToken:token?.token});
+        const user = await CommonHelper.getUserData();
+        if (user?.email) {
+            this.props?.navigation.navigate("AppContainer");
+        }
+        this.props?.navigation.addListener("focus", async () => {
+            const user = await CommonHelper.getUserData();
+            this.setState({ user: user });
+            if (user?.email) {
+                this.props.navigation.navigate("AppContainer");
+            }
+        });
         DeviceEventEmitter.addListener(ConstantsVar.API_ERROR, (data: any) => {
             this.setState({ visible: true })
             this.setState({
@@ -125,9 +136,9 @@ export default class LoginScreen extends Component<ScreenInterfcae, CommonScreen
                                         </FormGroup>
                                     </View>
                                     <View style={[ThemeStyling.btnContainer, { marginBottom: 60 }]}>
-                                        <TouchableOpacity style={[ThemeStyling.btnPrimary]} onPress={() => { this.loginUser() }} disabled={this.state?.isDisable}>
+                                        <Pressable style={[ThemeStyling.btnPrimary]} onPress={() => { this.loginUser() }} disabled={this.state?.isDisable}>
                                             <Text style={ThemeStyling.btnText}>Sign In</Text>
-                                        </TouchableOpacity>
+                                        </Pressable>
                                     </View>
                                     <View style={[ThemeStyling.footer]}>
                                         <TouchableOpacity onPress={() => { this.props?.navigation?.navigate("Register") }} style={[ThemeStyling.btnLink, { display: 'flex', flexDirection: "row", justifyContent: "center" }]}>

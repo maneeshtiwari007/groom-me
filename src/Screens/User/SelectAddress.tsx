@@ -31,9 +31,6 @@ export default class SelectAddress extends Component<ScreenInterfcae, CommonScre
         }
     }
     async componentDidMount() {
-        console.log(this.props.route?.params);
-        const location = await Location.getCurrentPositionAsync({});
-        this.getCurrentLocation(location?.coords);
         await this.getApiData();
     }
     getCurrentLocation(coords: any) {
@@ -51,9 +48,6 @@ export default class SelectAddress extends Component<ScreenInterfcae, CommonScre
             })
     }
     async getApiData(params: string = '') {
-        //const location = await Location.getCurrentPositionAsync({});
-        // this.setState({ location: location })
-        // const params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude + "&cat=" + this.props?.route?.params?.data?.id
         if (params !== "") {
             params = "?q=" + params
         }
@@ -69,11 +63,16 @@ export default class SelectAddress extends Component<ScreenInterfcae, CommonScre
     find_dimesions() {
         return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 17)
     }
-    changeType(type: string = 'list') {
+    async changeType(type: string = 'list') {
         this.setState({ type: type, index: undefined });
+        if (type === 'new') {
+            this.setState({ loaderText: 'Please wait while fetching location....', loader: true })
+            const location = await Location.getCurrentPositionAsync({});
+            this.getCurrentLocation(location?.coords);
+            this.setState({ loader: false, loaderText: undefined })
+        }
     }
     fetchOtherAddressDetails(details: any = {}) {
-        console.log(details);
         const city = details?.address_components?.find(item => item?.types?.includes("administrative_area_level_3"));
         const state = details?.address_components?.find(item => item?.types?.includes("administrative_area_level_1"));
         const country = details?.address_components?.find(item => item?.types?.includes("country"));
@@ -146,11 +145,11 @@ export default class SelectAddress extends Component<ScreenInterfcae, CommonScre
     saveAddress() {
         this.setState({ loader: true })
         CommonApiRequest.saveUserAddress(this.state.address).then((response) => {
-            console.log(response);
             this.setState({ loader: false })
             if (response?.status === 200) {
                 this.setState({ loader: true, type: 'list' });
                 this.getApiData();
+                this.setState({ index: response?.result?.id, commonData: response?.result })
             }
 
         }).catch(() => {
@@ -177,130 +176,153 @@ export default class SelectAddress extends Component<ScreenInterfcae, CommonScre
             },
             {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => {},
                 style: 'cancel',
             }
         ]);
     }
-    onNext(){
-        this.props?.navigation?.navigate("Payment", { dataObj: this.props.route?.params?.dataObj, userObj: this.props.route?.params?.userObj, otherData: this.props.route?.params?.otherData, remark: this.props.route?.params?.remark, bookingType: this.props.route?.params?.bookingType,address:this.state.commonData })
+    onNext() {
+        this.props?.navigation?.navigate("Payment",
+            {
+                dataObj: this.props.route?.params?.dataObj,
+                userObj: this.props.route?.params?.userObj,
+                otherData: this.props.route?.params?.otherData,
+                remark: this.props.route?.params?.remark,
+                bookingType: this.props.route?.params?.bookingType,
+                address: this.state.commonData,
+                time_slot: this.props.route?.params?.slotKey + "__" + this.props.route?.params?.bookingDate
+            }
+        )
     }
     render() {
 
         return (
-            <MainLayout
-                otherText=""
-                loader={this.state?.loader}
-                containerStyle={{ paddingTop: 1 }}
-                navigation={this.props.navigation}
-                route={this.props.route}
-                scollEnabled={true}
-                onRefresh={()=>{this.getApiData()}}
-            >
-                <View>
-                    <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
-                        {this.state?.type === 'new' &&
-                            <View>
+            <>
+                <MainLayout
+                    otherText=""
+                    loader={this.state?.loader}
+                    containerStyle={{ paddingTop: 1 }}
+                    navigation={this.props.navigation}
+                    route={this.props.route}
+                    scollEnabled={true}
+                    onRefresh={() => { this.getApiData() }}
+                    loaderText={this.state?.loaderText}
+                >
+                    <View>
+                        <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
+                            {this.state?.type === 'new' &&
                                 <View>
-                                    <Text style={[ThemeStyling.heading3, { marginBottom: 10, paddingBottom: 0 }]}>Enter Complete Address</Text>
-                                </View>
-                                <View>
-                                    <GooglePlacesAutocomplete
-                                        placeholder='Enter Location....'
-                                        fetchDetails={true}
-                                        onPress={(data, details = null) => {
-                                            this.setAddressDetail((details?.data) ? details?.data : details);
-                                        }}
-                                        query={{
-                                            key: ConstantsVar.GOOGLE_API_KEY,
-                                            language: 'en',
+                                    <View>
+                                        <Text style={[ThemeStyling.heading3, { marginBottom: 10, paddingBottom: 0 }]}>Enter Complete Address</Text>
+                                    </View>
+                                    <View>
+                                        <GooglePlacesAutocomplete
+                                            placeholder='Enter Location....'
+                                            fetchDetails={true}
+                                            onPress={(data, details:any = null) => {
+                                                this.setAddressDetail((details?.data) ? details?.data : details);
+                                            }}
+                                            query={{
+                                                key: ConstantsVar.GOOGLE_API_KEY,
+                                                language: 'en',
 
-                                        }}
-                                        enablePoweredByContainer={false}
-                                        predefinedPlaces={[this.state.otherData]}
-                                    />
-                                </View>
-                                <View style={{ marginBottom: 15 }}>
-                                    <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Name</Text>
-                                    <TextInput onChangeText={(text) => { this.upDateMasterState('name', text) }} style={ThemeStyling.formcontrol} placeholder="Work or Office or etc..." value={this.state?.address?.name}></TextInput>
-                                </View>
-                                <View style={{ marginBottom: 15 }}>
-                                    <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Building or house no.</Text>
-                                    <TextInput onChangeText={(text) => { this.upDateMasterState('building', text) }} style={ThemeStyling.formcontrol} placeholder="like 292 b..." value={this.state?.address?.building}></TextInput>
-                                </View>
-                                <View style={{ marginBottom: 15 }}>
-                                    <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>City</Text>
-                                    <TextInput onChangeText={(text) => { this.upDateMasterStateComp('city', text) }} style={ThemeStyling.formcontrol} placeholder="City" value={this.state?.address?.addressComp?.city}></TextInput>
-                                </View>
-                                <View style={{ marginBottom: 15 }}>
-                                    <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>State</Text>
-                                    <TextInput onChangeText={(text) => { this.upDateMasterStateComp('state', text) }} style={ThemeStyling.formcontrol} placeholder="State" value={this.state?.address?.addressComp?.state}></TextInput>
-                                </View>
-                                <View style={{ marginBottom: 15 }}>
-                                    <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Country</Text>
-                                    <TextInput onChangeText={(text) => { this.upDateMasterStateComp('country', text) }} style={ThemeStyling.formcontrol} placeholder="Country" value={this.state?.address?.addressComp?.country}></TextInput>
-                                </View>
-                                <View style={{ marginBottom: 15 }}>
-                                    <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Postal code</Text>
-                                    <TextInput onChangeText={(text) => { this.upDateMasterStateComp('zip_code', text) }} style={ThemeStyling.formcontrol} placeholder="Postal Code" value={this.state?.address?.addressComp?.zip_code}></TextInput>
-                                </View>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                                    <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, width: 150 }]} onPress={() => { this.onSaveAddress() }}>
-                                        <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Save</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, width: 150 }]} onPress={() => { this.changeType('list') }}>
-                                        <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Cancel</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        }
-                        {this.state?.type === 'list' &&
-                            <>
-                                <View>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10, bottom: 10 }}>
-                                        <Text style={[ThemeStyling.text1]}>Select from saved address or</Text>
-                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { marginLeft: 5, height: 'auto', borderRadius: 12, width: 'auto', padding: 5 }]} onPress={() => { this.changeType('new') }}>
-                                            <Text style={{ color: Colors.white }}>New address</Text>
+                                            }}
+                                            enablePoweredByContainer={false}
+                                            predefinedPlaces={[this.state.otherData]}
+                                        />
+                                    </View>
+                                    <View style={{ marginBottom: 15 }}>
+                                        <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Name</Text>
+                                        <TextInput onChangeText={(text) => { this.upDateMasterState('name', text) }} style={ThemeStyling.formcontrol} placeholder="Work or Office or etc..." value={this.state?.address?.name}></TextInput>
+                                    </View>
+                                    <View style={{ marginBottom: 15 }}>
+                                        <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Building or house no.</Text>
+                                        <TextInput onChangeText={(text) => { this.upDateMasterState('building', text) }} style={ThemeStyling.formcontrol} placeholder="like 292 b..." value={this.state?.address?.building}></TextInput>
+                                    </View>
+                                    <View style={{ marginBottom: 15 }}>
+                                        <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>City</Text>
+                                        <TextInput onChangeText={(text) => { this.upDateMasterStateComp('city', text) }} style={ThemeStyling.formcontrol} placeholder="City" value={this.state?.address?.addressComp?.city}></TextInput>
+                                    </View>
+                                    <View style={{ marginBottom: 15 }}>
+                                        <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>State</Text>
+                                        <TextInput onChangeText={(text) => { this.upDateMasterStateComp('state', text) }} style={ThemeStyling.formcontrol} placeholder="State" value={this.state?.address?.addressComp?.state}></TextInput>
+                                    </View>
+                                    <View style={{ marginBottom: 15 }}>
+                                        <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Country</Text>
+                                        <TextInput onChangeText={(text) => { this.upDateMasterStateComp('country', text) }} style={ThemeStyling.formcontrol} placeholder="Country" value={this.state?.address?.addressComp?.country}></TextInput>
+                                    </View>
+                                    <View style={{ marginBottom: 15 }}>
+                                        <Text style={[ThemeStyling.formLabel, { marginBottom: 5 }]}>Postal code</Text>
+                                        <TextInput onChangeText={(text) => { this.upDateMasterStateComp('zip_code', text) }} style={ThemeStyling.formcontrol} placeholder="Postal Code" value={this.state?.address?.addressComp?.zip_code}></TextInput>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, width: 150 }]} onPress={() => { this.onSaveAddress() }}>
+                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Save</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, width: 150 }]} onPress={() => { this.changeType('list') }}>
+                                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Cancel</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                                {this.state?.dataObj && this.state?.dataObj?.map((item, index) => {
-                                    return <View style={ThemeStyling.card} key={index}>
-                                        <View style={[ThemeStyling.cardBody, { paddingBottom: 5 }]}>
-                                            <View style={[ThemeStyling.twoColumnLayout, { alignItems: "center" }]}>
-                                                <TouchableOpacity style={[ThemeStyling.col1, { marginRight: 10, width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }]} onPress={() => { this.setState({ index: item?.id, commonData: item }) }}>
-                                                    {this.state.index === item?.id &&
-                                                        <AntDesign name="checkcircle" size={24} color={Colors.primary_color} />
-                                                    }
-                                                    {this.state.index !== item?.id &&
-                                                        <Feather name="circle" size={24} color={Colors.primary_color} />
-                                                    }
-                                                </TouchableOpacity>
-                                                <View style={[ThemeStyling.col10, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                                        <Text style={[ThemeStyling.heading5, { color: Colors.dark_color, marginRight: 5 }]}>Home</Text>
-                                                        <Text style={[ThemeStyling.text2, { color: Colors.success_color }]}>201.12 m away</Text>
-                                                    </View>
-                                                    <View><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>
-                                                        {item?.address}, {item?.zip_code}</Text></View>
-                                                </View>
-                                                <View style={[ThemeStyling.col1, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                                    <TouchableOpacity style={[ThemeStyling.col1, { width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }]} onPress={() => { this.deleteUserAddressPrompt(item?.id) }}>
-                                                        <AntDesign name="delete" size={24} color={Colors.primary_color} />
+                            }
+                            {this.state?.type === 'list' &&
+                                <>
+                                    <View>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10, bottom: 10 }}>
+                                            <Text style={[ThemeStyling.text1]}>Select from saved address or</Text>
+                                            <TouchableOpacity style={[ThemeStyling.btnPrimary, { marginLeft: 5, height: 'auto', borderRadius: 12, width: 'auto', padding: 5 }]} onPress={() => { this.changeType('new') }}>
+                                                <Text style={{ color: Colors.white }}>New address</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                    {this.state?.dataObj && this.state?.dataObj?.map((item, index) => {
+                                        return <View style={ThemeStyling.card} key={index}>
+                                            <View style={[ThemeStyling.cardBody, { paddingBottom: 5 }]}>
+                                                <View style={[ThemeStyling.twoColumnLayout, { alignItems: "center" }]}>
+                                                    <TouchableOpacity style={[ThemeStyling.col1, { marginRight: 10, width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }]} onPress={() => { this.setState({ index: item?.id, commonData: item }) }}>
+                                                        {this.state.index === item?.id &&
+                                                            <AntDesign name="checkcircle" size={24} color={Colors.primary_color} />
+                                                        }
+                                                        {this.state.index !== item?.id &&
+                                                            <Feather name="circle" size={24} color={Colors.primary_color} />
+                                                        }
                                                     </TouchableOpacity>
+                                                    <View style={[ThemeStyling.col10, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
+                                                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                            <Text style={[ThemeStyling.heading5, { color: Colors.dark_color, marginRight: 5 }]}>{item?.place}</Text>
+                                                            {/* <Text style={[ThemeStyling.text2, { color: Colors.success_color }]}>201.12 m away</Text> */}
+                                                        </View>
+                                                        <View><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>
+                                                            {item?.address}, {item?.zip_code}</Text></View>
+                                                    </View>
+                                                    <View style={[ThemeStyling.col1, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
+                                                        <TouchableOpacity style={[ThemeStyling.col1, { width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }]} onPress={() => { this.deleteUserAddressPrompt(item?.id) }}>
+                                                            <AntDesign name="delete" size={24} color={Colors.primary_color} />
+                                                        </TouchableOpacity>
+                                                    </View>
                                                 </View>
                                             </View>
                                         </View>
-                                    </View>
-                                })}
-                                <Pressable disabled={(this.state?.index) ? false : true} style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, backgroundColor: Colors.success_color, opacity: ((this.state?.index)) ? 1 : 0.5 }]} onPress={() => { this.onNext() }}>
-                                    <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Next</Text>
-                                </Pressable>
-                            </>
-                        }
+                                    })}
+                                    {this.state?.dataObj?.length <= 0 &&
+                                        <View style={{ flex: 1, justifyContent: 'center', alignItems: "center", height: 200 }}>
+                                            <Text style={[ThemeStyling.heading3, { textAlign: 'center' }]}>No record Found</Text>
+                                        </View>
+                                    }
+
+                                </>
+                            }
+                        </View>
                     </View>
-                </View>
-            </MainLayout>
+                </MainLayout>
+                {this.state?.type === 'list' &&
+                    <View style={{ padding: 10 }}>
+                        <Pressable disabled={(this.state?.index) ? false : true} style={[ThemeStyling.btnPrimary, { height: 45, borderRadius: 12, backgroundColor: Colors.success_color, opacity: ((this.state?.index)) ? 1 : 0.5 }]} onPress={() => { this.onNext() }}>
+                            <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.p }]}>Next</Text>
+                        </Pressable>
+                    </View>
+                }
+            </>
         );
     }
 }

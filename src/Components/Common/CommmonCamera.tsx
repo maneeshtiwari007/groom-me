@@ -2,10 +2,11 @@ import { Component } from "react"
 import CommonCameraPropsInterface from "../../Interfaces/States/CommonCameraPropsInterface";
 import CommonCameraStateInterface from "../../Interfaces/States/CommonCameraStateInterface";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import { Camera, CameraType } from "expo-camera";
+import { Camera,CameraView } from "expo-camera/next";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import Colors from "../../utilty/Colors";
+import { CameraType } from "expo-camera";
 
 export default class CommonCamera extends Component<CommonCameraPropsInterface, CommonCameraStateInterface>{
     cameraRef:any;
@@ -38,34 +39,43 @@ export default class CommonCamera extends Component<CommonCameraPropsInterface, 
     discordImage(){
         this.setState({cameraPicture:null});
     }
-    closeCamera(){
+    closeCamera(data:any={}){
         this.setState({cameraPicture:null});
-        this.props.onCloseCamera({});
+        this.props.onCloseCamera(data);
     }
     onCaptureImage(){
         this.props.onCaptureImage(this.state.cameraPicture);
     }
+    isBarCodeScanned(data:any){
+        if(data?.data){
+            this.closeCamera(data?.data);
+        }
+    }   
     render() {
         return (
             <View style={styles.container}>
                 {!this.state?.cameraPicture &&
-                    <Camera style={[styles.camera,{height:this.state.cameraHeight}]} type={(this.state.cameraType)?this.state.cameraType:CameraType.back} ref={(camref:any) =>{this.cameraRef=camref}} onCameraReady={()=>{
-                        this.setState({cameraHeight:Dimensions.get('window').height - 175})
-                    }}>
+                    <CameraView
+                        style={[styles.camera,{height:Dimensions.get('window').height}]} 
+                        facing={(this.state.cameraType)?this.state.cameraType:CameraType.back} 
+                        ref={(camref:any) =>{this.cameraRef=camref}} 
+                        onCameraReady={()=>{this.setState({cameraHeight:Dimensions.get('window').height})}}
+                        barcodeScannerSettings={{
+                            barcodeTypes: ["qr"],
+                          }}
+                          onBarcodeScanned={(data:any)=>{this.isBarCodeScanned(data)}}
+                        >
                         <View style={styles.buttonContainer}>
                             <View style={{marginTop:'auto',marginBottom:20,flexDirection:'row',justifyContent:'space-around'}}>
                                 <TouchableOpacity style={[styles.button,{backgroundColor:Colors.primary_color}]} onPress={() => this.toggleCameraType()}>
                                     <MaterialIcons name="flip-camera-android" size={24} color={Colors.white} />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.button,{backgroundColor:Colors.primary_color}]} onPress={() => this.takePicture()}>
-                                    <MaterialIcons name="camera" size={24} color={Colors.white} />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.button,{backgroundColor:Colors.errorColor}]} onPress={() => this.closeCamera()}>
                                     <FontAwesome5 name="times" size={24} color={Colors.white} />
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </Camera>
+                    </CameraView>
                 }
                 {this.state?.cameraPicture && 
                     <View style={[styles.camera,{height:this.state.cameraHeight}]}>

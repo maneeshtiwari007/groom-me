@@ -32,9 +32,10 @@ api.interceptors.response.use(
 const errorHandler = (error:any) => {
   const statusCode = error.response?.status;
   console.log(statusCode);
+  //console.log(error.response);
   // logging only errors that are not 401
   if (statusCode && statusCode === 405) {
-    DeviceEventEmitter.emit(ConstantsVar.API_ERROR,{color:Colors.errorColor,msgData:{head:'Error',subject:'Something went wronf please try after some time!'}})
+    DeviceEventEmitter.emit(ConstantsVar.API_ERROR,{color:Colors.errorColor,msgData:{head:'Error',subject:'Something went wrong please try after some time!'}})
   } else if(error.response?.status===401){
     DeviceEventEmitter.emit(ConstantsVar.API_ERROR,{color:Colors.errorColor,msgData:{head:'Error',subject:'Session expire please login again!'}})
     DeviceEventEmitter.emit(ConstantsVar.API_ERROR_LOGOUT,{color:Colors.errorColor,msgData:{head:'Error',subject:'Something went wronf please try after some time!'}})

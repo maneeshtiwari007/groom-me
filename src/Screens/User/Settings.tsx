@@ -19,6 +19,7 @@ export default class Settings extends Component<ScreenInterfcae, CommonScreenSta
         this.state = {
             loader: false,
             type: 'map',
+            
         }
     }
     async componentDidMount() {
@@ -26,49 +27,44 @@ export default class Settings extends Component<ScreenInterfcae, CommonScreenSta
         await this.getApiData();
     }
     async getApiData() {
-        //const location = await Location.getCurrentPositionAsync({});
-        // this.setState({ location: location })
-        // const params = "latitude=" + location?.coords?.latitude + "&longitude=" + location?.coords?.longitude + "&cat=" + this.props?.route?.params?.data?.id
-        // CommonApiRequest.getProfListsForUser(params).then((response: any) => {
-        //     this.setState({ loader: false })
-        //     if (response?.status == 200) {
-        //         this.setState({ dataObj: response?.results })
-        //     }
-        // }).catch((error) => {
-        //     this.setState({ loader: false })
-        // })
+        CommonApiRequest.getUserSettings({}).then((response: any) => {
+            this.setState({ loader: false });
+            if (response?.status == 200) {
+                this.setState({ notificationSetting: response?.results?.notification_status })
+            }
+        }).catch((error) => {
+            this.setState({ loader: false })
+        })
     }
-    getMarkerView() {
-        if (this.state?.dataObj?.length) {
-
-        }
-    }
-    find_dimesions() {
-        return CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 21.5)
-    }
-    //Initial state false for the switch. You can change it to true just to see.
-    state = { switchValue: false };
-    state2 = { switchValue2: false };
-
     toggleSwitch = value => {
-        //onValueChange of the switch this function will be called
-        this.setState({ switchValue: value });
-        //state changes according to switch
-        //which will result in re-render the text
+        this.setState({ notificationSetting: value });
+        setTimeout(()=>{
+            this.updateSettings()
+        },300)
     };
 
     toggleSwitch2 = value => {
-        //onValueChange of the switch this function will be called
-        this.setState({ switchValue2: value });
-        //state changes according to switch
-        //which will result in re-render the text
+        this.setState({ callSetting: value });
     };
     toggleSwitch3 = value => {
-        //onValueChange of the switch this function will be called
-        this.setState({ switchValue3: value });
-        //state changes according to switch
-        //which will result in re-render the text
+        this.setState({ locationSetting: value });
     };
+    async formateData(){
+        return {
+            notification_status:this.state.notificationSetting
+        }
+    }
+    async updateSettings(){
+        const settingFormate = await this.formateData();
+        CommonApiRequest.updateUserSettings(settingFormate).then((response: any) => {
+            this.setState({ loader: false });
+            if (response?.status == 200) {
+                
+            }
+        }).catch((error) => {
+            this.setState({ loader: false })
+        })
+    }
     render() {
         return (
             <MainLayout
@@ -78,8 +74,8 @@ export default class Settings extends Component<ScreenInterfcae, CommonScreenSta
                 containerStyle={{ paddingTop: 1 }}
                 navigation={this.props.navigation}
                 route={this.props.route}
-                isSearchBar={true}
-                scollEnabled={false}
+                isSearchBar={false}
+                scollEnabled={true}
             >
                 <View style={ThemeStyling.container}>
                     <View style={{ borderBottomWidth: 1, borderBlockColor: Colors.gray400, borderStyle: "solid" }}>
@@ -88,17 +84,13 @@ export default class Settings extends Component<ScreenInterfcae, CommonScreenSta
                     <View style={{ marginBottom: 0 }}>
                         <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between" }]}>
                             <View>
-                                <Text style={{ color: Colors.gray_color }}>{this.state.switchValue ? 'Notification' : 'Notification'}</Text>
+                                <Text style={{ color: Colors.gray_color }}>Notification</Text>
                             </View>
                             <View>
-                                {/*Text to show the text according to switch condition*/}
-                                {/* <Text>{this.state.switchValue ? 'Notifications ON' : 'Notifications OFF'}</Text> */}
-
-                                {/*Switch with value set in constructor*/}
-                                {/*onValueChange will be triggered after switch condition changes*/}
                                 <Switch
                                     onValueChange={this.toggleSwitch}
-                                    value={this.state.switchValue}
+                                    value={this.state.notificationSetting}
+                                    trackColor={{false:Colors.gray400,true:Colors.primary_color}}
                                 />
                             </View>
                         </View>
@@ -106,12 +98,13 @@ export default class Settings extends Component<ScreenInterfcae, CommonScreenSta
                     <View style={{ marginBottom: 0 }}>
                         <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between" }]}>
                             <View>
-                                <Text style={{ color: Colors.gray_color }}>{this.state.switchValue2 ? 'Call' : 'Call'}</Text>
+                                <Text style={{ color: Colors.gray_color }}>Call</Text>
                             </View>
                             <View>
                                 <Switch
                                     onValueChange={this.toggleSwitch2}
-                                    value={this.state.switchValue2}
+                                    value={this.state.callSetting}
+                                    trackColor={{false:Colors.gray400,true:Colors.primary_color}}
                                 />
                             </View>
                         </View>
@@ -119,12 +112,13 @@ export default class Settings extends Component<ScreenInterfcae, CommonScreenSta
                     <View style={{ marginBottom: 0 }}>
                         <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between" }]}>
                             <View>
-                                <Text style={{ color: Colors.gray_color }}>{this.state.switchValue3 ? 'Location' : 'Location'}</Text>
+                                <Text style={{ color: Colors.gray_color }}>Location</Text>
                             </View>
                             <View>
                                 <Switch
                                     onValueChange={this.toggleSwitch3}
-                                    value={this.state.switchValue3}
+                                    value={this.state.locationSetting}
+                                    trackColor={{false:Colors.gray400,true:Colors.primary_color}}
                                 />
                             </View>
                         </View>

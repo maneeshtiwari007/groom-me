@@ -32,12 +32,13 @@ import {
   Poppins_900Black_Italic,
 } from '@expo-google-fonts/poppins';
 import ProfIntroSlider from './src/Screens/IntroSlides/ProfIntroSlider';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CommonHelper } from './src/utilty/CommonHelper';
 import { ConstantsVar } from './src/utilty/ConstantsVar';
 import BookingDetail from './src/Screens/User/BookingDetail';
 import Bookings from './src/Screens/User/Bookings';
-
+import { handleURLCallback } from '@stripe/stripe-react-native';
+import * as Linking from 'expo-linking';
 // import AppContainer from './src/route/AppNavigation';
 const Stack = createStackNavigator();
 Notifications.setNotificationHandler({
@@ -47,12 +48,12 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-export default function App(props){
-  const navigationContainerRef:any = useRef();
+export default function App(props) {
+  const navigationContainerRef: any = useRef();
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
+  const notificationListener: any = useRef();
+  const responseListener: any = useRef();
   let [fontsLoaded] = useFonts({
     Poppins_100Thin,
     Poppins_100Thin_Italic,
@@ -75,6 +76,7 @@ export default function App(props){
   });
   const theme = useTheme();
   theme.colors.secondaryContainer = "transperent"
+
   const Auth = () => {
     // Stack Navigator for Login and Sign up Screen
     Location.requestForegroundPermissionsAsync();
@@ -104,7 +106,7 @@ export default function App(props){
     );
   };
   const registerForPushNotificationsAsync = async () => {
-    let token;                        
+    let token;
     if (Device.isDevice) {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
@@ -131,27 +133,67 @@ export default function App(props){
     }
     return token?.data;
   }
+  const handleDeepLink = useCallback(
+    async (url: string | null) => {
+      if (url) {
+        const stripeHandled = await handleURLCallback(url);
+        const objParsedUrl = Linking.parse(url)
+        const redirectToSCreen = CommonHelper.returnScreenNameBasedOnPath(objParsedUrl?.path, objParsedUrl?.queryParams);
+        if (redirectToSCreen) {
+          navigationContainerRef?.current?.navigate(redirectToSCreen?.path, redirectToSCreen?.query);
+        }
+        if (stripeHandled) {
+          // This was a Stripe URL - you can return or add extra handling here as you see fit
+        } else {
+          // This was NOT a Stripe URL – handle as you normally would
+        }
+      }
+    },
+    [handleURLCallback]
+  );
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => { setExpoPushToken(token);CommonHelper.saveStorageData(ConstantsVar.NOTIFICATION_STORAGE_KEY,JSON.stringify({token:token}));});
-    // const subscription = Notifications.addNotificationReceivedListener(notification => {
-    //   //console.log(notification?.request?.content);
-    // });
-    // const subscriptionRecived = Notifications.addNotificationResponseReceivedListener(response => {
-    //   //console.log(response?.notification?.request?.content?.data?.order_id);
-    //   if(response?.notification?.request?.content?.data?.order_id){
-    //     navigationContainerRef?.current?.navigate("AppContainer", { data: response?.notification?.request?.content?.data?.order_id,from:'App' });
-    //   }
-    // });
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+      }),
+    });
+
+    registerForPushNotificationsAsync().then((token) => { console.log(token); setExpoPushToken(token); CommonHelper.saveStorageData(ConstantsVar.NOTIFICATION_STORAGE_KEY, JSON.stringify({ token: token })); });
+    if (notificationListener) {
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        console.log(notification?.request?.content);
+      });
+    }
+    if (responseListener) {
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response?.notification?.request?.content?.data?.order_id);
+        if (response?.notification?.request?.content?.data?.order_id) {
+          navigationContainerRef?.current?.navigate("AppContainer", { data: response?.notification?.request?.content?.data?.order_id, from: 'App' });
+        }
+      });
+    }
+    const deepLinkListener = Linking.addEventListener('url', (event: { url: string }) => {
+      handleDeepLink(event.url);
+    }
+    );
+    const redirectUrl = Linking.createURL('/screen', {
+      queryParams: { hello: 'world' },
+    });
+    //console.log(redirectUrl);
 
     return () => {
-      // subscription.remove();
-      // subscriptionRecived.remove();
+      deepLinkListener.remove();
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, []);
+  }, [handleDeepLink]);
+
   return (
     <Provider>
       <NavigationContainer ref={navigationContainerRef}>
-        <Stack.Navigator initialRouteName="SplashScreen">
+        <Stack.Navigator>
           {/* SplashScreen which will come once for 5 Seconds */}
           <Stack.Screen
             name="SplashScreen"

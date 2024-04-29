@@ -7,6 +7,7 @@ import Colors from "../../utilty/Colors";
 import { CommonHelper } from "../../utilty/CommonHelper";
 import ScreenStateInterfcae from "../../Interfaces/Common/ScreenStateInterface";
 import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
+import ReviewStarComponent from "./ReviewStarComponent";
 export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInterfcae>{
     constructor(props: any) {
         super(props);
@@ -15,7 +16,6 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
         }
     }
     componentDidMount() {
-        
     }
     makeProfFavorite() {
         const params = { isFav: (this.props?.data?.isFav) ? false : true, id: this.props?.data?.id }
@@ -37,7 +37,7 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                 this.onPressResponse();
             }}>
                 <View style={[ThemeStyling.cardBody, { padding: 0, paddingTop: 8 }]}>
-                    <View style={[ThemeStyling.twoColumnLayout, {  }]}>
+                    <View style={[ThemeStyling.twoColumnLayout, {}]}>
                         <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
                             <Image style={[ThemeStyling.cardImage2]} source={{ uri: this.props?.data?.photo_image }} />
                         </View>
@@ -55,13 +55,7 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                                     </Pressable>
                                 </View>
                                 <View style={[ThemeStyling.starRating, { marginBottom: 5 }]}>
-                                    {this.state?.dataObj && this.state?.dataObj?.map((itemNumber: any, index: number) => {
-                                        if (itemNumber <= this.props?.data?.profavgrating) {
-                                            return <FontAwesome style={[ThemeStyling.iconStar]} name="star" color={Colors.primary_color} key={index} />
-                                        } else {
-                                            return <FontAwesome style={[ThemeStyling.iconStar]} name="star" color={Colors.gray400} key={index} />
-                                        }
-                                    })}
+                                    <ReviewStarComponent avg_rating={this.props?.data?.profavgrating}></ReviewStarComponent>
                                 </View>
                                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
                                     {this.props?.data?.services?.length > 0 && this.props?.data?.services?.map((item: any, index: number) => {
@@ -84,7 +78,7 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                                     <Text style={[ThemeStyling.text2, { color: Colors.secondry_color, flexWrap: 'wrap', flex: 1 }]}>{this.props?.data?.user_professional_details?.location}</Text>
                                 </View>
                             }
-                            <View style={{ flexDirection: "row", marginBottom: 5,marginTop:5 }}>
+                            <View style={{ flexDirection: "row", marginBottom: 5, marginTop: 5 }}>
                                 <View>
                                     <Text style={[ThemeStyling.text2, { fontSize: 11, color: Colors.secondry_color }]}>
                                         {this.props?.data && this.props?.data?.live &&
@@ -96,7 +90,7 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                                         &nbsp;Live Booking
                                     </Text>
                                 </View>
-                                <View style={{ marginLeft:5 }}>
+                                <View style={{ marginLeft: 5 }}>
                                     <Text style={[ThemeStyling.text2, { fontSize: 11, color: Colors.secondry_color }]}>
                                         {this.props?.data && this.props?.data?.schedule &&
                                             <AntDesign name="checkcircle" size={11} color={Colors.success_color} />

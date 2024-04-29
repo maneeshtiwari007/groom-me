@@ -28,37 +28,31 @@ export default class BookingCard extends Component<ScreenInterfcae, BadgeInterFa
                 <TouchableOpacity onPress={() => { this.props.navigation.navigate("Bookings Detail", { data: this.props?.data?.order_id }) }}>
                     <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
                         <View style={[ThemeStyling.twoColumnLayout, { alignItems: "center" }]}>
-                            <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                <Image style={[ThemeStyling.cardImage2]} source={{ uri: this?.props?.data?.image }} />
+                            <View style={[ThemeStyling.col4, { marginRight: 10, position: 'relative' }]}>
+                                <Image style={[ThemeStyling.cardImage2, { height: 150 }]} source={{ uri: this?.props?.data?.image }} />
+                                <View style={{ flexDirection: "row", marginBottom: 5, position: 'absolute', top: 0 }}>
+                                    <Badge badgeStyle={{ backgroundColor: this.props?.data?.order_status?.iconcolor, color: this.props?.data?.order_status?.color, borderRadius: 0 }} title={this.props?.data?.order_status?.status}></Badge>
+                                </View>
                             </View>
-                            <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                <View style={{ marginBottom: 5 }}>
-                                    <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginBottom: 5 }]}>{this.props?.data?.name}</Text>
-                                    <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                        <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
-                                        <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>{this.props?.data?.place}</Text></View>
+                            <View style={[ThemeStyling.col8, { padding: 5, paddingLeft: 0, paddingTop: 0 }]}>
+                                <View style={{ marginBottom: 0 }}>
+                                    <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.primary_color, marginTop: 5 }]}>{this.props?.data?.name}</Text>
+                                    <View style={{ flexDirection: "row", marginBottom: 2, alignItems: 'center' }}>
+                                        <View><FontAwesome name="money" size={14} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
+                                        <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>{this.props?.data?.amount}</Text></View>
                                     </View>
-                                    <View style={{ flexDirection: "row", marginBottom: 5 }}>
+                                    <View style={{ flexDirection: "row", marginBottom: 2 }}>
+                                        <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
+                                        <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>{this.props?.data?.place?.substring(0, 30) + '...'}</Text></View>
+                                    </View>
+                                    <View style={{ flexDirection: "row", marginBottom: 2 }}>
                                         <View><MaterialCommunityIcons name="calendar-clock-outline" size={13} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
                                         <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>{this.props?.data?.date}</Text></View>
                                     </View>
                                     <View style={{ flexDirection: "row", marginBottom: 5 }}>
-                                        <Badge badgeStyle={{ backgroundColor: this.props?.data?.order_status?.backgroundColor, color: this.props?.data?.order_status?.color }} title={this.props?.data?.order_status?.status}></Badge>
+                                        <View><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Payment: </Text></View>
+                                        <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: (this.props?.data?.payment_status)?Colors.success_color:Colors.primary_color} ]}>{(this.props?.data?.new_payment_status)?this.props?.data?.new_payment_status:'Not Completed'}</Text></View>
                                     </View>
-                                    {!this.props?.isArchive &&
-                                        <View style={[ThemeStyling.twoColumnLayout, { marginBottom: 0 }]}>
-                                            <View style={{ marginRight: 10 }}>
-                                                <TouchableOpacity style={[ThemeStyling.btnInfo, { height: 30, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 6 }]}>
-                                                    <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Get Direction</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                            <View>
-                                                <TouchableOpacity style={[ThemeStyling.btnPrimary, { height: 30, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 6 }]}>
-                                                    <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f12 }]}>Cancel</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    }
                                 </View>
                             </View>
                         </View>

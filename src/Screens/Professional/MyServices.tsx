@@ -2,7 +2,7 @@ import { Component, ReactNode } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, StyleSheet, Pressable, FlatList, TextInput, Modal, SafeAreaView, StatusBar, ScrollView, Platform } from 'react-native';
+import { View, Text, Image, StyleSheet, Pressable, FlatList, TextInput, Modal, SafeAreaView, StatusBar, ScrollView, Platform, Alert } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -12,38 +12,34 @@ import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 import ServicesCard from "../../Components/ServicesCard";
 import Colors from "../../utilty/Colors";
 import { FontAwesome, MaterialCommunityIcons, Feather, FontAwesome5, AntDesign, Entypo } from '@expo/vector-icons';
-export default class ProfessionalServices extends Component<ScreenInterfcae, CommonScreenStateInterface>{
+import MyServiceCardSingle from "../../Components/MyServiceCardSingle";
+import { CommonHelper } from "../../utilty/CommonHelper";
+export default class MyServices extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
             loader: false,
             visible: false,
-            msgData: false
+            msgData: false,
+            loaderText:'Please wait...'
         }
     }
     async componentDidMount() {
         this.setState({ loader: true })
-        await this.getApiData({ catId: this.props.route.params?.data?.id });
+        await this.getApiData();
     }
     async getApiData(params: any = {}) {
         const urlParams = (params) ? '?' + new URLSearchParams(params).toString() : '';
-        CommonApiRequest.getProfService(urlParams).then((response: any) => {
-            this.setState({ loader: false });
+        CommonApiRequest.getAllProfServicesByUser(urlParams).then((response: any) => {
+            this.setState({ loader: false,loaderText:'Please wait...' });
             this.setState({ loadMore: { status: false } });
-            if (response?.data?.record?.length > 0) {
-                if (params?.type) {
-                    const pushDataObj = (this.state?.dataObj) ? this.state?.dataObj : [];
-                    response?.data?.record?.map((item: any) => {
-                        pushDataObj?.push(item);
-                        this.setState({ dataObj: pushDataObj });
-                    })
-                } else {
-                    this.setState({ dataObj: response?.data?.record, meta: response?.data?.meta })
-                }
+            if (response?.status === 200) {
+                this.setState({ dataObj: undefined })
+                this.setState({ dataObj: response?.results })
 
             }
         }).catch((error) => {
-            this.setState({ loader: false });
+            this.setState({ loader: false,loaderText:'Please wait...' });
             this.setState({ loadMore: { status: false } });
         })
     }
@@ -56,10 +52,10 @@ export default class ProfessionalServices extends Component<ScreenInterfcae, Com
         this.getApiData({ catId: this.props.route.params?.data?.id, type: 'push' })
     }
     openReviewModal(type: boolean = true, item: any = undefined) {
-        this.setState({ visible: type, commonData: item,count:(item?.savedPrice)?item?.savedPrice:undefined })
+        this.setState({ visible: type, commonData: item,count:(item?.services?.savedPrice)?item?.services?.savedPrice:undefined })
     }
     setPrice(price: any = 0) {
-        if (price <= this.state?.commonData?.max_price && price >= this.state?.commonData?.min_price) {
+        if (price <= this.state?.commonData?.services?.max_price && price >= this.state?.commonData?.services?.min_price) {
             this.setState({ msgData: false, count: price });
         } else {
             this.setState({ msgData: true, count: undefined });
@@ -67,35 +63,70 @@ export default class ProfessionalServices extends Component<ScreenInterfcae, Com
     }
     saveServicePrice() {
         const formattedData: any = [{
-            "service_id": this.state?.commonData?.id,
+            "service_id": this.state?.commonData?.services?.id,
             "price": this?.state?.count
         }]
         this.openReviewModal(false);
         this.setState({ loader: true });
         CommonApiRequest.saveProfServiceCategory(formattedData).then((response: any) => {
-            this.setState({ loader: false });
-            this.getApiData({ catId: this.props.route.params?.data?.id });
+            this.setState({ loader: false,commonData:undefined });
+            this.setState({ loader: true,loaderText:'Please wait while fetching data...' });
+            this.getApiData();
         }).catch((error) => {
             this.setState({ loader: false });
 
         })
     }
+    deleteConfirmation(data:any={}){
+        Alert.alert(
+            'Remove',
+            'Are you sure? You want to remove this service?',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => {
+                        return null;
+                    },
+                },
+                {
+                    text: 'Yes',
+                    onPress: () => {
+                        this.deleteMyService(data)
+                    },
+                },
+            ],
+            { cancelable: false },
+        );
+    }
+    deleteMyService(params:any){
+        this.setState({ loader: true,loaderText:'Please wait...'  });
+        CommonApiRequest.deleteProfService(params?.id).then((response:any)=>{
+            this.getApiData();
+            this.setState({ loader: false });
+            this.setState({ loader: true,loaderText:'Please wait while fetching data...' });
+        }).catch((error:any)=>{
+            this.setState({ loader: false,loaderText:'Please wait...' });
+        })
+    }
     render() {
         return (
             <MainLayout
-                onRefresh={() => { this.getApiData({ catId: this.props.route.params?.data?.id }) }}
-                headerText=""
+                onRefresh={() => { this.getApiData() }}
+                otherText="My services"
                 loader={this.state?.loader}
                 navigation={this.props.navigation}
                 containerStyle={{ paddingTop: 10 }}
                 route={this.props.route}
                 showHeaderText={false}
                 isSearchBar={true}
-                onSearchCallback={(data) => { this.getApiData({ catId: this.props.route.params?.data?.id, query: data }) }}
+                onSearchCallback={(data) => { (data)?this.getApiData({ query: data }):this.getApiData() }}
+                loaderText={this.state.loaderText}
             >
                 <View style={ThemeStyling.cardContainer}>
                     {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item: any, index: number) => {
-                        return <Pressable key={index} onPress={() => { this.openReviewModal(true, item) }}><ServicesCard textStyle={(item?.isCheckedNew) ? { color: Colors.dark_color } : { color: Colors.secondry_color }} style={(item?.isCheckedNew) ? { backgroundColor: Colors.primary_light_color } : {}} dataObj={item} key={index} navigation={this.props.navigation}></ServicesCard></Pressable>
+                        return <Pressable key={index} onPress={() => { this.openReviewModal(true, item) }}>
+                            <MyServiceCardSingle onDelete={(data:any)=>{this.deleteConfirmation(data)}} textStyle={{ color: Colors.dark_color }} dataObj={item} key={index} navigation={this.props.navigation}></MyServiceCardSingle>
+                        </Pressable>
                     })}
                 </View>
                 <Modal visible={this.state.visible} transparent={true}>
@@ -121,31 +152,31 @@ export default class ProfessionalServices extends Component<ScreenInterfcae, Com
                                     </View>
                                     <View style={[{ marginBottom: 20, alignItems: 'center' }]}>
                                         <View style={[{ width: 'auto' }]}>
-                                            <Image style={{ width: 60, height: 60 }} source={{ uri: this.state?.commonData?.service_images?.image }}></Image>
+                                            <Image style={{ width: 60, height: 60 }} source={{ uri: CommonHelper.replceStringForImage(this.state?.commonData?.icon) }}></Image>
                                         </View>
                                         <View style={[{ width: 'auto' }]}>
-                                            <Text style={[ThemeStyling.heading3, { color: Colors.gray_color, marginBottom: 1 }]}>{this.state?.commonData?.name}</Text>
+                                            <Text style={[ThemeStyling.heading3, { color: Colors.gray_color, marginBottom: 1 }]}>{this.state?.commonData?.service_name}</Text>
                                         </View>
                                         <View style={[{ width: 'auto' }]}>
-                                            <Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>({this.state?.commonData?.service_cat?.name})</Text>
+                                            <Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>({this.state?.commonData?.services?.service_cat?.name})</Text>
                                         </View>
                                     </View>
                                     <View style={[ThemeStyling.threeColumnLayout, { marginBottom: 10 }]}>
                                         <View style={[ThemeStyling.col2, { alignItems: 'center' }]}>
                                             <Text style={[ThemeStyling.text2, { color: Colors.secondry_color, marginBottom: 5 }]}>Min.</Text>
-                                            <Text style={[ThemeStyling.formLabel, { color: Colors.success_color, marginBottom: 0 }]}>${this.state?.commonData?.min_price}</Text>
+                                            <Text style={[ThemeStyling.formLabel, { color: Colors.success_color, marginBottom: 0 }]}>${this.state?.commonData?.services?.min_price}</Text>
                                         </View>
                                         <View style={[ThemeStyling.col7]}>
-                                            <TextInput enablesReturnKeyAutomatically inputMode="numeric" keyboardType="decimal-pad" defaultValue={""+this.state.commonData?.savedPrice+""} onChangeText={(evnt: any) => { this.setPrice(evnt) }} style={[ThemeStyling.formcontrol, { textAlign: "center" }]} placeholder="$345"></TextInput>
+                                            <TextInput enablesReturnKeyAutomatically inputMode="numeric" keyboardType="decimal-pad" defaultValue={""+this.state.commonData?.services?.savedPrice+""}  onChangeText={(evnt: any) => { this.setPrice(evnt) }} style={[ThemeStyling.formcontrol, { textAlign: "center" }]} placeholder="$345"></TextInput>
                                         </View>
                                         <View style={[ThemeStyling.col2, { alignItems: 'center' }]}>
                                             <Text style={[ThemeStyling.text2, { color: Colors.secondry_color, marginBottom: 5 }]}>Max.</Text>
-                                            <Text style={[ThemeStyling.formLabel, { color: Colors.success_color, marginBottom: 0 }]}>${this.state?.commonData?.max_price}</Text>
+                                            <Text style={[ThemeStyling.formLabel, { color: Colors.success_color, marginBottom: 0 }]}>${this.state?.commonData?.services?.max_price}</Text>
                                         </View>
                                     </View>
                                     <View style={{ marginBottom: 20 }}>
                                         {this.state?.msgData &&
-                                            <Text style={[ThemeStyling.text2, { color: Colors.primary_color, textAlign: "center" }]}>Enter price between ${this.state?.commonData?.min_price} & ${this.state?.commonData?.max_price}.</Text>
+                                            <Text style={[ThemeStyling.text2, { color: Colors.primary_color, textAlign: "center" }]}>Enter price between ${this.state?.commonData?.services?.min_price} & ${this.state?.commonData?.services?.max_price}.</Text>
                                         }
                                     </View>
                                     <View>

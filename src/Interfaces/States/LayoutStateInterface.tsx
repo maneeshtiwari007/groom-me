@@ -9,5 +9,8 @@ export default interface LayoutStateInterface{
     showHeaderText?:boolean,
     isSearchBar?:boolean,
     previousScreenName?:string,
-    scrollEnabled?:boolean
+    scrollEnabled?:boolean,
+    loaderText?:string,
+    scrollY?:any,
+    barCodeVisible?:boolean
 }

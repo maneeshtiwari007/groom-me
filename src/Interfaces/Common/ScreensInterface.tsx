@@ -10,5 +10,6 @@ export default interface ScreenInterfcae{
     showCount?:boolean,
     remark?:any,
     bookingType?:any,
-    onDismiss?:func
+    onDismiss?:func,
+    onLoading?:func
 }

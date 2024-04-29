@@ -137,7 +137,7 @@ export default class ProfRegisterComponent extends Component<ScreenInterfcae, Re
                     <ActivityIndicator size="large" color={Colors.primary_color} />
                 </View>
             }
-            <ScrollView style={ThemeStyling.scrollView} contentContainerStyle={{ paddingTop: 45, height: '100%', zIndex: 1, position: 'relative', backgroundColor: '#ebebff' }}>
+            <ScrollView style={ThemeStyling.scrollView} contentContainerStyle={{ paddingTop: 45, height: '100%', zIndex: 1, position: 'relative', backgroundColor: '#ebebff'}}>
                 <KeyboardAwareScrollView style={{ width: '100%', height: '100%' }}>
                     <View style={{ height: '100%' }}>
                         <ScrollView contentContainerStyle={[ThemeStyling.container, { flex: 1 }]}>

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Groom Me",
     "slug": "groom-me-app",
-    "version": "1.0.1",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.groommetech.app",
-      "version": "1.0.1"
+      "version": "1.0.5"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +29,8 @@
         "android.permission.ACCESS_FINE_LOCATION"
       ],
       "package": "com.groommetech.app",
-      "version": "1.0.1"
+      "version": "1.0.5",
+      "googleServicesFile":"./assets/google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -40,7 +41,16 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
+        }
       ]
-    ]
+    ],
+    "scheme": "com.groommetech"
   }
 }

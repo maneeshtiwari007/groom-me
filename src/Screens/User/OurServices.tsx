@@ -48,6 +48,7 @@ export default class OurServices extends Component<ScreenInterfcae, CommonScreen
                 showHeaderText={true}
                 isSearchBar={true}
                 onSearchCallback={(data)=>{this.searchCategory(data)}}
+                needScanner={false}
                 >
                 <View style={ThemeStyling.cardContainer}>
                     {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item:any,index:number)=>{

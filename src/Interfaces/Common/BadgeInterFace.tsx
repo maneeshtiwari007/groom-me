@@ -6,5 +6,7 @@ export default interface BadgeInterFace{
     textStyle?:any,
     badgeStyle?:any,
     color?:any,
-    onPressCall?:any
+    onPressCall?:any,
+    commonData?:any,
+    avg_rating?:any
 }

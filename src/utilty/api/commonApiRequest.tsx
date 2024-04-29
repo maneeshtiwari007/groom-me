@@ -192,8 +192,9 @@ export const CommonApiRequest = {
     return response?.data;
   },
   getUserBookingList: async function (params: any, cancel = false) {
+    const urlParams = (params)?'?page='+params:'';
     const response: any = await api.request({
-      url: `/user/booking/list?` + params,
+      url: `/user/booking/list`+urlParams,
       method: "get",
       // retrieving the signal value by using the property name
       signal: undefined,
@@ -228,7 +229,8 @@ export const CommonApiRequest = {
       clientSecret,
       {
         paymentMethodType: 'Card',
-        paymentMethodData: { billingDetails: billingDetails }
+        paymentMethodData: { billingDetails: billingDetails},
+
       },
       { setupFutureUsage: 'OnSession' }
     );
@@ -346,6 +348,236 @@ export const CommonApiRequest = {
   getProfSlot: async function (params,cancel = false) {
     const response: any = await api.request({
       url: `/professional/booking/slot`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  saveUserReview: async function (id,params,cancel = false) {
+    const response: any = await api.request({
+      url: 'user/booking/Detail/'+id+'/review',
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getUserSettings: async function (params:any,cancel = false) {
+    const response: any = await api.request({
+      url: '/user/setting',
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  updateUserSettings: async function (params:any,cancel = false) {
+    const response: any = await api.request({
+      url: '/user/setting',
+      method: "PUT",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfService: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/services` + params,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfServiceCategory: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/services/category` + params,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  saveProfServiceCategory: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/services/store`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getAllProfServicesByUser: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/services`+params,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfUpcomingBookingList: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/booking/upcoming/list?` + params,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfArchiveBookingList: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/booking/list?` + params,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  bookingAcceptOrCancel: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/booking/AcceptCancel`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  deleteProfService: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/services/delete/`+params,
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfBookingDetail: async function (params,cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/booking/Detail/`+params,
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  matchOrderOtp: async function (params: any, cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/order/update`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  updateProfessionalProfile: async function (params: any) {
+    const response: any = await api.request({
+      url: `/professional/users/update`,
+      method: "POST",
+      data: params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfIdentification:async function (params:any){
+    const response: any = await api.request({
+      url: `/professional/identification`,
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfDocuments:async function (params:any){
+    const response: any = await api.request({
+      url: `/professional/documents`,
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  saveProfDocuments:async function (params:any){
+    const response: any = await api.request({
+      url: `/professional/identification`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  removeProfDocuments:async function (params:any){
+    const response: any = await api.request({
+      url: `/professional/documents/`+params,
+      method: "DELETE",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfDetail: async function (id,cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/details/`+id,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  getProfWallet: async function (params:any,cancel = false) {
+    const response: any = await api.request({
+      url: `/professional/booking/wallet`,
+      method: "get",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  updateProfNotification:async function (params:any){
+    const response: any = await api.request({
+      url: `/notification/status`,
+      method: "POST",
+      data:params,
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
+  updateProfAvliableStatus:async function (params:any){
+    const response: any = await api.request({
+      url: `/professional/available/status`,
       method: "POST",
       data:params,
       // retrieving the signal value by using the property name

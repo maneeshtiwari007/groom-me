@@ -23,4 +23,5 @@ export default interface WorkorderStateInterface {
     objSlotKey?:any,
     selectedSlot?:any,
     maxDate?:any,
+    selectedSlotKey?:any
 }

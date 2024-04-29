@@ -3,7 +3,7 @@ import { FontAwesome, MaterialCommunityIcons, Feather, FontAwesome5, AntDesign }
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, Dimensions, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, Image, Dimensions, Pressable, Alert, DeviceEventEmitter } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import MainLayout from "../../Layout/MainLayout";
@@ -15,14 +15,14 @@ import * as Location from 'expo-location';
 import { CommonHelper } from "../../utilty/CommonHelper";
 import BookingCard from "../../Components/Common/BookingCard";
 import NoRecordFound from "../../Components/Common/NoRecordFound";
-import LoadMore from "../../Components/Common/LoadMore";
-export default class Bookings extends Component<ScreenInterfcae, CommonScreenStateInterface> {
+import ProfBookingCard from "../../Components/Common/ProfBookingCard";
+import { ConstantsVar } from "../../utilty/ConstantsVar";
+export default class ProfBookingList extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
             loader: false,
-            type: 'up',
-            loadMore: false
+            type: 'up'
         }
     }
     async componentDidMount() {
@@ -30,17 +30,11 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
         await this.getApiUpcomingData();
     }
     async getApiData() {
-        this.setState({ loader: true });
-        console.log(this.state?.meta);
-        CommonApiRequest.getUserBookingList(this.state?.meta?.next_page).then((response: any) => {
-            this.setState({ loader: false,loadMore:false });
-            const record = (this.state?.dataObj) ? this.state?.dataObj : [];
-            if (response?.data?.record) {
-                response?.data?.record?.map((item) => {
-                    record.push(item);
-                    this.setState({ dataObj: record });
-                })
-                this.setState({ meta: response?.data?.meta });
+        this.setState({ loader: true })
+        CommonApiRequest.getProfArchiveBookingList("").then((response: any) => {
+            this.setState({ loader: false })
+            if (response?.status == 200) {
+                this.setState({ dataObj: response?.result })
             }
         }).catch((error) => {
             this.setState({ loader: false })
@@ -48,7 +42,7 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
     }
     async getApiUpcomingData() {
         this.setState({ loader: true })
-        CommonApiRequest.getUserUpcomingBookingList("").then((response: any) => {
+        CommonApiRequest.getProfUpcomingBookingList("").then((response: any) => {
             this.setState({ loader: false })
             if (response?.status == 200) {
                 this.setState({ dataObj: response?.result })
@@ -58,32 +52,61 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
         })
     }
     changeTab(type: string = 'up') {
-        this.setState({ type: type,meta:undefined });
+        this.setState({ type: type });
         if (type === 'up') {
-            this.setState({ dataObj: undefined })
             this.getApiUpcomingData()
         } else {
-            this.setState({ dataObj: undefined })
             this.getApiData();
         }
     }
     refreshAPiData() {
-        this.setState({ dataObj: undefined,meta:undefined })
         if (this.state.type === 'up') {
             this.getApiUpcomingData()
         } else {
             this.getApiData();
         }
     }
-    getLoadMoreData(){
-        if(this.state?.meta?.last_page >= this.state.meta?.current_page){
-            this.setState({loadMore:true});
-            if (this.state.type === 'up') {
-                this.getApiUpcomingData()
-            } else {
-                this.getApiData();
-            }
+    onUpdateOrder(type: any, item: any = {}) {
+        const typeToShow = (type === 2) ? 'Accept' : 'Reject';
+        Alert.alert(
+            (type === 2) ? 'Accept' : 'Reject',
+            'Are you sure? You want to ' + typeToShow + ' this booking',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => {
+                        return null;
+                    },
+                },
+                {
+                    text: 'Confirm',
+                    onPress: () => {
+                        this.acceptOrCancelBooking(type, item);
+                    },
+                },
+            ],
+            { cancelable: false },
+        );
+    }
+    acceptOrCancelBooking(type: any = 2, item) {
+        this.setState({ loader: true });
+        const updateOrderObj = {
+            id: item?.order_id,
+            status: type
         }
+        CommonApiRequest.bookingAcceptOrCancel(updateOrderObj).then((response: any) => {
+            this.setState({ loader: false })
+            if (response?.status === 200) {
+                DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.success_color, msgData: { head: 'Success', subject: 'Booking accepted successfully!!', top: 20 } });
+                if (this.state.type === 'up') {
+                    this.getApiUpcomingData()
+                } else {
+                    this.getApiData();
+                }
+            }
+        }).catch(() => {
+            this.setState({ loader: false })
+        });
     }
     render() {
         return (
@@ -100,25 +123,19 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
                 tabData={[{ name: 'Upcoming', key: 'up' }, { name: 'Archive', key: 'arc' }]}
                 tabDefaultKey={this.state?.type}
                 onClickTab={(changeTab) => { this.changeTab(changeTab) }}
-                onScroll={() => {
-                    console.log('scroll')
-                    this.getLoadMoreData()
-                }}
             >
-
                 <View>
                     <View style={[ThemeStyling.container, { minHeight: 'auto' }]}>
                         {this.state?.dataObj && this.state?.dataObj?.map((item, key) => {
-                            return <BookingCard navigation={this.props.navigation} data={item} key={key} isArchive={true}></BookingCard>
+                            return <ProfBookingCard onClickResponse={(type: any) => { this.onUpdateOrder(type?.type, item) }} navigation={this.props.navigation} data={item} key={key} isArchive={(this.state?.type === 'up') ? false : false}></ProfBookingCard>
                         })}
+                        {/* <View style={{ minHeight:300,justifyContent:'center',alignItems:'center',flex:1 }}>
+                            <Text style={[ThemeStyling.heading4,{textAlign:'center',color:'black',opacity:1}]}>No data found</Text>
+                        </View> */}
                         {this.state?.dataObj?.length <= 0 &&
                             <NoRecordFound data={{ head: 'No Record found', msg: 'There is no data found please try with other' }}></NoRecordFound>
                         }
-                        {this.state.loadMore &&
-                            <LoadMore></LoadMore>
-                        }
                     </View>
-
                 </View>
             </MainLayout >
         );

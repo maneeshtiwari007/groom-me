@@ -22,11 +22,10 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
         super(props);
         this.state = {
             loader: false,
-            type: 'map',
+            type: 'list',
         }
     }
     async componentDidMount() {
-
         this.setState({ loader: true })
         await this.getApiData();
     }
@@ -75,7 +74,7 @@ export default class ProfLists extends Component<ScreenInterfcae, CommonScreenSt
                 isSearchBar={true}
                 onSearchCallback={(data) => { this.searchCategory(data) }}
                 isTab={true}
-                tabData={[{ name: 'Map', key: 'map' }, { name: 'List', key: 'list' }]}
+                tabData={[{ name: 'List', key: 'list' },{ name: 'Map', key: 'map' }]}
                 tabDefaultKey={this.state?.type}
                 onClickTab={(changeTab) => { this.setState({ type: changeTab }) }}
             >

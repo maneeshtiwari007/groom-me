@@ -25,10 +25,10 @@ const SplashScreen = ({navigation}) => {
       //If not then send for Authentication
       //else send to Home Screen
       //CommonHelper.removeData('user');
-      AsyncStorage.getItem(ConstantsVar.USER_STORAGE_KEY).then((value) =>
+      AsyncStorage.getItem(ConstantsVar.USER_STORAGE_KEY).then((value) =>{
         navigation.replace(
           value === null ? 'Auth' : 'AppContainer'
-        ),
+        )},
       );
     }, 2000);
   }, []);

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "481762015475",
+    "project_id": "groommetech-a6f1a",
+    "storage_bucket": "groommetech-a6f1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481762015475:android:979b93d3985e7b5e381f86",
+        "android_client_info": {
+          "package_name": "com.groommetech.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUqSB-hjr2wKy32Q3uV1RSizDyDeuAGW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

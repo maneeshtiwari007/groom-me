@@ -53,7 +53,12 @@ export default class Schedule extends Component<ScreenInterfcae, WorkorderStateI
     }
     dismissModal() {
         if (this.props.onDismiss) {
-            this.props.onDismiss({ selectedDate: this.state.selectedStartDate,slot:this.state.selectedSlot })
+            this.props.onDismiss({ selectedDate: this.state.selectedStartDate,slot:this.state.selectedSlot,slotKey:this.state.selectedSlotKey })
+        }
+    }
+    cancelModal() {
+        if (this.props.onDismiss) {
+            this.props.onDismiss({ selectedDate: undefined,slot:undefined,slotKey:undefined })
         }
     }
     render() {
@@ -63,7 +68,7 @@ export default class Schedule extends Component<ScreenInterfcae, WorkorderStateI
                 <StatusBar backgroundColor={Colors.primary_color} barStyle="default"></StatusBar>
                 <ScrollView>
                     <View style={{ flex: 1, height: 45, width: '100%', zIndex: 99 }}>
-                        <Pressable onPress={() => { this.dismissModal() }} style={{ width: 150, justifyContent: 'center', height: '100%', paddingLeft: 10, zIndex: 1, position: 'relative' }}>
+                        <Pressable onPress={() => { this.cancelModal() }} style={{ width: 150, justifyContent: 'center', height: '100%', paddingLeft: 10, zIndex: 1, position: 'relative' }}>
                             <Ionicons name="arrow-back" size={24} color={Colors.primary_color} />
                         </Pressable>
                     </View>
@@ -98,8 +103,8 @@ export default class Schedule extends Component<ScreenInterfcae, WorkorderStateI
                                         <View style={[ThemeStyling.cardGroup]}>
                                             {this.state.objSlotKey && this.state.objSlotKey?.map((data: any, index: number) => {
                                                 return <TouchableOpacity onPress={() => {
-                                                    this.setState({ selectedSlot: this?.state?.objSlot?.slot_time?.[data] });
-                                                }} key={index} style={[ThemeStyling.cardStyle, ThemeStyling.card, { backgroundColor: (this.state.selectedSlot === this?.state?.objSlot?.slot_time?.[data]) ? Colors.primary_color : Colors.gray400 }]}>
+                                                    this.setState({ selectedSlot: this?.state?.objSlot?.slot_time?.[data],selectedSlotKey:data });
+                                                }} key={index} style={[ThemeStyling.cardStyle, ThemeStyling.card, { backgroundColor: (this.state.selectedSlot === this?.state?.objSlot?.slot_time?.[data]) ? Colors.primary_color : Colors.success_color,opacity:0.9 }]}>
                                                     <Text style={[ThemeStyling.text1, { fontWeight: '600', fontFamily: 'Poppins_600SemiBold', color: Colors.white }]}>{this?.state?.objSlot?.slot_time?.[data]}</Text>
                                                 </TouchableOpacity>
                                             })}
@@ -108,8 +113,8 @@ export default class Schedule extends Component<ScreenInterfcae, WorkorderStateI
                                 </>
                             }
                             <View style={{ marginBottom: 20 }}>
-                                <TouchableOpacity disabled={(this.state.selectedSlot)?false:true} style={[ThemeStyling.btnSuccess, { justifyContent: 'center',opacity:(this.state.selectedSlot)?1:0.4 }]} onPress={() => { this.dismissModal() }}>
-                                    <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f16, color: Colors.white, paddingTop: 5, paddingBottom: 5 }]}>Book Now</Text>
+                                <TouchableOpacity disabled={(this.state.selectedSlot)?false:true} style={[ThemeStyling.btnSuccess, { backgroundColor:Colors.primary_color,justifyContent: 'center',opacity:(this.state.selectedSlot)?1:0.4 }]} onPress={() => { this.dismissModal() }}>
+                                    <Text style={[ThemeStyling.btnText, { fontSize: Colors.FontSize.f16, color: Colors.white, paddingTop: 5, paddingBottom: 5 }]}>Next</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

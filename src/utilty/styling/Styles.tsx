@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import Colors from "../Colors";
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 export const ThemeStyling = StyleSheet.create({
   scrollView: {
     flex: 1
@@ -137,8 +137,8 @@ export const ThemeStyling = StyleSheet.create({
     padding: 8,
     paddingLeft: 15,
     borderWidth: 1,
-    minHeight:45,
-    fontSize:16
+    minHeight: 45,
+    fontSize: 16
   },
   formcontrol2: {
     flex: 1,
@@ -146,13 +146,13 @@ export const ThemeStyling = StyleSheet.create({
     borderStyle: 'solid',
     borderBottomColor: Colors.gray400,
     padding: 5,
-    paddingLeft:0,
+    paddingLeft: 0,
     borderBottomWidth: 1
   },
-  formLabel:{
+  formLabel: {
     color: Colors.dark_color,
-    fontSize:Colors.FontSize.h6,
-    marginBottom:0
+    fontSize: Colors.FontSize.h6,
+    marginBottom: 0
   },
   inputbtn: {
     position: 'absolute',
@@ -223,24 +223,24 @@ export const ThemeStyling = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
   },
-  activeCard:{
-    backgroundColor:Colors.primary_color
+  activeCard: {
+    backgroundColor: Colors.primary_color
   },
-  deActiveCard:{
-    
+  deActiveCard: {
+
   },
-  activeTextColor:{
-    color:Colors.white,
-    marginBottom: 0, 
-    fontFamily: 'Poppins_700Bold', 
+  activeTextColor: {
+    color: Colors.white,
+    marginBottom: 0,
+    fontFamily: 'Poppins_700Bold',
     fontWeight: '700'
   },
-  deActiveTextColor:{
-    color:Colors.secondry_color
+  deActiveTextColor: {
+    color: Colors.secondry_color
   },
-  cardHeader:{
-    padding:8,
-    paddingBottom:12
+  cardHeader: {
+    padding: 8,
+    paddingBottom: 12
   },
   cardBody: {
     padding: 15,
@@ -250,13 +250,13 @@ export const ThemeStyling = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row"
   },
-  col1:{
+  col1: {
     width: '8%'
   },
-  col2:{
+  col2: {
     width: '18%'
   },
-  col3:{
+  col3: {
     width: '32%'
   },
   col4: {
@@ -270,6 +270,9 @@ export const ThemeStyling = StyleSheet.create({
   },
   col8: {
     width: '61%',
+  },
+  col7: {
+    width: '56%',
   },
   col10: {
     width: '78%',
@@ -463,8 +466,8 @@ export const ThemeStyling = StyleSheet.create({
   loader: {
     flex: 1,
     justifyContent: "center",
-    height: Dimensions.get('window').height,
-    minHeight:Dimensions.get('window').height,
+    height: '100%',
+    minHeight: Dimensions.get('window').height,
     position: 'absolute',
     backgroundColor: "rgba(0,0,0,0.5)",
     width: '100%',
@@ -472,7 +475,7 @@ export const ThemeStyling = StyleSheet.create({
     left: 0,
     minWidth: Dimensions.get('window').width,
     zIndex: 9999,
-    top:0,
+    top: 0,
   },
   footer: {
     paddingTop: 10,
@@ -575,7 +578,7 @@ export const ThemeStyling = StyleSheet.create({
     lineHeight: 40
   },
   gallery: {
-    flexDirection: "row",    
+    flexDirection: "row",
     flexWrap: "wrap",
   },
   galleryItem: {
@@ -593,9 +596,9 @@ export const ThemeStyling = StyleSheet.create({
   cardGroup: {
     display: 'flex',
     flexWrap: "wrap",
-    flexDirection:'row',
+    flexDirection: 'row',
     marginRight: -5,
-    marginLeft:-5
+    marginLeft: -5
   },
   cardStyle: {
     width: '47%',
@@ -604,8 +607,8 @@ export const ThemeStyling = StyleSheet.create({
     justifyContent: "center",
     alignItems: 'center',
     marginRight: 5,
-    marginLeft:5,
-    borderRadius:20
+    marginLeft: 5,
+    borderRadius: 20
   },
   cardStyle2: {
     display: 'flex',
@@ -619,7 +622,7 @@ export const ThemeStyling = StyleSheet.create({
     paddingVertical: 3,
     paddingHorizontal: 10,
     fontSize: Colors.FontSize.f12,
-    textAlign:'center',
+    textAlign: 'center',
   },
   circles: {
     flexDirection: 'row',
@@ -643,88 +646,93 @@ export const ThemeStyling = StyleSheet.create({
   label: {
     marginLeft: 10,
   },
-  ForBottomOfSCreen:{
-    marginTop:'auto',
-    marginBottom:(Platform.OS==='ios')?23:3,
+  ForBottomOfSCreen: {
+    marginTop: 'auto',
+    marginBottom: (Platform.OS === 'ios') ? 23 : 23,
   },
-  notesBlock:{
-    marginBottom:1
+  notesBlock: {
+    marginBottom: 1
   },
-  cardWithBorder:{
-    borderWidth:0,
-    borderColor:Colors.primary_color,
-    borderStyle:"solid",
-    borderRadius:10,
-    minHeight:150,
-    width:'46%',
-    margin:6,
-    marginTop:0,
-    marginBottom:12,
-    padding:15,
-    alignItems:'center',
-    justifyContent:'center',
-    backgroundColor:'white',
+  cardWithBorder: {
+    borderWidth: 0,
+    borderColor: Colors.primary_color,
+    borderStyle: "solid",
+    borderRadius: 10,
+    minHeight: 150,
+    width: '46%',
+    margin: 6,
+    marginTop: 0,
+    marginBottom: 12,
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
     shadowColor: "white",
-    shadowOpacity: 0.1,  
+    shadowOpacity: 0.1,
     shadowRadius: 3
   },
-  cardContainer:{
-    flexDirection:"row",
-    flex:1,
-    display:"flex",
-    flexWrap:"wrap",
+  cardContainer: {
+    flexDirection: "row",
+    flex: 1,
+    display: "flex",
+    flexWrap: "wrap",
   },
-  cardTitle:{
-    fontSize:18,
-    fontWeight:"500",
-    color:Colors.primary_color
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: Colors.primary_color
   },
-  cardImageContaiiner:{
-    marginBottom:15,
+  cardImageContaiiner: {
+    marginBottom: 15,
   },
-  cardImage:{
-    width:50,
-    height:50
+  cardImage: {
+    width: 50,
+    height: 50
   },
-  cardImage2:{
+  cardImage2: {
     width: 'auto',
-    height:150,
-    borderTopLeftRadius:10,
-    borderBottomLeftRadius:10
+    height: 150,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10
   },
-  starRating:{
-    display:'flex',
-    flexDirection:"row",
+  starRating: {
+    display: 'flex',
+    flexDirection: "row",
   },
-  iconStar:{
-    marginRight:5,
-    fontSize:Colors.FontSize.f16,
+  iconStar: {
+    marginRight: 5,
+    fontSize: Colors.FontSize.f16,
   },
-  paymentMethod:{
-    width: 120, 
-    minHeight: 100, 
-    justifyContent: "center", 
-    alignItems: "center", 
-    marginBottom: 0, 
-    borderRadius: 12, 
+  paymentMethod: {
+    width: 120,
+    minHeight: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 0,
+    borderRadius: 12,
     backgroundColor: Colors.white,
-    shadowColor: '#000', 
-    shadowOffset: { width: -2, height: 4 }, 
-    shadowOpacity: 0.4, 
+    shadowColor: '#000',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.4,
     shadowRadius: 12
   },
-  paymentSelected:{
-    borderWidth: 1, 
-    borderColor: Colors.primary_color, 
+  paymentSelected: {
+    borderWidth: 1,
+    borderColor: Colors.primary_color,
     borderStyle: "solid",
-    shadowColor:'transparent',
-    shadowOpacity:.1
+    shadowColor: 'transparent',
+    shadowOpacity: .1
   },
-  tabActive:{
+  tabActive: {
     borderBottomColor: 'white', borderBottomWidth: 2,
   },
-  disable:{
-    opacity:0.4
+  disable: {
+    opacity: 0.4
+  },
+  btnSmall: {
+    borderRadius: 6, 
+    paddingHorizontal: 10, 
+    paddingVertical: 5
   }
 });
 

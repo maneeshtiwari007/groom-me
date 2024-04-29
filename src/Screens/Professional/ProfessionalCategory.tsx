@@ -1,20 +1,18 @@
 import { Component, ReactNode } from "react";
-import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import CommonScreenStateInterface from "../../Interfaces/States/CommonScreenStateInterface";
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
-import AppIntroSlider from 'react-native-app-intro-slider';
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, Image, StyleSheet, Pressable, Modal } from 'react-native';
 import MainLayout from "../../Layout/MainLayout";
-import CardWithImage from "../../Components/Common/CardsWithImage";
 import { ThemeStyling } from "../../utilty/styling/Styles";
 import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
+import CardWithImageProf from "../../Components/Common/CardWithImageProf";
+import CommonCamera from "../../Components/Common/CommmonCamera";
 export default class ProfessionalCategory extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
         this.state = {
-            loader:false
+            loader:false,
+            visible:false
         }
     }
     async componentDidMount() {
@@ -23,7 +21,7 @@ export default class ProfessionalCategory extends Component<ScreenInterfcae, Com
     }
     async getApiData(params:any={}){
         const urlParams = (params)?'?' + new URLSearchParams(params).toString():'';
-        CommonApiRequest.getServiceCategory(urlParams).then((response:any)=>{
+        CommonApiRequest.getProfServiceCategory(urlParams).then((response:any)=>{
             this.setState({loader:false});
             if(response?.status==200){
                 this.setState({dataObj:response?.results})
@@ -35,6 +33,9 @@ export default class ProfessionalCategory extends Component<ScreenInterfcae, Com
     searchCategory(text:string){
         this.setState({loader:true});
         this.getApiData({q:text});
+    }
+    openOrCloseCamera(type?:boolean){
+        this.setState({visible:type})
     }
     render() {
         return (
@@ -48,10 +49,17 @@ export default class ProfessionalCategory extends Component<ScreenInterfcae, Com
                 showHeaderText={true}
                 isSearchBar={true}
                 onSearchCallback={(data)=>{this.searchCategory(data)}}
+                openScanner={()=>{
+                    this.openOrCloseCamera(true)
+                }}
+                needScanner={false}
+                isLoading={(type:any)=>{
+                    this.setState({loader:type})
+                }}
                 >
                 <View style={ThemeStyling.cardContainer}>
                     {this.state?.dataObj?.length > 0 && this.state?.dataObj?.map((item:any,index:number)=>{
-                        return <CardWithImage showCount={false}  data={item} key={index} navigation={this.props.navigation}></CardWithImage>
+                        return <CardWithImageProf showCount={true} data={item} key={index} navigation={this.props.navigation}></CardWithImageProf>
                     })}
                 </View>
             </MainLayout>

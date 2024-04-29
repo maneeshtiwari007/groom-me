@@ -7,7 +7,16 @@ export default interface ProfileScreenInterface {
     user?:any,
     email?:any,
     base64Data?:any,
-    loader?:any,
     location?:string,
-    gender?:any
+    gender?:any,
+    loader?:boolean,
+    type?:any,
+    id?:any,
+    commonData?:any,
+    objData?:any,
+    onLoading?:func,
+    mimeType?:any,
+    docType?:any,
+    latitude?:any,
+    longitude?:any,
 }

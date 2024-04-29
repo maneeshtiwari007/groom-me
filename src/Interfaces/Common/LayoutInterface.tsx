@@ -17,5 +17,11 @@ export default interface LayoutInterface {
     isTab?:boolean,
     tabData?:any,
     onClickTab?:any,
-    tabDefaultKey?:any
+    tabDefaultKey?:any,
+    loaderText?:string,
+    onScroll?:any,
+    loadMore?:any,
+    openScanner?:any,
+    needScanner?:boolean,
+    isLoading?:any
 }

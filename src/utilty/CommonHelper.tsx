@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ConstantsVar } from "./ConstantsVar";
 import Colors from "./Colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { CommonApiRequest } from "./api/commonApiRequest";
 
 export const CommonHelper = {
     registerValidation: async function (params: any) {
@@ -105,8 +106,8 @@ export const CommonHelper = {
             return "";
         }
     },
-    getCurrentDate(date:any=undefined) {
-        var myDateObj = (date)?new Date(date):new Date();
+    getCurrentDate(date: any = undefined) {
+        var myDateObj = (date) ? new Date(date) : new Date();
         const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][myDateObj.getMonth()]
         const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
@@ -139,5 +140,43 @@ export const CommonHelper = {
             }
         }
         return CommonHelper.returnPriceWithCurrency(countPrice)
-    }
+    },
+    replceStringForImage: function (image: string, replceFrom: string = "publichttps", replceTo: string = "https") {
+        return image?.replace(replceFrom, replceTo);
+    },
+    formatBytes: function (bytes: number, decimals = 2) {
+        // const k = 1024
+         const dm = decimals < 0 ? 0 : decimals
+        // const i = Math.floor(Math.log(bytes) / Math.log(k))
+        return parseFloat((bytes / (1024 ** 2)).toFixed(dm))
+    },
+    getImageFromSource(image:any=""){
+        if(image){
+            return {uri:image}
+        } else {
+            return require('../../assets/staticimages/default.jpg');
+        }
+    },
+    getCardMaskedNumber(last4Digit:string='',brand:string='visa'){
+        return ConstantsVar.CARD_BRAND_WITH_MASKED?.[brand]+' '+last4Digit;
+    },
+    returnScreenNameBasedOnPath(path:any='home',queryParams:any=''){
+        let query = queryParams;
+        const arrayPath = {
+            'user/home':'Home',
+            'user/bookings':'BookingScreen',
+            'user/favProf':'FavoriteProf',
+            'user/profile':'ProfileScreen',
+            'user/settings':'Settings',
+            'prof/home':'Home',
+            'prof/services':'My Services',
+            'prof/bookings':'Bookings List',
+            'prof/profile':'Professional Profile',
+            'prof/wallet':'Wallet',
+            'prof/settings':'ProfSettings',
+        }
+        let pathRedirect = (arrayPath?.[path]==='BookingScreen' && queryParams?.orderid)?"Bookings Detail":arrayPath?.[path];
+        query = (arrayPath?.[path]==='BookingScreen' && queryParams?.orderid)?{data:queryParams?.orderid}:queryParams;
+        return {"path":pathRedirect,query};
+    } 
 }

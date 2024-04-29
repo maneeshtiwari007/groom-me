@@ -54,16 +54,16 @@ export default class RegisterScreen extends Component<ScreenInterfcae, CommonScr
     render() {
         return (
             <>
-                <View style={{ height: Dimensions.get('screen').height, marginTop: 45, backgroundColor: '#ebebff' }}>
+                <ScrollView style={{ height: '100%', marginTop: 45, backgroundColor: '#ebebff' }}>
                     <TabView
                         navigationState={{ index: this.state.index, routes: this.state.routes }}
                         renderScene={this._renderScene}
                         onIndexChange={index => this.setState({ index })}
                         initialLayout={{ width: Dimensions.get('window').width }}
-                        style={{ height: (Dimensions.get('screen').height / 2) - CommonHelper.getHeightPercentage(Dimensions.get('screen').height, 0.09), backgroundColor: '#ebebff' }}
+                        style={{ height: Dimensions.get('screen').height, backgroundColor: '#ebebff' }}
                         renderTabBar={this._renderTabBar}
                     />
-                </View>
+                </ScrollView>
             </>
         );
     }

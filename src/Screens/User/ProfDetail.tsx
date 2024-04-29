@@ -19,6 +19,7 @@ import ProfInformationComponent from "../../Components/ProfInformationComponent"
 import ProfReviewComponent from "../../Components/ProfReviewComponent";
 import { CommonHelper } from "../../utilty/CommonHelper";
 import ButtonComponent from "../../Components/Common/ButtonComponent";
+import ReviewStarComponent from "../../Components/Common/ReviewStarComponent";
 export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -34,7 +35,6 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
         }
     }
     async componentDidMount() {
-        console.log(Platform.OS);
         this.setState({ loader: true });
         await this.getApiData()
     }
@@ -52,11 +52,11 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
     _renderScene = ({ route }) => {
         switch (route.key) {
             case '1':
-                return <ProfServicesComponent data={this.state?.dataObj} onClickResponse={(data)=>{this.setState({commonData:data?.data});}}></ProfServicesComponent>;
+                return <ProfServicesComponent data={this.state?.dataObj} onClickResponse={(data) => { this.setState({ commonData: data?.data }); }}></ProfServicesComponent>;
             case '2':
-                return <ProfInformationComponent></ProfInformationComponent>;
+                return <ProfInformationComponent data={this.state?.dataObj}></ProfInformationComponent>;
             case '3':
-                return <ProfReviewComponent></ProfReviewComponent>;
+                return <ProfReviewComponent data={this.state?.dataObj}></ProfReviewComponent>;
             default:
                 return null;
         }
@@ -69,28 +69,24 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
             style={{ backgroundColor: 'white', paddingTop: 5, paddingBottom: 5, borderColor: Colors.primary_color }}
         />
     );
-    ContinueBooking(){
-        this.props?.navigation?.navigate("Review Cart",{data:this.state?.commonData,prof:this.state?.dataObj?.users})
+    ContinueBooking() {
+        this.props?.navigation?.navigate("Review Cart", { data: this.state?.commonData, prof: this.state?.dataObj?.users })
     }
     render() {
         return (
             <MainLayout scollEnabled={false} headerText="" loader={this.state?.loader} containerStyle={{ paddingTop: 0.5 }} navigation={this.props.navigation} route={this.props.route}>
                 {this.state?.dataObj &&
                     <>
-                        <View>
-                            <ImageBackground source={{ uri: this.state?.dataObj?.users?.photo_image }} resizeMode="cover" style={{ flex: 1, height: 150, width: '100%' }}></ImageBackground>
+                        <View style={{ flex: 1, minHeight: '18%', maxHeight: '18%' }}>
+                            <ImageBackground source={{ uri: this.state?.dataObj?.users?.photo_image }} resizeMode="cover" style={{ flex: 1, height: 'auto', width: '100%' }}></ImageBackground>
                         </View>
-                        <View style={[ThemeStyling.card, { backgroundColor: Colors.gray200, borderRadius: 0, marginBottom: 0 }]}>
+                        <View style={[ThemeStyling.card, { backgroundColor: Colors.gray200, borderRadius: 0, marginBottom: 0, flex: 1, minHeight: '11%', maxHeight: '11%' }]}>
                             <View style={[ThemeStyling.cardBody, { paddingBottom: 10 }]}>
                                 <View style={[ThemeStyling.twoColumnLayout,]}>
                                     <View style={[ThemeStyling.col8, { borderRightColor: Colors.gray400, borderStyle: "solid", borderRightWidth: 1 }]}>
                                         <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 3 }]}>{this.state?.dataObj?.users?.name}</Text>
                                         <View style={[ThemeStyling.starRating, { marginBottom: 5 }]}>
-                                            <FontAwesome style={ThemeStyling.iconStar} name="star" color={Colors.primary_color} />
-                                            <FontAwesome style={ThemeStyling.iconStar} name="star" color={Colors.primary_color} />
-                                            <FontAwesome style={ThemeStyling.iconStar} name="star" color={Colors.primary_color} />
-                                            <FontAwesome style={ThemeStyling.iconStar} name="star" color={Colors.gray400} />
-                                            <FontAwesome style={ThemeStyling.iconStar} name="star" color={Colors.gray400} />
+                                            <ReviewStarComponent avg_rating={this.state?.dataObj?.avg_rating}></ReviewStarComponent>
                                         </View>
                                         <View style={{ flexDirection: "row" }}>
                                             <View><Ionicons name="location-outline" size={15} style={{ color: Colors.secondry_color }} /></View>
@@ -120,18 +116,18 @@ export default class ProfDetail extends Component<ScreenInterfcae, CommonScreenS
                                 </View>
                             </View>
                         </View>
-                        <View style={{ height:Dimensions.get('screen').height-CommonHelper.getHeightPercentage(Dimensions.get('screen').height,(Platform?.OS==='android')?51.9:46.8) }}>
+                        <View style={{ flex: 1, minHeight: '52%' }}>
                             <TabView
                                 navigationState={{ index: this.state.index, routes: this.state.routes }}
                                 renderScene={this._renderScene}
                                 onIndexChange={index => this.setState({ index })}
                                 initialLayout={{ width: Dimensions.get('window').width }}
-                                style={{ height: (Dimensions.get('screen').height / 2)-CommonHelper.getHeightPercentage(Dimensions.get('screen').height,0.09) }}
+                                style={{ flex: 1 }}
                                 renderTabBar={this._renderTabBar}
                             />
                         </View>
-                        <View>
-                            <ButtonComponent style={[(this.state?.commonData?.length > 0)?{opacity:1}:{opacity:0.4},{backgroundColor:Colors.primary_color}]} textStyle={{color:Colors.white}} title="Continue" onPressCall={()=>{this.ContinueBooking()}} isDisabled={(this.state?.commonData?.length > 0)?'false':'true'}></ButtonComponent>
+                        <View style={{ flex: 1, maxHeight: '19%' }}>
+                            <ButtonComponent style={[(this.state?.commonData?.length > 0) ? { opacity: 1 } : { opacity: 0.4 }, { backgroundColor: Colors.primary_color,marginBottom:22 }]} textStyle={{ color: Colors.white }} title="Continue" onPressCall={() => { this.ContinueBooking() }} isDisabled={(this.state?.commonData?.length > 0) ? 'false' : 'true'}></ButtonComponent>
                         </View>
                     </>
                 }
