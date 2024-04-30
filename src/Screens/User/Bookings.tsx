@@ -32,7 +32,7 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
     async getApiData() {
         this.setState({ loader: true });
         CommonApiRequest.getUserBookingList(this.state?.meta?.next_page).then((response: any) => {
-            this.setState({ loader: false,loadMore:false });
+            this.setState({ loader: false, loadMore: false });
             const record = (this.state?.dataObj) ? this.state?.dataObj : [];
             if (response?.data?.record) {
                 response?.data?.record?.map((item) => {
@@ -57,7 +57,7 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
         })
     }
     changeTab(type: string = 'up') {
-        this.setState({ type: type,meta:undefined });
+        this.setState({ type: type, meta: undefined });
         if (type === 'up') {
             this.setState({ dataObj: undefined })
             this.getApiUpcomingData()
@@ -67,16 +67,18 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
         }
     }
     refreshAPiData() {
-        this.setState({ dataObj: undefined,meta:undefined })
-        if (this.state.type === 'up') {
-            this.getApiUpcomingData()
-        } else {
-            this.getApiData();
-        }
+        this.setState({ dataObj: undefined, meta: undefined });
+        setTimeout(() => {
+            if (this.state.type === 'up') {
+                this.getApiUpcomingData()
+            } else {
+                this.getApiData();
+            }
+        }, 500)
     }
-    getLoadMoreData(){
-        if(this.state?.meta?.last_page >= this.state.meta?.current_page){
-            this.setState({loadMore:true});
+    getLoadMoreData() {
+        if (this.state?.meta?.last_page >= this.state.meta?.current_page) {
+            this.setState({ loadMore: true });
             if (this.state.type === 'up') {
                 this.getApiUpcomingData()
             } else {
@@ -100,7 +102,6 @@ export default class Bookings extends Component<ScreenInterfcae, CommonScreenSta
                 tabDefaultKey={this.state?.type}
                 onClickTab={(changeTab) => { this.changeTab(changeTab) }}
                 onScroll={() => {
-                    console.log('scroll')
                     this.getLoadMoreData()
                 }}
             >

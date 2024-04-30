@@ -32,7 +32,6 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
     }
     async componentDidMount() {
         this.setState({ loader: true, otherData: { review_text: undefined, rating: undefined } });
-        console.log(this.props.route?.params?.data)
         this.getApiData(this.props.route?.params?.data);
         const locationObj = await CommonHelper.getData(ConstantsVar.LOCATION_KEY);
         const location = locationObj?.location
@@ -116,7 +115,7 @@ export default class BookingDetail extends Component<ScreenInterfcae, CommonScre
                                             <View style={{ marginBottom: 5 }}>
                                                 <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 5 }]}>{this.state?.dataObj?.professionalName}</Text>
                                                 <View style={[ThemeStyling.starRating, { marginBottom: 8 }]}>
-                                                    <ReviewStarComponent avg_rating={this.state?.dataObj?.avg_rating}></ReviewStarComponent>
+                                                    <ReviewStarComponent avg_rating={this.state?.dataObj?.professionalDetails?.profavgrating}></ReviewStarComponent>
                                                 </View>
                                                 <View style={{ flexDirection: "row", marginBottom: 0 }}>
                                                     <View><MaterialCommunityIcons name="map-marker" size={18} style={{ color: Colors.secondry_color, marginRight: 5 }} /></View>
