@@ -174,6 +174,7 @@ export const CommonHelper = {
             'prof/profile':'Professional Profile',
             'prof/wallet':'Wallet',
             'prof/settings':'ProfSettings',
+            'prof/setting': 'ProfSetting'
         }
         let pathRedirect = (arrayPath?.[path]==='BookingScreen' && queryParams?.orderid)?"Bookings Detail":arrayPath?.[path];
         query = (arrayPath?.[path]==='BookingScreen' && queryParams?.orderid)?{data:queryParams?.orderid}:queryParams;

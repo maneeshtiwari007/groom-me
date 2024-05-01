@@ -73,7 +73,8 @@ export default class MainLayout extends Component<
       "My Services",
       "My Bookings",
       "Professional Profile",
-      "ProfSettings"
+      "ProfSettings",
+      "ProfSetting"
     ];
     const user = await CommonHelper.getUserData();
     if (this.props.scollEnabled === false) {

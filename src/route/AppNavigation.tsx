@@ -52,6 +52,7 @@ import ProfBookingDetail from "../Screens/Professional/ProfBookingDetail";
 import ProfProfile from "../Screens/Professional/ProfProfile";
 import Wallet from "../Screens/Professional/Wallet";
 import ProfSettings from "../Screens/Professional/ProfSettings";
+import ProfSetting from "../Screens/Professional/ProfSetting";
 
 export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: any, user?: any }> {
   constructor(props: any) {
@@ -315,6 +316,21 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
             drawerLabel: ({ focused }) => (
               <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>My Wallet</Text>
             ),
+          }}
+        />
+        <Drawer.Screen
+        name="ProfSetting"
+        component={ProfSetting}
+          options={{
+            drawerIcon: ({ focused, size }) =>
+              <MaterialIcons
+                name="book-online"
+                size={size}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
+              />,
+            drawerLabel: ({ focused }) => {
+              return <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Booking Details</Text>
+            },
           }}
         />
         <Drawer.Screen
