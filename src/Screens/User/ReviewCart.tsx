@@ -19,7 +19,7 @@ import Schedule from "../Schedule";
 import SelectAddress from "./SelectAddress";
 import { ConstantsVar } from "../../utilty/ConstantsVar";
 import { format, formatDate } from "date-fns";
-export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenStateInterface>{
+export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenStateInterface> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -64,7 +64,7 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
     }
     selectBookingType(value: any) {
         this.setState({ bookingType: value })
-        if (value === 'schedule') {
+        if (value === 'schedule' || value === 'mobile') {
             this.setState({ visible: true });
         }
     }
@@ -147,25 +147,61 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                                 </View>
                                 <View style={{ flex: 1, height: 1, backgroundColor: Colors.gray400, marginBottom: 10 }}></View>
                                 <View style={{ marginVertical: 10 }}>
-                                    {this.props.route?.params?.prof?.live && this.props.route?.params?.prof?.schedule &&
+                                    {this.props.route?.params?.prof?.live && this.props.route?.params?.prof?.schedule && this.props.route?.params?.prof?.mobile &&
                                         <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
                                             <RadioButtonItem value="live" label="Live Booking" />
                                             <RadioButtonItem
                                                 value="schedule"
                                                 label="Schedule Booking"
                                             />
+                                            <RadioButtonItem
+                                                value="mobile"
+                                                label="Mobile Booking"
+                                            />
                                         </RadioButtonGroup>
                                     }
-                                    {this.props.route?.params?.prof?.live && !this.props.route?.params?.prof?.schedule &&
+                                    {this.props.route?.params?.prof?.live && !this.props.route?.params?.prof?.schedule && !this.props.route?.params?.prof?.mobile &&
                                         <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
                                             <RadioButtonItem value="live" label="Live Booking" />
                                         </RadioButtonGroup>
                                     }
-                                    {!this.props.route?.params?.prof?.live && this.props.route?.params?.prof?.schedule &&
+                                    {!this.props.route?.params?.prof?.live && this.props.route?.params?.prof?.schedule && !this.props.route?.params?.prof?.mobile &&
                                         <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
                                             <RadioButtonItem
                                                 value="schedule"
                                                 label="Schedule Booking"
+                                            />
+                                        </RadioButtonGroup>
+                                    }
+                                    {!this.props.route?.params?.prof?.live && this.props.route?.params?.prof?.schedule && this.props.route?.params?.prof?.mobile &&
+                                        <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
+                                            <RadioButtonItem
+                                                value="schedule"
+                                                label="Schedule Booking"
+                                            />
+                                            <RadioButtonItem
+                                                value="mobile"
+                                                label="Mobile Booking"
+                                            />
+                                        </RadioButtonGroup>
+                                    }
+                                    {this.props.route?.params?.prof?.live && this.props.route?.params?.prof?.schedule && !this.props.route?.params?.prof?.mobile &&
+                                        <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
+                                            <RadioButtonItem
+                                                value="live"
+                                                label="Live Booking"
+                                            />
+                                            <RadioButtonItem
+                                                value="schedule"
+                                                label="Schedule Booking"
+                                            />
+                                        </RadioButtonGroup>
+                                    }
+                                    {!this.props.route?.params?.prof?.live && !this.props.route?.params?.prof?.schedule && this.props.route?.params?.prof?.mobile &&
+                                        <RadioButtonGroup radioStyle={{ width: 18, height: 18, marginRight: 3 }} selected={this.state.bookingType} radioBackground={Colors.primary_color} containerOptionStyle={{ marginHorizontal: 10 }} containerStyle={{ marginBottom: 10, flex: 1, flexDirection: 'row', justifyContent: 'center', alignItem: 'center' }} onSelected={(value) => this.selectBookingType(value)}>
+                                            <RadioButtonItem
+                                                value="mobile"
+                                                label="Mobile Booking"
                                             />
                                         </RadioButtonGroup>
                                     }
