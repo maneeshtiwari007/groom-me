@@ -181,6 +181,19 @@ export const ThemeStyling = StyleSheet.create({
     // minWidth: 200,
 
   },
+  btnOutlinedark: {
+    backgroundColor: Colors.white,
+    borderRadius: 100,
+    padding: 10,
+    paddingLeft: 16,
+    paddingRight: 16,
+    textAlign: "center",
+    width: '100%',
+    height: 50,
+    borderWidth:1,
+    borderStyle:'solid',
+    borderColor:Colors.dark_color
+  },
   btnText: {
     textAlign: "center",
     fontSize: Colors.FontSize.f18,
@@ -695,6 +708,11 @@ export const ThemeStyling = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10
   },
+  cardImage3: {
+    width: 'auto',
+    height: 180,
+    borderRadius: 20
+  },
   starRating: {
     display: 'flex',
     flexDirection: "row",
@@ -733,6 +751,15 @@ export const ThemeStyling = StyleSheet.create({
     borderRadius: 6, 
     paddingHorizontal: 10, 
     paddingVertical: 5
+  },
+  serviceCounter:{
+    width:35,
+    height:35,
+    backgroundColor:Colors.danger100,
+    borderRadius:50,
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center'
   }
 });
 

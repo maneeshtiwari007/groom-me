@@ -31,6 +31,7 @@ const Colors = {
     light_crystal_blue_disable: '#2a8699',
     errorColor: '#cd3254',
     theme_success_color:'#a9d775',
-    dangerLight:'#ecb0bd'
+    dangerLight:'#ecb0bd',
+    danger100:'#fde3e2'
 }
 export default Colors;
