@@ -7,6 +7,7 @@ export const ConstantsVar = {
     LOCATION_KEY:'location',
     GOOGLE_API_KEY:'AIzaSyAb2g2ibWQQVa5AT86w03dwnUmrNwrAuaw',
     SCHEDULE_KEY:'schedule',
+    MOBILE_KEY:'mobile',
     LIVE_KEY:'live',
     PUBLISH_KEY:'pk_test_516DulZE61VXq3iXLo6rMjpiLpvExilReH3ma8LW7gm20HNSCP1yQ8M9hlzfXZNMrrR6FnmTLpMUtaKprfH8FNs8p00ZVc5a88T',
     ACCEPT_KET:2,
@@ -14,4 +15,8 @@ export const ConstantsVar = {
     CARD_BRAND_WITH_MASKED:{
         'visa':'xxxx xxxx xxxx',
     }
+}
+export const CameraType = {
+    front:'front',
+    back:'back'
 }

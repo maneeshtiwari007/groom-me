@@ -2,11 +2,11 @@ import { Component } from "react"
 import CommonCameraPropsInterface from "../../Interfaces/States/CommonCameraPropsInterface";
 import CommonCameraStateInterface from "../../Interfaces/States/CommonCameraStateInterface";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import { Camera,CameraView } from "expo-camera/next";
+import { Camera,CameraView } from "expo-camera";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import Colors from "../../utilty/Colors";
-import { CameraType } from "expo-camera";
+import { CameraType } from "../../utilty/ConstantsVar";
 
 export default class CommonCamera extends Component<CommonCameraPropsInterface, CommonCameraStateInterface>{
     cameraRef:any;

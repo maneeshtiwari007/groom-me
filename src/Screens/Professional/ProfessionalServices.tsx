@@ -12,6 +12,7 @@ import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 import ServicesCard from "../../Components/ServicesCard";
 import Colors from "../../utilty/Colors";
 import { FontAwesome, MaterialCommunityIcons, Feather, FontAwesome5, AntDesign, Entypo } from '@expo/vector-icons';
+import ImageComponent from "../../Components/Common/ImageComponent";
 export default class ProfessionalServices extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -121,7 +122,7 @@ export default class ProfessionalServices extends Component<ScreenInterfcae, Com
                                     </View>
                                     <View style={[{ marginBottom: 20, alignItems: 'center' }]}>
                                         <View style={[{ width: 'auto' }]}>
-                                            <Image style={{ width: 60, height: 60 }} source={{ uri: this.state?.commonData?.service_images?.image }}></Image>
+                                            <ImageComponent style={{ width: 60, height: 60 }} src={{ uri: this.state?.commonData?.service_images?.image }}/>
                                         </View>
                                         <View style={[{ width: 'auto' }]}>
                                             <Text style={[ThemeStyling.heading3, { color: Colors.gray_color, marginBottom: 1 }]}>{this.state?.commonData?.name}</Text>

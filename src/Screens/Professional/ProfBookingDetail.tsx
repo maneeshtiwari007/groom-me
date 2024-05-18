@@ -18,6 +18,7 @@ import Badge from "../../Components/Common/Badge";
 import ReviewStarComponent from "../../Components/Common/ReviewStarComponent";
 import { ConstantsVar } from "../../utilty/ConstantsVar";
 import { OtpInput } from "react-native-otp-entry";
+import ImageComponent from "../../Components/Common/ImageComponent";
 export default class ProfBookingDetail extends Component<ScreenInterfcae, CommonScreenStateInterface> {
     constructor(props: any) {
         super(props);
@@ -163,7 +164,7 @@ export default class ProfBookingDetail extends Component<ScreenInterfcae, Common
                                     <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
                                         <View style={[ThemeStyling.twoColumnLayout]}>
                                             <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                                <Image style={[ThemeStyling.cardImage2]} source={{ uri: this?.state?.dataObj?.image }} />
+                                                <ImageComponent style={[ThemeStyling.cardImage2]} src={{ uri: this?.state?.dataObj?.image }} />
                                             </View>
                                             <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 5 }]}>
                                                 <View style={{ marginBottom: 5 }}>

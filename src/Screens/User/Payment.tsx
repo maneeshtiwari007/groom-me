@@ -29,6 +29,7 @@ import {
 } from '@stripe/stripe-react-native';
 import PaymentStateInterface from "../../Interfaces/States/PaymentStateInterface";
 import { ConstantsVar } from "../../utilty/ConstantsVar";
+import ImageComponent from "../../Components/Common/ImageComponent";
 export default class Payment extends Component<ScreenInterfcae, PaymentStateInterface> {
     publishableKey = ConstantsVar.PUBLISH_KEY;
     constructor(props: any) {
@@ -104,7 +105,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
     }
 
     async formatObjOrderData() {
-        const reverGeocode = await Location.reverseGeocodeAsync({ latitude: this.state.location?.coords?.latitude, longitude: this.state.location?.coords?.longitude });
+        //const reverGeocode = await Location.reverseGeocodeAsync({ latitude: this.state.location?.coords?.latitude, longitude: this.state.location?.coords?.longitude });
         const orderObj: any = {
             services: this?.props?.route?.params?.dataObj,
             customer_detail: this.state.userObj,
@@ -114,7 +115,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
             card: this.state?.card,
             remark: this?.props?.route?.params?.remark
         }
-        if (this.props?.route?.params?.bookingType === ConstantsVar?.SCHEDULE_KEY) {
+        if (this.props?.route?.params?.bookingType === ConstantsVar?.MOBILE_KEY) {
             orderObj.time_slot = this?.props?.route?.params?.time_slot
         }
         return orderObj;
@@ -147,12 +148,12 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
             paymentIntentClientSecret: this.state.dataObj?.client_secret,
             merchantDisplayName: 'Example Inc.',
             returnURL: 'exp://172.16.8.65:8081',
-            appearance:{
-                primaryButton:{
-                    colors:{
-                        background:Colors.success_color,
-                        text:Colors.white,
-                        border:Colors.success_color,
+            appearance: {
+                primaryButton: {
+                    colors: {
+                        background: Colors.success_color,
+                        text: Colors.white,
+                        border: Colors.success_color,
                     }
                 }
             }
@@ -180,7 +181,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
     render() {
         return (
             <MainLayout
-                onRefresh={() => {  }}
+                onRefresh={() => { }}
                 headerText=""
                 loader={this.state?.loader}
                 containerStyle={{ paddingTop: 1 }}
@@ -228,7 +229,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
                                 <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
                                     <View style={[ThemeStyling.twoColumnLayout]}>
                                         <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                            <Image style={[ThemeStyling.cardImage2]} source={CommonHelper.getImageFromSource(this?.props?.route?.params?.userObj?.photo_image)} />
+                                            <ImageComponent style={[ThemeStyling.cardImage2]} src={CommonHelper.getImageFromSource(this?.props?.route?.params?.userObj?.photo_image)} />
                                         </View>
                                         <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
                                             <View style={{ marginBottom: 5 }}>
@@ -267,23 +268,28 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
                                     <Text style={[ThemeStyling.text2, { fontSize: Colors.FontSize.f11, color: Colors.secondry_color }]}>+91(1234567891)</Text>
                                 </View>
                             </View>
-                            <View style={{ marginTop: 10, alignItems: 'center' }}>
-                                <Text style={ThemeStyling.heading3}>Address Detail</Text>
-                            </View>
-                            <View style={[ThemeStyling.card, { width: '95%', marginHorizontal: '2.5%', marginTop: 3 }]}>
-                                <View style={[ThemeStyling.cardBody, { paddingBottom: 5 }]}>
-                                    <View style={[ThemeStyling.twoColumnLayout, { alignItems: "center" }]}>
-                                        <View style={[ThemeStyling.col10, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
-                                            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                                <Text style={[ThemeStyling.heading5, { color: Colors.dark_color, marginRight: 5 }]}>{this?.props?.route?.params?.address?.place}</Text>
-                                                {/* <Text style={[ThemeStyling.text2, { color: Colors.success_color }]}>201.12 m away</Text> */}
+                            {this?.props?.route?.params?.address?.address &&
+                                <>
+                                    <View style={{ marginTop: 10, alignItems: 'center' }}>
+                                        <Text style={ThemeStyling.heading3}>Address Detail</Text>
+                                    </View>
+                                    <View style={[ThemeStyling.card, { width: '95%', marginHorizontal: '2.5%', marginTop: 3 }]}>
+                                        <View style={[ThemeStyling.cardBody, { paddingBottom: 5 }]}>
+                                            <View style={[ThemeStyling.twoColumnLayout, { alignItems: "center" }]}>
+                                                <View style={[ThemeStyling.col10, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
+                                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                                        <Text style={[ThemeStyling.heading5, { color: Colors.dark_color, marginRight: 5 }]}>{this?.props?.route?.params?.address?.place}</Text>
+                                                        {/* <Text style={[ThemeStyling.text2, { color: Colors.success_color }]}>201.12 m away</Text> */}
+                                                    </View>
+                                                    <View><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>
+                                                        {this?.props?.route?.params?.address?.address}, {this?.props?.route?.params?.address?.address?.zip_code}</Text></View>
+                                                </View>
                                             </View>
-                                            <View><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>
-                                                {this?.props?.route?.params?.address?.address}, {this?.props?.route?.params?.address?.address?.zip_code}</Text></View>
                                         </View>
                                     </View>
-                                </View>
-                            </View>
+                                </>
+                            }
+
                             {this.state?.otherDataObj?.remark &&
                                 <View>
                                     <View style={{ marginTop: 10, alignItems: 'center' }}>
@@ -297,7 +303,7 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
                             <View style={{ marginTop: 10, alignItems: 'center' }}>
                                 <Text style={ThemeStyling.heading3}>Selected Services</Text>
                             </View>
-                            <View style={[ThemeStyling.container, { minHeight: 'auto',paddingTop:2 }]}>
+                            <View style={[ThemeStyling.container, { minHeight: 'auto', paddingTop: 2 }]}>
                                 {this?.state?.otherDataObj?.services && this?.state?.otherDataObj?.services?.map((item, index) => {
                                     return <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between", marginBottom: 5 }]} key={index}>
                                         <View>
@@ -328,10 +334,10 @@ export default class Payment extends Component<ScreenInterfcae, PaymentStateInte
                                 })}
                                 <View style={[ThemeStyling.twoColumnLayout, { justifyContent: "space-between", marginBottom: 10 }]}>
                                     <View>
-                                        <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontFamily:'Poppins_600SemiBold', color: Colors.dark_color, marginBottom: 0 }]}>Total Pay</Text>
+                                        <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontFamily: 'Poppins_600SemiBold', color: Colors.dark_color, marginBottom: 0 }]}>Total Pay</Text>
                                     </View>
                                     <View>
-                                        <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.success_color, marginBottom: 0,fontFamily:'Poppins_600SemiBold' }]}>{this.props?.route?.params?.otherData?.total}</Text>
+                                        <Text style={[ThemeStyling.heading5, { fontSize: Colors.FontSize.h6, fontWeight: '600', color: Colors.success_color, marginBottom: 0, fontFamily: 'Poppins_600SemiBold' }]}>{this.props?.route?.params?.otherData?.total}</Text>
                                     </View>
                                 </View>
                             </View>

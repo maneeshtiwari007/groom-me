@@ -13,6 +13,7 @@ import { ThemeStyling } from "../utilty/styling/Styles";
 import ButtonComponent from "./Common/ButtonComponent";
 import ProfileScreenInterface from "../Interfaces/States/ProfileScreenInterface";
 import ScreenInterfcae from "../Interfaces/Common/ScreensInterface";
+import ImageComponent from "./Common/ImageComponent";
 
 export default class ProfProfileCard extends Component<ScreenInterfcae, ProfileScreenInterface>{
     constructor(props: any) {
@@ -183,7 +184,7 @@ export default class ProfProfileCard extends Component<ScreenInterfcae, ProfileS
                     <View style={[ThemeStyling.container, { minHeight: 'auto', paddingTop: 0 }]}>
                         <View style={[ThemeStyling.profileContainer, { justifyContent: "flex-start", marginBottom: 15 }]}>
                             <View style={{ position: "relative" }}>
-                                <Image progressiveRenderingEnabled={true} style={[ThemeStyling.profileImage, { width: 100, height: 100 }]} source={(this.state.photo) ? { uri: this.state.photo } : require('../../assets/staticimages/avatar.png')} />
+                                <ImageComponent style={[ThemeStyling.profileImage, { width: 100, height: 100 }]} src={(this.state.photo) ? { uri: this.state.photo } : require('../../assets/staticimages/avatar.png')} />
                                 <View>
                                     <TouchableOpacity onPress={() => { this.pickImage() }} style={[ThemeStyling.btnInfo, {
                                         width: 30, height: 30, paddingHorizontal: 0, margin: 0, position: "absolute", right: 0,

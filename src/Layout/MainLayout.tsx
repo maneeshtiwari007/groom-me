@@ -31,6 +31,8 @@ import { debounce } from "lodash";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CommonCamera from "../Components/Common/CommmonCamera";
 import { CommonApiRequest } from "../utilty/api/commonApiRequest";
+import NetInfo from '@react-native-community/netinfo'
+import SkeletonContentPlaceHolder from "../Components/Common/SkeletonContentPlaceHolder";
 const Stack = createStackNavigator();
 export default class MainLayout extends Component<
   LayoutInterface,
@@ -74,8 +76,12 @@ export default class MainLayout extends Component<
       "My Bookings",
       "Professional Profile",
       "ProfSettings",
-      "ProfSetting"
+      "ProfSetting",
+      'Dashboard'
     ];
+    NetInfo.addEventListener((state?: any) => {
+      this.setState({ isNetAvl: state?.isConnected })
+    });
     const user = await CommonHelper.getUserData();
     if (this.props.scollEnabled === false) {
       this.setState({ scrollEnabled: this.props.scollEnabled });
@@ -200,7 +206,7 @@ export default class MainLayout extends Component<
             <View style={[{ flexDirection: "row", alignItems: "center" }]}>
               {!this.state.canGoBack && (
                 <Pressable
-                  style={{minWidth:40}}
+                  style={{ minWidth: 40 }}
                   onPress={() => {
                     this.props?.navigation?.toggleDrawer();
                   }}
@@ -221,7 +227,7 @@ export default class MainLayout extends Component<
                     onPress={() => {
                       this.props?.navigation?.goBack();
                     }}
-                    style={{marginLeft: 3}}
+                    style={{ marginLeft: 3 }}
                   >
                     <View>
                       <Text style={ThemeStyling.heading6}>
@@ -377,9 +383,9 @@ export default class MainLayout extends Component<
               <></>
             )
           }
-          style={[ThemeStyling.scrollView, this.props?.style,{width:'100%',minWidth:'100%'}]}
+          style={[ThemeStyling.scrollView, this.props?.style, { width: '100%', minWidth: '100%' }]}
           contentContainerStyle={[
-            { minHeight: "100%", width: "100%",minWidth:'100%' },
+            { minHeight: "100%", width: "100%", minWidth: '100%' },
             this.props.containerStyle,
             {
               paddingTop: this.props.containerStyle?.paddingTop
@@ -464,6 +470,11 @@ export default class MainLayout extends Component<
             </View>
           )}
         </ScrollView>
+        {!this.state?.isNetAvl &&
+          <View style={{ width: '96%', position: 'absolute', bottom: 20, backgroundColor: Colors.primary_color, padding: 15, marginHorizontal: '2%' }}>
+            <Text style={{ textAlign: 'center', color: Colors.white, fontFamily: ThemeStyling?.semiBold?.fontFamily, fontSize: 16 }}>No Internet Connection</Text>
+          </View>
+        }
         <Snackbar
           visible={this.state?.visible ? true : false}
           onDismiss={() => this.setState({ visible: false })}

@@ -760,6 +760,18 @@ export const ThemeStyling = StyleSheet.create({
     display:'flex',
     justifyContent:'center',
     alignItems:'center'
+  },
+  bold:{
+    fontFamily:'Poppins_700Bold'
+  },
+  semiBold:{
+    fontFamily:'Poppins_600SemiBold'
+  },
+  medium:{
+    fontFamily:'Poppins_500Medium'
+  },
+  regular:{
+    fontFamily:'Poppins_400Regular'
   }
 });
 

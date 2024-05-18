@@ -11,7 +11,6 @@ import { SimpleLineIcons, Entypo } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 // import {transparent} from "react-native-papger/lib/typescript/src/styles/themes/v2/colors";
 import Colors from "../utilty/Colors";
-import Dashboard from "../Screens/Dashboard";
 import Team from "../Screens/Team";
 import Profile from "../Screens//User/Profile";
 import WorkorderDetails from "../Screens/WorkorderDetails";
@@ -52,7 +51,10 @@ import ProfBookingDetail from "../Screens/Professional/ProfBookingDetail";
 import ProfProfile from "../Screens/Professional/ProfProfile";
 import Wallet from "../Screens/Professional/Wallet";
 import ProfSettings from "../Screens/Professional/ProfSettings";
-import ProfSetting from "../Screens/Professional/ProfSetting";
+import ProfBookingDetails from "../Screens/Professional/ProfBookingsDetails";
+import BookingDetails from "../Screens/User/BookingDetails";
+import ImageComponent from "../Components/Common/ImageComponent";
+import Dashboard from "../Screens/Professional/Dashboard";
 
 export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: any, user?: any }> {
   constructor(props: any) {
@@ -174,7 +176,7 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
       <Stack.Navigator
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Bookings" component={Bookings} />
-        <Stack.Screen name="Bookings Detail" component={BookingDetail} />
+        <Stack.Screen name="Bookings Detail" component={BookingDetails} />
       </Stack.Navigator>
     );
   }
@@ -227,17 +229,33 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
       <Stack.Navigator
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="My Bookings" component={ProfBookingList} />
-        <Stack.Screen name="Booking Details" component={ProfBookingDetail} />
+        <Stack.Screen name="Booking Details" component={ProfBookingDetails} />
       </Stack.Navigator>
     );
   }
   ProfMenu() {
     return (<>
       <Drawer.Navigator
-        initialRouteName="HomeScreen"
+        initialRouteName="Dashboard"
         screenOptions={{ headerShown: false, headerStyle: { backgroundColor: 'green' }, unmountOnBlur: true }}
         drawerContent={props => <CustomDrawerContent {...props} user={this.state.user} />}
       >
+        <Drawer.Screen
+          name="Dashboard"
+          component={Dashboard}
+          options={{
+            drawerIcon: ({ focused, size }) => (
+              <MaterialIcons
+                name="dashboard"
+                size={size}
+                color={(focused) ? Colors.primary_color : Colors.gray_color}
+              />
+            ),
+            drawerLabel: ({ focused }) => (
+              <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Dashboard</Text>
+            ),
+          }}
+        />
         <Drawer.Screen
           name="HomeScreen"
           component={this.HomeScreenProf}
@@ -316,21 +334,6 @@ export default class AppContainer extends Component<ScreenInterfcae, { isAuth?: 
             drawerLabel: ({ focused }) => (
               <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>My Wallet</Text>
             ),
-          }}
-        />
-        <Drawer.Screen
-        name="ProfSetting"
-        component={ProfSetting}
-          options={{
-            drawerIcon: ({ focused, size }) =>
-              <MaterialIcons
-                name="book-online"
-                size={size}
-                color={(focused) ? Colors.primary_color : Colors.gray_color}
-              />,
-            drawerLabel: ({ focused }) => {
-              return <Text style={{ color: (focused) ? Colors.primary_color : Colors.gray_color }}>Booking Details</Text>
-            },
           }}
         />
         <Drawer.Screen
@@ -518,7 +521,7 @@ export const CustomDrawerContent = (props, user) => {
       >
         <View style={[ThemeStyling.twoColumnLayout, { marginLeft: 10, marginTop: 25, marginBottom: 0 }]}>
           <View style={[ThemeStyling.col2, { marginRight: 10 }]}>
-            <Image style={[ThemeStyling.cardImage, { borderRadius: 8 }]} source={{ uri: props?.user?.photo_image }} />
+            <ImageComponent style={[ThemeStyling.cardImage, { borderRadius: 8 }]} src={{ uri: props?.user?.photo_image }} />
           </View>
           <View style={ThemeStyling.col10}>
             <Text style={[ThemeStyling.heading5, { fontWeight: '600', color: Colors.dark_color, marginBottom: 0 }]}>{props?.user?.name}</Text>

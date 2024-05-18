@@ -19,6 +19,7 @@ import Schedule from "../Schedule";
 import SelectAddress from "./SelectAddress";
 import { ConstantsVar } from "../../utilty/ConstantsVar";
 import { format, formatDate } from "date-fns";
+import ImageComponent from "../../Components/Common/ImageComponent";
 export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenStateInterface> {
     constructor(props: any) {
         super(props);
@@ -57,7 +58,22 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
     }
     payment() {
         if (this.state.bookingType) {
-            this.props?.navigation?.navigate("Addresses", { dataObj: this.state?.dataObj, userObj: this.state?.userObj, otherData: this.state?.otherData, remark: this?.state?.remark, bookingType: this.state.bookingType, slot: this.state.slot, slotKey: this.state.slotKey, bookingDate: this.state.date })
+            if (this.state.bookingType !== 'mobile') {
+                this.props?.navigation?.navigate("Payment", { 
+                    dataObj: this.state?.dataObj, 
+                    userObj: this.state?.userObj, 
+                    otherData: this.state?.otherData, 
+                    remark: this?.state?.remark, 
+                    bookingType: this.state.bookingType, 
+                    slot: this.state.slot, 
+                    slotKey: this.state.slotKey, 
+                    bookingDate: this.state.date,
+                    //address: this.state.commonData,
+                    time_slot: this.state.slotKey + "__" + this.state.date 
+                })
+            } else {
+                this.props?.navigation?.navigate("Addresses", { dataObj: this.state?.dataObj, userObj: this.state?.userObj, otherData: this.state?.otherData, remark: this?.state?.remark, bookingType: this.state.bookingType, slot: this.state.slot, slotKey: this.state.slotKey, bookingDate: this.state.date })
+            }
         } else {
             DeviceEventEmitter.emit(ConstantsVar.API_ERROR, { color: Colors.errorColor, msgData: { head: 'Error', subject: "Please select booking type!!", top: 20 } });
         }
@@ -98,7 +114,7 @@ export default class ReviewCart extends Component<ScreenInterfcae, CommonScreenS
                                         <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
                                             <View style={[ThemeStyling.twoColumnLayout]}>
                                                 <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                                                    <Image style={[ThemeStyling.cardImage2]} source={CommonHelper.getImageFromSource(this?.state?.userObj?.photo_image)} />
+                                                    <ImageComponent style={[ThemeStyling.cardImage2]} src={CommonHelper.getImageFromSource(this?.state?.userObj?.photo_image)} />
                                                 </View>
                                                 <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
                                                     <View style={{ marginBottom: 5 }}>

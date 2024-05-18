@@ -12,5 +12,6 @@ export default interface LayoutStateInterface{
     scrollEnabled?:boolean,
     loaderText?:string,
     scrollY?:any,
-    barCodeVisible?:boolean
+    barCodeVisible?:boolean,
+    isNetAvl?:boolean
 }

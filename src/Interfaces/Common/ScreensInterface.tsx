@@ -11,5 +11,11 @@ export default interface ScreenInterfcae{
     remark?:any,
     bookingType?:any,
     onDismiss?:func,
-    onLoading?:func
+    onLoading?:func,
+    callBackQr?:func,
+    isQrNeed?:boolean,
+    showAddress?:boolean,
+    orderStatus?:any,
+    order_otp?:any,
+    loading?:boolean
 }

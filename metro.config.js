@@ -1,4 +1,4 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
+// Learn more https://reactnative.dev/docs/metro
 const { getDefaultConfig: getExpoDefaultConfig } = require('expo/metro-config');
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 

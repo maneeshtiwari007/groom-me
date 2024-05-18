@@ -8,6 +8,7 @@ import { CommonHelper } from "../../utilty/CommonHelper";
 import ScreenStateInterfcae from "../../Interfaces/Common/ScreenStateInterface";
 import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 import ReviewStarComponent from "./ReviewStarComponent";
+import ImageComponent from "./ImageComponent";
 export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInterfcae>{
     constructor(props: any) {
         super(props);
@@ -39,7 +40,7 @@ export default class ProfCard extends Component<ScreenInterfcae, ScreenStateInte
                 <View style={[ThemeStyling.cardBody, { padding: 0, paddingTop: 8 }]}>
                     <View style={[ThemeStyling.twoColumnLayout, {}]}>
                         <View style={[ThemeStyling.col4, { marginRight: 10 }]}>
-                            <Image style={[ThemeStyling.cardImage2]} source={{ uri: this.props?.data?.photo_image }} />
+                            <ImageComponent style={[ThemeStyling.cardImage2]} src={{ uri: this.props?.data?.photo_image }} />
                         </View>
                         <View style={[ThemeStyling.col8, { padding: 8, paddingLeft: 0, paddingTop: 0 }]}>
                             <View style={{ marginBottom: 5 }}>

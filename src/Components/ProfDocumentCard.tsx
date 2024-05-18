@@ -17,6 +17,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as DocumentPicker from 'expo-document-picker';
 import Badge from "./Common/Badge";
+import ImageComponent from "./Common/ImageComponent";
 
 export default class ProfDocumentCard extends Component<ScreenInterfcae, ProfileScreenInterface>{
     constructor(props: any) {
@@ -231,7 +232,7 @@ export default class ProfDocumentCard extends Component<ScreenInterfcae, Profile
                                 {this.state?.objData?.length > 0 && this.state?.objData?.map((item: any, index: number) => {
                                     return <View key={index} style={[ThemeStyling.galleryItem, { width: '45%', marginRight: 10, paddingHorizontal: 0 }]}>
                                         <Pressable>
-                                            <Image style={[ThemeStyling.profileImage, { borderRadius: 10, width: '100%', height: 100, borderColor: Colors.gray200 }]} source={{ uri: item?.image }} />
+                                            <ImageComponent style={[ThemeStyling.profileImage, { borderRadius: 10, width: '100%', height: 100, borderColor: Colors.gray200 }]} src={{ uri: item?.image }} />
                                         </Pressable>
                                         <View style={{ width: '100%', alignItems: 'center', marginTop: 5 }}>
                                             <Text style={{ fontSize: 14, textAlign: 'auto' }}>Type: {item?.type_name}</Text>

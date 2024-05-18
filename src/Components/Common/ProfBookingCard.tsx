@@ -11,6 +11,7 @@ import { FontAwesome, MaterialCommunityIcons, Feather, FontAwesome5, AntDesign }
 import Badge from "./Badge";
 import { CommonApiRequest } from "../../utilty/api/commonApiRequest";
 import { ConstantsVar } from "../../utilty/ConstantsVar";
+import ImageComponent from "./ImageComponent";
 
 export default class ProfBookingCard extends Component<ScreenInterfcae, BadgeInterFace> {
 
@@ -35,7 +36,7 @@ export default class ProfBookingCard extends Component<ScreenInterfcae, BadgeInt
                     <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
                         <View style={[ThemeStyling.twoColumnLayout, { alignItems: "center" }]}>
                             <View style={[ThemeStyling.col4, { marginRight: 10, position: 'relative' }]}>
-                                <Image style={[ThemeStyling.cardImage2, { height: 140 }]} source={{ uri: this?.props?.data?.image }} />
+                                <ImageComponent style={[ThemeStyling.cardImage2, { height: 140 }]} src={{ uri: this?.props?.data?.image }} />
                                 <View style={{ flexDirection: "row", marginBottom: 5, position: 'absolute', top: 0 }}>
                                     <Badge badgeStyle={{ backgroundColor: this.props?.data?.order_status?.iconcolor, color: this.props?.data?.order_status?.color, borderRadius: 0 }} title={this.props?.data?.order_status?.status}></Badge>
                                 </View>

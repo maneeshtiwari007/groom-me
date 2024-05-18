@@ -14,6 +14,7 @@ import Colors from "../../utilty/Colors";
 import { FontAwesome, MaterialCommunityIcons, Feather, FontAwesome5, AntDesign, Entypo } from '@expo/vector-icons';
 import MyServiceCardSingle from "../../Components/MyServiceCardSingle";
 import { CommonHelper } from "../../utilty/CommonHelper";
+import ImageComponent from "../../Components/Common/ImageComponent";
 export default class MyServices extends Component<ScreenInterfcae, CommonScreenStateInterface>{
     constructor(props: any) {
         super(props);
@@ -152,7 +153,7 @@ export default class MyServices extends Component<ScreenInterfcae, CommonScreenS
                                     </View>
                                     <View style={[{ marginBottom: 20, alignItems: 'center' }]}>
                                         <View style={[{ width: 'auto' }]}>
-                                            <Image style={{ width: 60, height: 60 }} source={{ uri: CommonHelper.replceStringForImage(this.state?.commonData?.icon) }}></Image>
+                                            <ImageComponent style={{ width: 60, height: 60 }} src={{ uri: CommonHelper.replceStringForImage(this.state?.commonData?.icon) }}/>
                                         </View>
                                         <View style={[{ width: 'auto' }]}>
                                             <Text style={[ThemeStyling.heading3, { color: Colors.gray_color, marginBottom: 1 }]}>{this.state?.commonData?.service_name}</Text>

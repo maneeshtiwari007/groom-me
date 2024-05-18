@@ -16,8 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.groommetech.app",
-      "version": "1.0.5"
+      "bundleIdentifier": "com.groommetech.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +28,6 @@
         "android.permission.ACCESS_FINE_LOCATION"
       ],
       "package": "com.groommetech.app",
-      "version": "1.0.5",
       "googleServicesFile":"./assets/google-services.json"
     },
     "web": {

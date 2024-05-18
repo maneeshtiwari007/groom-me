@@ -47,6 +47,12 @@ Notifications.setNotificationHandler({
     shouldPlaySound: true,
     shouldSetBadge: false,
   }),
+  handleSuccess:async ()=>{
+    console.log('success')
+  },
+  handleError:async()=>{
+    console.log('error')
+  }
 });
 export default function App(props) {
   const navigationContainerRef: any = useRef();

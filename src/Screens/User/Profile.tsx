@@ -17,6 +17,7 @@ import InputComponent from "../../Components/Common/InputComponent";
 import FormGroup from "../../Components/Common/FormGroup";
 import { RadioButton } from 'react-native-paper';
 import * as Location from 'expo-location';
+import ImageComponent from "../../Components/Common/ImageComponent";
 
 export default class UserProfile extends Component<ScreenInterfcae, ProfileScreenInterface>{
     constructor(props: any) {
@@ -181,7 +182,7 @@ export default class UserProfile extends Component<ScreenInterfcae, ProfileScree
 
                         <View style={[ThemeStyling.profileContainer, { justifyContent: "flex-start", marginBottom: 15 }]}>
                             <View style={{ position: "relative" }}>
-                                <Image style={[ThemeStyling.profileImage, { width: 100, height: 100 }]} source={(this.state.photo) ? { uri: this.state.photo } : require('../../../assets/staticimages/avatar.png')} />
+                                <ImageComponent style={[ThemeStyling.profileImage, { width: 100, height: 100 }]} src={(this.state.photo) ? { uri: this.state.photo } : require('../../../assets/staticimages/avatar.png')} />
                                 <View>
                                     <TouchableOpacity onPress={() => { this.pickImage() }} style={[ThemeStyling.btnInfo, {
                                         width: 30, height: 30, paddingHorizontal: 0, margin: 0, position: "absolute", right: 0,

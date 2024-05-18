@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { func, string, any } from 'prop-types';
 import { Pressable } from "react-native";
 import Colors from "../../utilty/Colors";
@@ -9,6 +9,8 @@ import BadgeInterFace from "../../Interfaces/Common/BadgeInterFace";
 import ScreenInterfcae from "../../Interfaces/Common/ScreensInterface";
 import { FontAwesome, MaterialCommunityIcons, Feather, FontAwesome5, AntDesign } from '@expo/vector-icons';
 import Badge from "./Badge";
+import { Image } from 'expo-image';
+import ImageComponent from "./ImageComponent";
 
 export default class BookingCard extends Component<ScreenInterfcae, BadgeInterFace> {
 
@@ -24,13 +26,13 @@ export default class BookingCard extends Component<ScreenInterfcae, BadgeInterFa
     render() {
         return (
             <View style={ThemeStyling.card}>
-                <TouchableOpacity onPress={() => { this.props.navigation.navigate("Bookings Detail", { data: (this.props?.data?.id)?this.props?.data?.id:this.props?.data?.order_id }) }}>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate("Bookings Detail", { data: (this.props?.data?.id) ? this.props?.data?.id : this.props?.data?.order_id }) }}>
                     <View style={[ThemeStyling.cardBody, { padding: 0 }]}>
                         <View style={[ThemeStyling.twoColumnLayout, { alignItems: "center" }]}>
                             <View style={[ThemeStyling.col4, { marginRight: 10, position: 'relative' }]}>
-                                <Image style={[ThemeStyling.cardImage2, { height: 150 }]} source={{ uri: this?.props?.data?.image }} />
+                                <ImageComponent style={[ThemeStyling.cardImage2, { height: 150 }]} src={{ uri: this?.props?.data?.image }} />
                                 <View style={{ flexDirection: "row", marginBottom: 5, position: 'absolute', top: 0 }}>
-                                    <Badge badgeStyle={{ backgroundColor: this.props?.data?.order_status?.iconcolor, color: this.props?.data?.order_status?.color, borderRadius: 0 }} title={this.props?.data?.order_status?.status}></Badge>
+                                    <Badge badgeStyle={{ backgroundColor: this.props?.data?.new_order_status?.iconcolor, color: this.props?.data?.new_order_status?.color, borderRadius: 0 }} title={this.props?.data?.new_order_status?.status}></Badge>
                                 </View>
                             </View>
                             <View style={[ThemeStyling.col8, { padding: 5, paddingLeft: 0, paddingTop: 0 }]}>
@@ -50,7 +52,7 @@ export default class BookingCard extends Component<ScreenInterfcae, BadgeInterFa
                                     </View>
                                     <View style={{ flexDirection: "row", marginBottom: 5 }}>
                                         <View><Text style={[ThemeStyling.text2, { color: Colors.secondry_color }]}>Payment: </Text></View>
-                                        <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: (this.props?.data?.payment_status)?Colors.success_color:Colors.primary_color} ]}>{(this.props?.data?.new_payment_status)?this.props?.data?.new_payment_status:'Not Completed'}</Text></View>
+                                        <View style={{ flexShrink: 1 }}><Text style={[ThemeStyling.text2, { color: (this.props?.data?.payment_status) ? Colors.success_color : Colors.primary_color }]}>{(this.props?.data?.payment_status) ? this.props?.data?.payment_status : 'Not Completed'}</Text></View>
                                     </View>
                                 </View>
                             </View>

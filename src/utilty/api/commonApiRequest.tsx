@@ -586,5 +586,15 @@ export const CommonApiRequest = {
     // returning the product returned by the API
     return response?.data;
   },
+  dashboardApiData:async function (params?:any){
+    const response: any = await api.request({
+      url: `/professional/dashboard`,
+      method: "GET",
+      // retrieving the signal value by using the property name
+      signal: undefined,
+    });
+    // returning the product returned by the API
+    return response?.data;
+  },
 }
 const cancelApiObject = defineCancelApiObject(CommonApiRequest)

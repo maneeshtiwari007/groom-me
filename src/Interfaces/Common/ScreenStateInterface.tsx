@@ -15,4 +15,6 @@ export default interface ScreenStateInterfcae{
     user?:any,
     notes?:any,
     option?:any,
+    isQrNeed?:boolean,
+    showAddress?:boolean
 }

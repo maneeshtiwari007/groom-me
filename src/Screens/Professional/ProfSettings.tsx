@@ -40,12 +40,14 @@ export default class ProfSettings extends Component<
         CommonApiRequest.getUserSettings({})
             .then((response: any) => {
                 this.setState({ loader: false });
+                console.log(response);
                 if (response?.status == 200) {
                     this.setState({
                         notificationSetting: response?.results?.notification_status,
                         sch_available: response?.results?.sch_available,
                         live_available: response?.results?.available_status,
                         dataObj: response?.results,
+                        mobile_status: response?.results?.mobile
                     });
                     if (this.state.dataObj?.workingSlot?.startTime) {
                         const objStartKeys = Object.keys(this.state.dataObj?.workingSlot?.startTime);
@@ -85,6 +87,12 @@ export default class ProfSettings extends Component<
             this.updateAvlStatus();
         }, 300);
     };
+    toggleForMobileSwitch = (value) => {
+        this.setState({ mobile_status: value });
+        setTimeout(() => {
+            this.updateAvlStatus();
+        }, 300);
+    };
     async formateData() {
         return {
             status: this.state.notificationSetting,
@@ -94,6 +102,7 @@ export default class ProfSettings extends Component<
         return {
             status: this.state.live_available,
             sch_status: this.state.sch_available,
+            mobile: (this.state?.mobile_status)?this.state?.mobile_status:false
         };
     }
     async formateForTimeData(type: any = '', value: any = '') {
@@ -116,6 +125,7 @@ export default class ProfSettings extends Component<
     }
     async updateAvlStatus() {
         const settingFormate = await this.formateAvlData();
+        console.log(settingFormate);
         CommonApiRequest.updateProfAvliableStatus(settingFormate)
             .then((response: any) => {
                 this.setState({ loader: false });
@@ -242,6 +252,30 @@ export default class ProfSettings extends Component<
                                 <Switch
                                     onValueChange={this.toggleForSchSwitch}
                                     value={this.state.sch_available}
+                                    trackColor={{
+                                        false: Colors.gray400,
+                                        true: Colors.primary_color,
+                                    }}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{ marginVertical: 5 }}>
+                        <View
+                            style={[
+                                ThemeStyling.twoColumnLayout,
+                                { justifyContent: "space-between" },
+                            ]}
+                        >
+                            <View>
+                                <Text style={{ color: Colors.gray_color }}>
+                                    Mobile Booking
+                                </Text>
+                            </View>
+                            <View>
+                                <Switch
+                                    onValueChange={this.toggleForMobileSwitch}
+                                    value={this.state.mobile_status}
                                     trackColor={{
                                         false: Colors.gray400,
                                         true: Colors.primary_color,

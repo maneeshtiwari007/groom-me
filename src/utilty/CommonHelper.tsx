@@ -74,7 +74,7 @@ export const CommonHelper = {
         return minutes + ":" + seconds;
     },
     getUserName: function (dataObj: any) {
-        return (dataObj?.fname) ? dataObj?.fname + " " + dataObj?.lname : '';
+        return (dataObj?.name) ? dataObj?.name : '';
     },
     getJobName: function (dataObj: any) {
         return dataObj?.job_name + " (" + dataObj?.job_address + ")"

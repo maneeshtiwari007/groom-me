@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import { func,string,any } from 'prop-types';
-import { Pressable } from "react-native";
-import Colors from "../../utilty/Colors";
-import Theming from "../../utilty/styling/theming";
+import { string,any } from 'prop-types';
+import { Image } from "expo-image";
 
-export default class ImageComponent extends Component<{}> {
+export default class ImageComponent extends Component<{style?:any,src?:any,blurhash?:any,isHash?:boolean},{}> {
     static propTypes = {
         src:any,
         title:string,
@@ -14,20 +11,16 @@ export default class ImageComponent extends Component<{}> {
     }
     static defaultProps = {
         title:'Image',
-        type:'avatar'
+        type:'avatar',
+        blurhash:'LbQSl1x]_NjZS~xayXM{+^tRIURj',
+        isHash:true
     }
     constructor(props){
         super(props);
     }
     render (){
         return (
-            <View style={[this.props.style]}>
-                 <Image
-                        source={this.props.src}
-                        style={[Theming[this.props.type]]}
-                        alt={this.props.title}
-                    />
-            </View>
+            <Image transition={1000} placeholder={this.props?.blurhash} style={this.props?.style} source={this.props.src} cachePolicy="memory"/>
         );
     }
 }

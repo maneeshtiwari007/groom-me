@@ -45,4 +45,6 @@ export default interface CommonScreenStateInterface{
     objStartTime?:any,
     objStopTime?:any,
     live_available?:boolean,
+    cardBrand?:any,
+    mobile_status?:boolean
 }
